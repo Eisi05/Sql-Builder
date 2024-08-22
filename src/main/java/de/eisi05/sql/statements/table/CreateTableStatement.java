@@ -24,8 +24,10 @@ public class CreateTableStatement extends FinalStatement
 
     public interface CreateTableStatementContainer extends StatementContainer
     {
-        default CreateTableStatement createTable(String table, TableColumn... columns)
+        default CreateTableStatement createTable(String table, TableColumn column, TableColumn... columns)
         {
+            columns = Stream.concat(Arrays.stream(columns), Stream.of(column)).toArray(TableColumn[]::new);
+
             if(Arrays.stream(columns).filter(TableColumn::isPrimaryKey).count() > 1)
                 throw new PrimaryKeyException("Cannot have more than one primary key in a table");
 

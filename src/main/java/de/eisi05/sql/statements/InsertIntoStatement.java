@@ -47,7 +47,7 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
                     .map(list -> list.get(0))
                     .findFirst();
 
-            if(nonMatching.isPresent())
+            if(nonMatching.isPresent() && insertObjects.length > 1)
                 throw new InsertionException(nonMatching.get().key + " does not match the required length of " +
                         Arrays.stream(insertObjects).max(Comparator.comparingInt(o -> o.values().length))
                                 .get().values.length);
