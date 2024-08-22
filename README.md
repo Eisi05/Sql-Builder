@@ -112,12 +112,12 @@ QueryResult queryResult = result.result();
 ExceptionResult<Long> result = statement.execute(SqlDataType.BIGINT);
 long queryResult = result.result();
 ```
-   3.1. **getObjects(<datatype>)**
+   3.1. **getObjects(`<datatype>`)**
    ```java
    // Returns a list of all the objects cast to the correct Java type
    List<Long> ids = queryResult.getObjects(SqlDataType.BIGINT);
    ```
-   3.2. **get(<key>)/get(<column>)**
+   3.2. **get(`<key>`)/get(`<column>`)**
    ```java
    // Returns a plain Object of that key/column
    long id1 = queryResult.get(1);
