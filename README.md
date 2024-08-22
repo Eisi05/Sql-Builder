@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/Eisi05/Sql-Builder.svg)](https://jitpack.io/#Eisi05/Sql-Builder)
+
 # SQL Builder
 
 This repository simplifies working with SQL.
