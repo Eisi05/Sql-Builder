@@ -16,11 +16,6 @@ import java.util.stream.Collectors;
 
 public interface SqlDataType<T>
 {
-    int DEFAULT_CHAR_LENGTH = 255;
-    int DEFAULT_VARCHAR_LENGTH = 255;
-    int DEFAULT_TEXT_LENGTH = 65535;
-    int DEFAULT_NUMERIC_LENGTH = 10;
-
     SqlDataType<Blob> TINYBLOB = new PrimitiveSqlDataType<>(Blob.class);
     SqlDataType<String> TINYTEXT = new PrimitiveSqlDataType<>(String.class);
     SqlDataType<String> MEDIUMTEXT = new PrimitiveSqlDataType<>(String.class);
@@ -149,7 +144,9 @@ public interface SqlDataType<T>
                 {
                     try
                     {
-                        return (SqlDataType<T>) field.get(null);
+                        @SuppressWarnings("unchecked")
+                        SqlDataType<T> dataType = (SqlDataType<T>) field.get(null);
+                        return dataType;
                     } catch(IllegalAccessException e)
                     {
                         return null;
