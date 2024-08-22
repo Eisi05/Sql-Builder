@@ -1,7 +1,8 @@
 # SQL Builder
 
 This repository simplifies working with SQL.
-All information is based on [W3Schools SQL documentation](https://www.w3schools.com/sql/default.asp).
+
+All information are based on [W3Schools SQL documentation](https://www.w3schools.com/sql/default.asp).
 
 ## Maven
 ```xml
@@ -35,13 +36,13 @@ dependencies {
 ```
 
 ## Creating a Database and Connecting to It
-```java
-// Available Database Types:
-// - MySql
-// - Sql Server
-// - Oracle
-// - MsAccess
+### Available Database Types:
+- MySql
+-  Sql Server
+- Oracle
+- MsAccess
 
+```java
 // Example with MySql
 // Parameters: host, port, database, user, password
 Database database = new MySqlDatabase("localhost", 3306, "sql_builder", "root", "root");
@@ -111,12 +112,12 @@ QueryResult queryResult = result.result();
 ExceptionResult<Long> result = statement.execute(SqlDataType.BIGINT);
 long queryResult = result.result();
 ```
-   a) **getObjects(<datatype>)**
+   3.1. **getObjects(<datatype>)**
    ```java
    // Returns a list of all the objects cast to the correct Java type
    List<Long> ids = queryResult.getObjects(SqlDataType.BIGINT);
    ```
-   b) **get(<key>)/get(<column>)**
+   3.2. **get(<key>)/get(<column>)**
    ```java
    // Returns a plain Object of that key/column
    long id1 = queryResult.get(1);
