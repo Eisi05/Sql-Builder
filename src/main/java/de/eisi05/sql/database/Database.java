@@ -20,8 +20,7 @@ public abstract class Database implements AbstractStatement.StatementContainer
 
     protected Connection con;
 
-    protected Database(String className, String connectionUrl, String username, String password,
-                       DatabaseType databaseType)
+    protected Database(String className, String connectionUrl, String username, String password, DatabaseType databaseType)
     {
         this.className = className;
         this.connectionUrl = connectionUrl;
@@ -44,7 +43,8 @@ public abstract class Database implements AbstractStatement.StatementContainer
                 con = DriverManager.getConnection(connectionUrl);
             else
                 con = DriverManager.getConnection(connectionUrl, username, password);
-        } catch(Exception e)
+        }
+        catch(Exception e)
         {
             throw new UnableToConnectException(e);
         }
@@ -67,7 +67,8 @@ public abstract class Database implements AbstractStatement.StatementContainer
                     database.con.close();
                     database.con = null;
                 }
-            } catch(SQLException e)
+            }
+            catch(SQLException e)
             {
                 throw new ConnectionIsClosedException(e);
             }

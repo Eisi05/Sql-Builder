@@ -1,6 +1,5 @@
 package de.eisi05.sql.statements.table;
 
-import de.eisi05.sql.database.OracleDatabase;
 import de.eisi05.sql.interfaces.SqlDataType;
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
@@ -18,9 +17,7 @@ public class ModifyColumnStatement extends FinalStatement
     @Override
     protected String getKey()
     {
-        return key + (getDatabaseStatement().getDatabase()
-                .map(database -> database instanceof OracleDatabase oracleDatabase && oracleDatabase.getVersion() < 10)
-                .orElse(true) ? " COLUMN" : "");
+        return key + " COLUMN";
     }
 
     public interface ModifyColumnStatementContainer extends AbstractStatement.StatementContainer

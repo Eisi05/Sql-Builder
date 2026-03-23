@@ -8,8 +8,13 @@ public class OracleDatabase extends Database
 
     public OracleDatabase(String host, int port, String database, String user, String password, double version)
     {
-        super("oracle.jdbc.OracleDriver", "jdbc:oracle:thin:@" + host + ":" + port + ":" + database,
-                user, password, DatabaseType.ORACLE);
+        super("oracle.jdbc.OracleDriver", "jdbc:oracle:thin:@" + host + ":" + port + ":" + database, user, password, DatabaseType.ORACLE);
+        this.version = version;
+    }
+
+    public OracleDatabase(String url, double version)
+    {
+        super("oracle.jdbc.OracleDriver", url, null, null, DatabaseType.ORACLE);
         this.version = version;
     }
 

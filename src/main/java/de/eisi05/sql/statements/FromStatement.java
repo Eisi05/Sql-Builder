@@ -8,9 +8,9 @@ import de.eisi05.sql.statements.where.WhereStatement;
 import java.util.Arrays;
 
 public class FromStatement extends FinalStatement implements WhereStatement.WhereStatementContainer,
-        JoinStatementContainer, UnionStatementContainer, OrderByStatement.OrderByStatementContainer,
-        GroupByStatement.GroupByStatementContainer, WhereExistsStatement.WhereExistsStatementContainer,
-        FetchFirstStatement.FetchFirstStatementContainer
+                                                             JoinStatementContainer, UnionStatementContainer, OrderByStatement.OrderByStatementContainer,
+                                                             GroupByStatement.GroupByStatementContainer, WhereExistsStatement.WhereExistsStatementContainer,
+                                                             FetchFirstStatement.FetchFirstStatementContainer
 {
     private FromStatement(String... tables)
     {

@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 
 public class CaseThenStatement extends AbstractStatement
         implements CaseWhenStatement.CaseWhenStatementContainer, CaseElseStatement.CaseElseStatementContainer,
-        CaseEndStatement.CaseEndStatementContainer
+                   CaseEndStatement.CaseEndStatementContainer
 {
     protected CaseThenStatement(String query)
     {

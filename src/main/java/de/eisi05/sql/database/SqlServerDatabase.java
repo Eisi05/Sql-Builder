@@ -6,8 +6,12 @@ public class SqlServerDatabase extends Database
 {
     public SqlServerDatabase(String host, int port, String database, String user, String password)
     {
-        super("com.microsoft.sqlserver.jdbc.SQLServerDriver",
-                "jdbc:sqlserver://" + host + ":" + port + ";databaseName=" + database, user, password,
+        super("com.microsoft.sqlserver.jdbc.SQLServerDriver", "jdbc:sqlserver://" + host + ":" + port + ";databaseName=" + database, user, password,
                 DatabaseType.SQL_SERVER);
+    }
+
+    public SqlServerDatabase(String url)
+    {
+        super("com.microsoft.sqlserver.jdbc.SQLServerDriver", url, null, null, DatabaseType.SQL_SERVER);
     }
 }

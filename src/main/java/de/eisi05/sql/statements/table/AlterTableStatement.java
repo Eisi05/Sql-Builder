@@ -4,9 +4,11 @@ import de.eisi05.sql.interfaces.ExecuteQueryStatement;
 import de.eisi05.sql.statements.AbstractStatement;
 
 public class AlterTableStatement extends AbstractStatement implements AddColumnStatement.AddColumnStatementContainer,
-        DropColumnStatement.DropColumnStatementContainer, RenameColumnStatement.RenameColumnStatementContainer,
-        ModifyColumnStatement.ModifyColumnStatementContainer, AlterAutoIncrement.AlterAutoIncrementContainer,
-        DropIndexStatement.DropIndexStatementContainer, ExecuteQueryStatement
+                                                                      DropColumnStatement.DropColumnStatementContainer,
+                                                                      RenameColumnStatement.RenameColumnStatementContainer,
+                                                                      ModifyColumnStatement.ModifyColumnStatementContainer,
+                                                                      AlterAutoIncrement.AlterAutoIncrementContainer,
+                                                                      DropIndexStatement.DropIndexStatementContainer, ExecuteQueryStatement
 {
     protected AlterTableStatement(String table)
     {

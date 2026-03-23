@@ -24,6 +24,11 @@ public class TableColumn
         this.dataType = dataType;
     }
 
+    public static TableColumn of(String name, SqlDataType<?> dataType)
+    {
+        return new TableColumn(name, dataType);
+    }
+
     public TableColumn notNull()
     {
         isNotNull = true;

@@ -61,7 +61,8 @@ public abstract class AbstractStatement
         List<AbstractStatement> statements = new ArrayList<>();
         AbstractStatement current = this;
 
-        do statements.add(current);
+        do
+            statements.add(current);
         while((current = current.parent) != null);
 
         Collections.reverse(statements);
@@ -77,6 +78,13 @@ public abstract class AbstractStatement
         while(!((current = current.parent) instanceof DatabaseStatement)) ;
 
         return (DatabaseStatement) current;
+    }
+
+    public CustomStatement addCustom(String query)
+    {
+        CustomStatement statement = new CustomStatement(query);
+        statement.setParent(this);
+        return statement;
     }
 
     protected <T extends AbstractStatement> void setParent(T parent)
@@ -128,23 +136,23 @@ public abstract class AbstractStatement
     }
 
     public interface DefaultStatementContainers extends SelectStatementContainer,
-            InsertIntoStatement.InsertIntoStatementContainer,
-            UpdateStatement.UpdateStatementContainer,
-            DeleteStatement.DeleteStatementContainer,
-            CreateProcedureStatement.CreateProcedureStatementContainer,
-            ExecuteProcedureStatement.ExecuteProcedureStatementContainer,
-            CreateDatabaseStatement.CreateDataBaseStatementContainer,
-            DropDatabaseStatement.DropDatabaseStatementContainer,
-            BackupDatabaseStatement.BackupDatabaseStatementContainer,
-            CreateTableStatement.CreateTableStatementContainer,
-            DropTableStatement.DropTableStatementContainer,
-            TruncateTableStatement.TruncateTableStatementContainer,
-            CreateIndexStatement.CreateIndexStatementContainer,
-            DropIndexStatement.DropIndexStatementContainer,
-            CreateViewStatement.CreateViewStatementContainer,
-            CreateOrReplaceViewStatement.CreateOrReplaceViewStatementContainer,
-            DropViewStatement.DropViewStatementContainer,
-            AlterTableStatement.AlterTableStatementContainer
+                                                        InsertIntoStatement.InsertIntoStatementContainer,
+                                                        UpdateStatement.UpdateStatementContainer,
+                                                        DeleteStatement.DeleteStatementContainer,
+                                                        CreateProcedureStatement.CreateProcedureStatementContainer,
+                                                        ExecuteProcedureStatement.ExecuteProcedureStatementContainer,
+                                                        CreateDatabaseStatement.CreateDataBaseStatementContainer,
+                                                        DropDatabaseStatement.DropDatabaseStatementContainer,
+                                                        BackupDatabaseStatement.BackupDatabaseStatementContainer,
+                                                        CreateTableStatement.CreateTableStatementContainer,
+                                                        DropTableStatement.DropTableStatementContainer,
+                                                        TruncateTableStatement.TruncateTableStatementContainer,
+                                                        CreateIndexStatement.CreateIndexStatementContainer,
+                                                        DropIndexStatement.DropIndexStatementContainer,
+                                                        CreateViewStatement.CreateViewStatementContainer,
+                                                        CreateOrReplaceViewStatement.CreateOrReplaceViewStatementContainer,
+                                                        DropViewStatement.DropViewStatementContainer,
+                                                        AlterTableStatement.AlterTableStatementContainer
     {
     }
 }

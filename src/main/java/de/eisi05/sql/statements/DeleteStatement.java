@@ -4,7 +4,7 @@ import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.where.WhereStatement;
 
 public class DeleteStatement extends FinalStatement implements WhereStatement.WhereStatementContainer,
-        ExecuteUpdateStatement
+                                                               ExecuteUpdateStatement
 {
     private DeleteStatement(String table)
     {

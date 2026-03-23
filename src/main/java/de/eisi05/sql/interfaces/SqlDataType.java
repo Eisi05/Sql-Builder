@@ -147,7 +147,8 @@ public interface SqlDataType<T>
                         @SuppressWarnings("unchecked")
                         SqlDataType<T> dataType = (SqlDataType<T>) field.get(null);
                         return dataType;
-                    } catch(IllegalAccessException e)
+                    }
+                    catch(IllegalAccessException e)
                     {
                         return null;
                     }
@@ -196,7 +197,8 @@ public interface SqlDataType<T>
                 {
                     if(field.get(null) == this)
                         return field.getName().replace("_", "");
-                } catch(IllegalAccessException e)
+                }
+                catch(IllegalAccessException e)
                 {
                 }
             }

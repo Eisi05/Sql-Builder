@@ -5,7 +5,7 @@ import de.eisi05.sql.statements.AbstractNotStatement;
 
 public class CaseWhenStatement extends AbstractNotStatement
         implements CaseConditionStatement.CaseConditionStatementContainer,
-        CaseNotConditionStatement.CaseNotConditionStatementContainer
+                   CaseNotConditionStatement.CaseNotConditionStatementContainer
 {
     boolean withNot = false;
     private LogicOperator logicOperator = null;

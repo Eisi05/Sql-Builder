@@ -4,7 +4,7 @@ import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.AbstractStatement;
 
 public class CreateIndexStatement extends AbstractStatement implements OnIndexStatement.OnIndexStatementContainer,
-        ExecuteUpdateStatement
+                                                                       ExecuteUpdateStatement
 {
     private final boolean unique;
 

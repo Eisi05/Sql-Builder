@@ -6,7 +6,11 @@ public class MySqlDatabase extends Database
 {
     public MySqlDatabase(String host, int port, String database, String user, String password)
     {
-        super("com.mysql.cj.jdbc.Driver", "jdbc:mysql://" + host + ":" + port + "/" + database,
-                user, password, DatabaseType.MYSQL);
+        super("com.mysql.cj.jdbc.Driver", "jdbc:mysql://" + host + ":" + port + "/" + database, user, password, DatabaseType.MYSQL);
+    }
+
+    public MySqlDatabase(String connectionUrl)
+    {
+        super("com.mysql.cj.jdbc.Driver", connectionUrl, null, null, DatabaseType.MYSQL);
     }
 }

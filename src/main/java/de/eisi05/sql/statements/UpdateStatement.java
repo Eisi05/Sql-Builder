@@ -3,7 +3,7 @@ package de.eisi05.sql.statements;
 import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 
 public class UpdateStatement extends AbstractStatement implements SetStatement.SetStatementContainer,
-        ExecuteUpdateStatement
+                                                                  ExecuteUpdateStatement
 {
     private UpdateStatement(String table)
     {

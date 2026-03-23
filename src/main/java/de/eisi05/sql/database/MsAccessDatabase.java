@@ -6,7 +6,6 @@ public class MsAccessDatabase extends Database
 {
     public MsAccessDatabase(String pathToDatabase)
     {
-        super("net.ucanaccess.jdbc.UcanaccessDriver", "jdbc:ucanaccess://" + pathToDatabase,
-                null, null, DatabaseType.MS_ACCESS);
+        super("net.ucanaccess.jdbc.UcanaccessDriver", "jdbc:ucanaccess://" + pathToDatabase, null, null, DatabaseType.MS_ACCESS);
     }
 }

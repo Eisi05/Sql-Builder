@@ -1,7 +1,7 @@
 package de.eisi05.sql.statements;
 
 public class IntoStatement extends AbstractStatement implements InStatement.InStatementContainer,
-        FromStatement.FromStatementContainer
+                                                                FromStatement.FromStatementContainer
 {
     protected IntoStatement(String table)
     {

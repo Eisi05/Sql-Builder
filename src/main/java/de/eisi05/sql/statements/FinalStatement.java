@@ -45,10 +45,12 @@ public abstract class FinalStatement extends AbstractStatement
             try
             {
                 return ExecutionResult.of(statement.executeUpdate(getQuery()));
-            } catch(SQLException e)
+            }
+            catch(SQLException e)
             {
                 return ExecutionResult.<Integer>ofException(new RuntimeException(e));
-            } finally
+            }
+            finally
             {
                 closeStatement(statement);
             }
@@ -67,10 +69,12 @@ public abstract class FinalStatement extends AbstractStatement
             try
             {
                 return ExecutionResult.of(statement.executeLargeUpdate(getQuery()));
-            } catch(SQLException e)
+            }
+            catch(SQLException e)
             {
                 return ExecutionResult.<Long>ofException(new RuntimeException(e));
-            } finally
+            }
+            finally
             {
                 closeStatement(statement);
             }
@@ -88,10 +92,12 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 ResultSet rs = statement.executeQuery(getQuery());
                 return ExecutionResult.of(new QueryResult(rs));
-            } catch(SQLException e)
+            }
+            catch(SQLException e)
             {
                 return ExecutionResult.<QueryResult>ofException(new RuntimeException(e));
-            } finally
+            }
+            finally
             {
                 closeStatement(statement);
             }
@@ -126,10 +132,12 @@ public abstract class FinalStatement extends AbstractStatement
                         .map(abstractStatement -> abstractStatement.getKeys()[0])
                         .orElseThrow(() -> new ExecutionException("No key found"));
                 return ExecutionResult.of(rs.getObject(key, primitiveSQLDataType.getDataType()));
-            } catch(SQLException e)
+            }
+            catch(SQLException e)
             {
                 return ExecutionResult.<T>ofException(new RuntimeException(e));
-            } finally
+            }
+            finally
             {
                 closeStatement(statement);
             }
@@ -143,10 +151,12 @@ public abstract class FinalStatement extends AbstractStatement
             try
             {
                 return ExecutionResult.of(statement.execute(getQuery()));
-            } catch(SQLException e)
+            }
+            catch(SQLException e)
             {
                 return ExecutionResult.<Boolean>ofException(new RuntimeException());
-            } finally
+            }
+            finally
             {
                 closeStatement(statement);
             }
@@ -158,7 +168,8 @@ public abstract class FinalStatement extends AbstractStatement
         try
         {
             return Optional.ofNullable(getDatabaseStatement().connection.createStatement());
-        } catch(SQLException e)
+        }
+        catch(SQLException e)
         {
             return Optional.empty();
         }
@@ -175,7 +186,8 @@ public abstract class FinalStatement extends AbstractStatement
         try
         {
             statement.close();
-        } catch(SQLException e)
+        }
+        catch(SQLException e)
         {
         }
     }

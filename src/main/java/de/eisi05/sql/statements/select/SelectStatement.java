@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class SelectStatement extends AbstractStatement
         implements FromStatement.FromStatementContainer, IntoStatement.IntoStatementContainer,
-        CaseStatement.CaseStatementContainer, ExecuteQueryStatement
+                   CaseStatement.CaseStatementContainer, ExecuteQueryStatement
 {
     private final String[] keys;
 
