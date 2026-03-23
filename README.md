@@ -93,25 +93,26 @@ boolean success = result.result();
 ```java
 FinalStatement statement = ...;
 
-ExceptionResult<Integer> result = statement.execute();
+ExceptionResult<Integer> result = statement.executeUpdate();
 
 // Returns either (1) the row count for SQL DML statements or (2) 0 for SQL statements that return nothing
 int rowCount = result.result();
 
 // For LargeUpdate, instead of an int, it returns a long
+ExceptionResult<Long> result = statement.executeLargeUpdate();
 ```
 
 3. **Execute Query**
 ```java
 FinalStatement statement = ...;
 
-ExceptionResult<QueryResult> result = statement.execute();
+ExceptionResult<QueryResult> result = statement.executeQuery();
 
 // A QueryResult works similar to a ResultSet
 QueryResult queryResult = result.result();
 
 // This can also be used with a SqlDataType (only works if only one column is selected!)
-ExceptionResult<Long> result = statement.execute(SqlDataType.BIGINT);
+ExceptionResult<Long> result = statement.executeQuery(SqlDataType.BIGINT);
 long queryResult = result.result();
 ```
    3.1. **getObjects(`<datatype>`)**
