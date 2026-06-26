@@ -155,14 +155,14 @@ public interface SqlDataType<T>
                 }).findAny().orElse(null);
     }
 
-    public static SqlDataType<?> fromJavaType(Class<?> type)
+    static SqlDataType<?> fromJavaType(Class<?> type)
     {
         if(type == int.class || type == Integer.class)
             return INT;
         if(type == long.class || type == Long.class)
             return BIGINT;
         if(type == String.class)
-            return VARCHAR;
+            return VARCHAR(255);
         if(type == boolean.class || type == Boolean.class)
             return BOOLEAN;
         if(type == double.class || type == Double.class)

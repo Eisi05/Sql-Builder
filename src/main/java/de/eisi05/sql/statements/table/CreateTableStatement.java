@@ -115,11 +115,7 @@ public class CreateTableStatement extends FinalStatement
             if(Arrays.stream(columns).filter(TableColumn::isPrimaryKey).count() > 1)
                 throw new PrimaryKeyException("Cannot have more than one primary key in a table");
 
-            return createTable(
-                    tableName,
-                    columns[0],
-                    Arrays.copyOfRange(columns, 1, columns.length)
-            );
+            return createTable(tableName, columns[0], Arrays.copyOfRange(columns, 1, columns.length));
         }
 
         default CreateTableStatement createTableIfNotExists(String table, TableColumn column, TableColumn... columns)
