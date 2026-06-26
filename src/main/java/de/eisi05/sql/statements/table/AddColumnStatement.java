@@ -1,5 +1,6 @@
 package de.eisi05.sql.statements.table;
 
+import de.eisi05.sql.database.PostgresDatabase;
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
@@ -20,7 +21,8 @@ public class AddColumnStatement extends FinalStatement
     {
         default AddColumnStatement add(TableColumn column)
         {
-            return create(new AddColumnStatement(column.asQuery()));
+            return create(new AddColumnStatement(column.asQuery(getDatabase()
+                    .map(database -> database instanceof PostgresDatabase).orElse(false))));
         }
     }
 }

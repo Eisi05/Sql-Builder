@@ -3,6 +3,7 @@ package de.eisi05.sql.statements.table;
 import de.eisi05.sql.annotations.Column;
 import de.eisi05.sql.annotations.GeneratedValue;
 import de.eisi05.sql.annotations.Id;
+import de.eisi05.sql.database.PostgresDatabase;
 import de.eisi05.sql.exceptions.PrimaryKeyException;
 import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.interfaces.SqlDataType;
@@ -39,7 +40,8 @@ public class CreateTableStatement extends FinalStatement
                 throw new PrimaryKeyException("Cannot have more than one primary key in a table");
 
             return create(new CreateTableStatement(
-                    table + " (" + Arrays.stream(columns).map(TableColumn::asQuery)
+                    table + " (" + Arrays.stream(columns).map(tableColumn -> tableColumn.asQuery(getDatabase()
+                                    .map(database -> database instanceof PostgresDatabase).orElse(false)))
                             .collect(Collectors.joining(", ")) + ")"));
         }
 
@@ -70,7 +72,7 @@ public class CreateTableStatement extends FinalStatement
 
                         if(isPrimaryKey)
                             col.primaryKey();
-                        if (isGenerated)
+                        if(isGenerated)
                             col.autoIncrement();
                         if(isNotNull)
                             col.notNull();

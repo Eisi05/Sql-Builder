@@ -5,5 +5,6 @@ public enum DatabaseType
     MYSQL,
     SQL_SERVER,
     MS_ACCESS,
-    ORACLE
+    ORACLE,
+    POSTGRESQL
 }

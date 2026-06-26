@@ -161,7 +161,7 @@ public abstract class FinalStatement extends AbstractStatement
             }
             catch(SQLException e)
             {
-                return ExecutionResult.<Boolean>ofException(new RuntimeException());
+                return ExecutionResult.<Boolean>ofException(new RuntimeException(e));
             }
             finally
             {
