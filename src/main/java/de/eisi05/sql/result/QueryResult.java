@@ -16,7 +16,7 @@ public class QueryResult
     {
         this.results = new LinkedHashMap<>();
 
-        for(int i = 1; resultSet.next(); i++)
+        for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++)
         {
             if(SqlDataType.fromString(resultSet.getMetaData()
                     .getColumnTypeName(i)) instanceof SqlDataType.PrimitiveSqlDataType<?> primitiveSqlDataType)

@@ -11,7 +11,9 @@ import de.eisi05.sql.statements.select.SelectStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
@@ -81,7 +83,7 @@ public abstract class FinalStatement extends AbstractStatement
         }).orElse(ExecutionResult.empty());
     }
 
-    public ExecutionResult<QueryResult> executeQuery()
+    public ExecutionResult<List<QueryResult>> executeQuery()
     {
         if(getAllStatements().stream().noneMatch(statement -> statement instanceof ExecuteQueryStatement))
             throw new ExecutionException("Cannot execute a query without a query statement like select");
@@ -91,11 +93,16 @@ public abstract class FinalStatement extends AbstractStatement
             try
             {
                 ResultSet rs = statement.executeQuery(getQuery());
-                return ExecutionResult.of(new QueryResult(rs));
+
+                List<QueryResult> results = new ArrayList<>();
+                while(rs.next())
+                    results.add(new QueryResult(rs));
+
+                return ExecutionResult.of(results);
             }
             catch(SQLException e)
             {
-                return ExecutionResult.<QueryResult>ofException(new RuntimeException(e));
+                return ExecutionResult.<List<QueryResult>>ofException(new RuntimeException(e));
             }
             finally
             {
