@@ -15,6 +15,8 @@ import java.util.stream.Stream;
 public class CreateTableStatement extends FinalStatement
         implements CreateTableAsStatement.CreateTableAsStatementContainer, ExecuteUpdateStatement
 {
+    private boolean ifNotExists = false;
+
     protected CreateTableStatement(String table)
     {
         super(table);
@@ -23,7 +25,7 @@ public class CreateTableStatement extends FinalStatement
     @Override
     protected String getKey()
     {
-        return "CREATE TABLE";
+        return "CREATE TABLE" + (ifNotExists ? " IF NOT EXISTS" : "");
     }
 
     public interface CreateTableStatementContainer extends StatementContainer
@@ -118,16 +120,18 @@ public class CreateTableStatement extends FinalStatement
             return createTable(tableName, columns[0], Arrays.copyOfRange(columns, 1, columns.length));
         }
 
+        default CreateTableStatement createTableIfNotExists(Class<?> clazz)
+        {
+            CreateTableStatement statement = createTable(clazz);
+            statement.ifNotExists = true;
+            return statement;
+        }
+
         default CreateTableStatement createTableIfNotExists(String table, TableColumn column, TableColumn... columns)
         {
-            columns = Stream.concat(Arrays.stream(columns), Stream.of(column)).toArray(TableColumn[]::new);
-
-            if(Arrays.stream(columns).filter(TableColumn::isPrimaryKey).count() > 1)
-                throw new PrimaryKeyException("Cannot have more than one primary key in a table");
-
-            return create(new CreateTableStatement("IF NOT EXISTS " +
-                    table + " (" + Arrays.stream(columns).map(TableColumn::asQuery)
-                    .collect(Collectors.joining(", ")) + ")"));
+            CreateTableStatement statement = createTable(table, column, columns);
+            statement.ifNotExists = true;
+            return statement;
         }
     }
 }
