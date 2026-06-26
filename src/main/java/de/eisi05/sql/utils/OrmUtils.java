@@ -80,7 +80,6 @@ public class OrmUtils
             case null -> "NULL";
             case String s -> "'" + s.replace("'", "''") + "'";
             case Enum<?> e -> "'" + e.name() + "'";
-            case Boolean b -> b ? "1" : "0";
             case int[] primitiveInts -> "'{" + Arrays.stream(primitiveInts)
                     .mapToObj(String::valueOf)
                     .collect(Collectors.joining(",")) + "}'";
