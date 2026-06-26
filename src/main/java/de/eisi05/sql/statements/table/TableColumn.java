@@ -117,7 +117,7 @@ public class TableColumn
                 (isNotNull ? " NOT NULL" : "") + (isUnique ? " UNIQUE" : "") +
                 (isPrimaryKey ? " PRIMARY KEY" : "") + (check != null ? " CHECK (" + check + ")" : "") +
                 (defaultValue != null ? defaultValue : "") +
-                (autoIncrement != null && autoIncrement.length < 2 ? isPostgres ? "SERIAL" : " AUTO_INCREMENT" : "")
+                (autoIncrement != null && autoIncrement.length < 2 ? isPostgres ? " SERIAL" : " AUTO_INCREMENT" : "")
                 + String.join(" ", constraints);
     }
 }
