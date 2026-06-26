@@ -1,6 +1,7 @@
 package de.eisi05.sql.statements.Case;
 
 import de.eisi05.sql.statements.AbstractStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
 public interface CaseThenStatementContainer extends AbstractStatement.StatementContainer
 {
@@ -11,9 +12,6 @@ public interface CaseThenStatementContainer extends AbstractStatement.StatementC
 
     default CaseThenStatement thenValue(Object value)
     {
-        if(value instanceof String)
-            return create(new CaseThenStatement("'" + value + "'"));
-        else
-            return create(new CaseThenStatement(value.toString()));
+        return create(new CaseThenStatement(OrmUtils.formatValue(value)));
     }
 }

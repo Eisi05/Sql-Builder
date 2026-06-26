@@ -25,12 +25,8 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
     {
         default InsertIntoStatement insertInto(String table, Object... values)
         {
-            return create(new InsertIntoStatement(table + " VALUES (" + Arrays.stream(values).map(o ->
-            {
-                if(o instanceof String)
-                    return "'" + o + "'";
-                return o.toString();
-            }).collect(Collectors.joining(", ")) + ")"));
+            return create(
+                    new InsertIntoStatement(table + " VALUES (" + Arrays.stream(values).map(OrmUtils::formatValue).collect(Collectors.joining(", ")) + ")"));
         }
 
         default InsertIntoSelectStatement insertInto(String table, String... keys)
@@ -102,7 +98,7 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
                 {
                     List<Object> values = columnValuesMap.get(column);
                     if(values != null && i < values.size())
-                        rowValues.add(values.get(i) instanceof String ? "'" + values.get(i) + "'" : values.get(i) + "");
+                        rowValues.add(OrmUtils.formatValue(values.get(i)));
                 }
                 rows.add("(" + String.join(", ", rowValues) + ")");
             }

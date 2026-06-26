@@ -2,6 +2,7 @@ package de.eisi05.sql.statements.where;
 
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -23,9 +24,7 @@ public class WhereNotInStatement extends WhereInStatement implements WhereNotSta
     {
         default WhereNotInStatement notIn(Object... o)
         {
-            return create(new WhereNotInStatement("(" +
-                    Arrays.stream(o).map(o1 -> o1 instanceof String ? "'" + o1 + "'" : o1.toString())
-                            .collect(Collectors.joining(",")) + ")"));
+            return create(new WhereNotInStatement("(" + Arrays.stream(o).map(OrmUtils::formatValue).collect(Collectors.joining(",")) + ")"));
         }
 
         default WhereNotInStatement notIn(FinalStatement finalStatement)

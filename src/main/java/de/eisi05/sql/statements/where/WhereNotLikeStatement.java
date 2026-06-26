@@ -2,6 +2,7 @@ package de.eisi05.sql.statements.where;
 
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
 public class WhereNotLikeStatement extends WhereLikeStatement implements WhereNotStatement
 {
@@ -20,7 +21,7 @@ public class WhereNotLikeStatement extends WhereLikeStatement implements WhereNo
     {
         default WhereNotLikeStatement notLike(Object o)
         {
-            return create(new WhereNotLikeStatement(o instanceof String ? "'" + o + "'" : o.toString()));
+            return create(new WhereNotLikeStatement(OrmUtils.formatValue(o)));
         }
 
         default WhereNotLikeStatement notLike(FinalStatement finalStatement)

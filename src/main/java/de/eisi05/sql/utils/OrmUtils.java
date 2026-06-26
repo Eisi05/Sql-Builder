@@ -6,8 +6,10 @@ import de.eisi05.sql.annotations.Id;
 import de.eisi05.sql.annotations.Table;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OrmUtils
 {
@@ -21,7 +23,7 @@ public class OrmUtils
             {
                 field.setAccessible(true);
 
-                if (field.isAnnotationPresent(GeneratedValue.class))
+                if(field.isAnnotationPresent(GeneratedValue.class))
                     continue;
 
                 Column column = field.getAnnotation(Column.class);
@@ -79,8 +81,16 @@ public class OrmUtils
             case String s -> "'" + s.replace("'", "''") + "'";
             case Enum<?> e -> "'" + e.name() + "'";
             case Boolean b -> b ? "1" : "0";
+            case int[] primitiveInts -> "'{" + Arrays.stream(primitiveInts)
+                    .mapToObj(String::valueOf)
+                    .collect(Collectors.joining(",")) + "}'";
+            case long[] primitiveLongs -> "'{" + Arrays.stream(primitiveLongs)
+                    .mapToObj(String::valueOf)
+                    .collect(Collectors.joining(",")) + "}'";
+            case Object[] objectArray -> "'{" + Arrays.stream(objectArray)
+                    .map(Object::toString)
+                    .collect(Collectors.joining(",")) + "}'";
             default -> value.toString();
         };
-
     }
 }

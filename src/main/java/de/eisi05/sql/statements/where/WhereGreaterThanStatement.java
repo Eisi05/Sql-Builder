@@ -2,6 +2,7 @@ package de.eisi05.sql.statements.where;
 
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
 public class WhereGreaterThanStatement extends AbstractWhereStatement
 {
@@ -20,7 +21,7 @@ public class WhereGreaterThanStatement extends AbstractWhereStatement
     {
         default WhereGreaterThanStatement greaterThan(Object o)
         {
-            return create(new WhereGreaterThanStatement(o instanceof String ? "'" + o + "'" : o.toString()));
+            return create(new WhereGreaterThanStatement(OrmUtils.formatValue(o)));
         }
 
         default WhereGreaterThanStatement greaterThan(FinalStatement finalStatement)

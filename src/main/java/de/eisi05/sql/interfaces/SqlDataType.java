@@ -3,15 +3,14 @@ package de.eisi05.sql.interfaces;
 import de.eisi05.sql.statements.table.TableColumn;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public interface SqlDataType<T>
@@ -137,6 +136,11 @@ public interface SqlDataType<T>
         return new ValuedSqlDataType<>(Set.class, values);
     }
 
+    static SqlDataType<?> ARRAY(SqlDataType<?> inner)
+    {
+        return new ArraySqlDataType<>(inner);
+    }
+
     static <T> SqlDataType<T> fromString(String string)
     {
         return Arrays.stream(SqlDataType.class.getDeclaredFields()).filter(field -> field.getName().equals(string))
@@ -153,6 +157,25 @@ public interface SqlDataType<T>
                         return null;
                     }
                 }).findAny().orElse(null);
+    }
+
+    static SqlDataType<?> fromField(Field field)
+    {
+        Class<?> type = field.getType();
+
+        if(List.class.isAssignableFrom(type))
+        {
+            Type genericType = field.getGenericType();
+            if(genericType instanceof ParameterizedType parameterizedType)
+            {
+                Type[] typeArguments = parameterizedType.getActualTypeArguments();
+                if(typeArguments.length > 0 && typeArguments[0] instanceof Class<?> listClass)
+                    return ARRAY(fromJavaType(listClass));
+            }
+            return ARRAY(TEXT);
+        }
+
+        return fromJavaType(type);
     }
 
     static SqlDataType<?> fromJavaType(Class<?> type)
@@ -175,6 +198,13 @@ public interface SqlDataType<T>
             return TIMESTAMP;
         if(type == UUID.class)
             return UNIQUE_IDENTIFIER;
+        if(type.isArray())
+        {
+            Class<?> component = type.getComponentType();
+            return ARRAY(fromJavaType(component));
+        }
+        if(List.class.isAssignableFrom(type))
+            return ARRAY(INT);
 
         throw new IllegalArgumentException("Unsupported type: " + type);
     }
@@ -262,6 +292,22 @@ public interface SqlDataType<T>
         {
             return super.getName() + "(" +
                     Arrays.stream(objects).map(Object::toString).collect(Collectors.joining(", ")) + ")";
+        }
+    }
+
+    class ArraySqlDataType<T> implements SqlDataType<T>
+    {
+        private final SqlDataType<?> inner;
+
+        public ArraySqlDataType(SqlDataType<?> inner)
+        {
+            this.inner = inner;
+        }
+
+        @Override
+        public String getName()
+        {
+            return (inner != null ? inner.getName() : "TEXT") + "[]";
         }
     }
 }

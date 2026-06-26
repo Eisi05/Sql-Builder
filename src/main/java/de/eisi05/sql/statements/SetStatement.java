@@ -1,6 +1,7 @@
 package de.eisi05.sql.statements;
 
 import de.eisi05.sql.statements.where.WhereStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -10,21 +11,19 @@ public class SetStatement extends AbstractStatement implements WhereStatement.Wh
 {
     private SetStatement(String column, Object value)
     {
-        super(column + (value instanceof String ? " = '" + value + "'" : " = " + value));
+        super(column + " = " + OrmUtils.formatValue(value));
     }
 
     private SetStatement(SetObject... setObjects)
     {
-        super(Arrays.stream(setObjects).map(setObject -> setObject.column +
-                        (setObject.value instanceof String ? " = '" + setObject.value + "'" : " = " + setObject.value))
-                .collect(Collectors.joining(", ")));
+        super(Arrays.stream(setObjects).map(setObject -> setObject.column + " = " + OrmUtils.formatValue(setObject.value)).collect(Collectors.joining(", ")));
     }
 
     private SetStatement(Map<String, Object> setObjects)
     {
-        super(setObjects.entrySet().stream().map(entry -> entry.getKey() +
-                (entry.getValue() instanceof String ? " = '" + entry.getValue() + "'" :
-                        " = " + entry.getValue())).collect(Collectors.joining(", ")));
+        super(setObjects.entrySet().stream()
+                .map(entry -> entry.getKey() + " = " + OrmUtils.formatValue(entry.getValue()))
+                .collect(Collectors.joining(", ")));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package de.eisi05.sql.statements.Case;
 
 import de.eisi05.sql.statements.AbstractStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
 public class CaseElseStatement extends AbstractStatement implements CaseEndStatement.CaseEndStatementContainer
 {
@@ -19,10 +20,7 @@ public class CaseElseStatement extends AbstractStatement implements CaseEndState
     {
         default CaseElseStatement elseReturn(Object value)
         {
-            if(value instanceof String)
-                return create(new CaseElseStatement("'" + value + "'"));
-            else
-                return create(new CaseElseStatement(value.toString()));
+            return create(new CaseElseStatement(OrmUtils.formatValue(value)));
         }
 
         default CaseElseStatement elseReturn(String key)

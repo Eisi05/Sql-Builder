@@ -2,6 +2,7 @@ package de.eisi05.sql.statements.Case;
 
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
     {
         default CaseNotConditionStatement notEqual(Object value)
         {
-            return create(new CaseNotConditionStatement("<> " + value));
+            return create(new CaseNotConditionStatement("<> " + OrmUtils.formatValue(value)));
         }
 
         default CaseNotConditionStatement notEqual(FinalStatement finalStatement)
@@ -27,36 +28,22 @@ public class CaseNotConditionStatement extends CaseConditionStatement
 
         default <T> CaseNotConditionStatement notBetween(T t1, T t2)
         {
-            if(t1 instanceof String && t2 instanceof String)
-                return create(new CaseNotConditionStatement("NOT BETWEEN '" + t1 + "' AND '" + t2 + "'"));
-
-            return create(new CaseNotConditionStatement("NOT BETWEEN " + t1.toString() + " AND " + t2.toString()));
+            return create(new CaseNotConditionStatement("NOT BETWEEN " + OrmUtils.formatValue(t1) + " AND " + OrmUtils.formatValue(t2)));
         }
 
         default CaseNotConditionStatement notBetween(FinalStatement finalStatement1, FinalStatement finalStatement2)
         {
-            return create(
-                    new CaseNotConditionStatement(
-                            "NOT BETWEEN (" + finalStatement1.getQuery() + ") AND (" + finalStatement2.getQuery() +
-                                    ")"));
+            return create(new CaseNotConditionStatement("NOT BETWEEN (" + finalStatement1.getQuery() + ") AND (" + finalStatement2.getQuery() + ")"));
         }
 
         default <T> CaseNotConditionStatement notBetween(FinalStatement finalStatement1, T t2)
         {
-            if(t2 instanceof String)
-                return create(
-                        new CaseNotConditionStatement(
-                                "NOT BETWEEN (" + finalStatement1.getQuery() + ") AND '" + t2 + "'"));
-
-            return create(
-                    new CaseNotConditionStatement(
-                            "NOT BETWEEN (" + finalStatement1.getQuery() + ") AND " + t2.toString()));
+            return create(new CaseNotConditionStatement("NOT BETWEEN (" + finalStatement1.getQuery() + ") AND " + OrmUtils.formatValue(t2)));
         }
 
         default CaseNotConditionStatement notGreaterThan(Object o)
         {
-            CaseNotConditionStatement statement =
-                    create(new CaseNotConditionStatement("> " + (o instanceof String ? "'" + o + "'" : o.toString())));
+            CaseNotConditionStatement statement = create(new CaseNotConditionStatement("> " + OrmUtils.formatValue(o)));
             if(statement.parent instanceof CaseWhenStatement caseWhenStatement)
                 caseWhenStatement.withNot = true;
             return statement;
@@ -64,8 +51,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
 
         default CaseNotConditionStatement notGreaterThan(FinalStatement finalStatement)
         {
-            CaseNotConditionStatement statement =
-                    create(new CaseNotConditionStatement("> (" + finalStatement.getQuery() + ")"));
+            CaseNotConditionStatement statement = create(new CaseNotConditionStatement("> (" + finalStatement.getQuery() + ")"));
             if(statement.parent instanceof CaseWhenStatement caseWhenStatement)
                 caseWhenStatement.withNot = true;
             return statement;
@@ -73,9 +59,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
 
         default CaseNotConditionStatement notIn(Object... o)
         {
-            return create(new CaseNotConditionStatement("NOT IN (" +
-                    Arrays.stream(o).map(o1 -> o1 instanceof String ? "'" + o1 + "'" : o1.toString())
-                            .collect(Collectors.joining(",")) + ")"));
+            return create(new CaseNotConditionStatement("NOT IN (" + Arrays.stream(o).map(OrmUtils::formatValue).collect(Collectors.joining(",")) + ")"));
         }
 
         default CaseNotConditionStatement notIn(FinalStatement finalStatement)
@@ -90,8 +74,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
 
         default CaseNotConditionStatement notLessThan(Object o)
         {
-            CaseNotConditionStatement statement =
-                    create(new CaseNotConditionStatement("< " + (o instanceof String ? "'" + o + "'" : o.toString())));
+            CaseNotConditionStatement statement = create(new CaseNotConditionStatement("< " + OrmUtils.formatValue(o)));
             if(statement.parent instanceof CaseWhenStatement caseWhenStatement)
                 caseWhenStatement.withNot = true;
             return statement;
@@ -99,8 +82,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
 
         default CaseNotConditionStatement notLessThan(FinalStatement finalStatement)
         {
-            CaseNotConditionStatement statement =
-                    create(new CaseNotConditionStatement("< (" + finalStatement.getQuery() + ")"));
+            CaseNotConditionStatement statement = create(new CaseNotConditionStatement("< (" + finalStatement.getQuery() + ")"));
             if(statement.parent instanceof CaseWhenStatement caseWhenStatement)
                 caseWhenStatement.withNot = true;
             return statement;
@@ -108,8 +90,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
 
         default CaseNotConditionStatement notLike(Object o)
         {
-            return create(
-                    new CaseNotConditionStatement("NOT LIKE " + (o instanceof String ? "'" + o + "'" : o.toString())));
+            return create(new CaseNotConditionStatement("NOT LIKE " + OrmUtils.formatValue(o)));
         }
 
         default CaseNotConditionStatement notLike(FinalStatement finalStatement)
