@@ -38,9 +38,6 @@ public class CreateTableStatement extends FinalStatement
             if(Arrays.stream(columns).filter(TableColumn::isPrimaryKey).count() > 1)
                 throw new PrimaryKeyException("Cannot have more than one primary key in a table");
 
-            System.out.println("TEST:" + table + " (" + Arrays.stream(columns).map(TableColumn::asQuery)
-                    .collect(Collectors.joining(", ")) + ")");
-
             return create(new CreateTableStatement(
                     table + " (" + Arrays.stream(columns).map(TableColumn::asQuery)
                             .collect(Collectors.joining(", ")) + ")"));
