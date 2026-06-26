@@ -155,6 +155,30 @@ public interface SqlDataType<T>
                 }).findAny().orElse(null);
     }
 
+    public static SqlDataType<?> fromJavaType(Class<?> type)
+    {
+        if(type == int.class || type == Integer.class)
+            return INT;
+        if(type == long.class || type == Long.class)
+            return BIGINT;
+        if(type == String.class)
+            return VARCHAR;
+        if(type == boolean.class || type == Boolean.class)
+            return BOOLEAN;
+        if(type == double.class || type == Double.class)
+            return DOUBLE;
+        if(type == float.class || type == Float.class)
+            return FLOAT;
+        if(type == Date.class)
+            return DATE;
+        if(type == Timestamp.class)
+            return TIMESTAMP;
+        if(type == UUID.class)
+            return UNIQUE_IDENTIFIER;
+
+        throw new IllegalArgumentException("Unsupported type: " + type);
+    }
+
     String getName();
 
     default TableColumn withName(String name)

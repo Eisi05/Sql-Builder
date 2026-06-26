@@ -6,6 +6,7 @@ import de.eisi05.sql.statements.AsStatementObject;
 import de.eisi05.sql.statements.Case.CaseStatement;
 import de.eisi05.sql.statements.FromStatement;
 import de.eisi05.sql.statements.IntoStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
 import java.util.Arrays;
 
@@ -52,6 +53,11 @@ public class SelectStatement extends AbstractStatement
                     .map(selectObject -> selectObject.key() +
                             (selectObject.as() != null ? " AS " + selectObject.as() : ""))
                     .toList().toArray(new String[0])));
+        }
+
+        default FromStatement selectAll(Class<?> clazz)
+        {
+            return create(new SelectStatement("*").from(OrmUtils.resolveTable(clazz)));
         }
     }
 }

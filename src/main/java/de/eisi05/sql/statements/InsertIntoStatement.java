@@ -3,6 +3,7 @@ package de.eisi05.sql.statements;
 import de.eisi05.sql.exceptions.InsertionException;
 import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.select.SelectStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -37,6 +38,30 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
             return create(new InsertIntoSelectStatement(table + " (" + String.join(", ", keys) + ")"));
         }
 
+        default <T> InsertIntoStatement insertInto(T... objects)
+        {
+            if(objects.length == 0)
+                throw new IllegalArgumentException("No objects provided");
+
+            String table = OrmUtils.resolveTable(objects[0].getClass());
+
+            List<Map<String, Object>> rows = Arrays.stream(objects)
+                    .map(OrmUtils::toColumnMap)
+                    .toList();
+
+            String columns = String.join(", ", rows.getFirst().keySet());
+
+            String values = rows.stream()
+                    .map(row -> "(" +
+                            row.values().stream()
+                                    .map(OrmUtils::formatValue)
+                                    .collect(Collectors.joining(", ")) +
+                            ")")
+                    .collect(Collectors.joining(", "));
+
+            return create(new InsertIntoStatement(table + " (" + columns + ") VALUES " + values));
+        }
+
         default InsertIntoStatement insertInto(String table, InsertObject... insertObjects)
         {
             Optional<InsertObject> nonMatching = Arrays.stream(insertObjects)
@@ -44,7 +69,7 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
                     .values()
                     .stream()
                     .filter(list -> list.size() == 1)
-                    .map(list -> list.get(0))
+                    .map(List::getFirst)
                     .findFirst();
 
             if(nonMatching.isPresent() && insertObjects.length > 1)
