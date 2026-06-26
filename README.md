@@ -18,7 +18,7 @@ All information are based on [W3Schools SQL documentation](https://www.w3schools
 <dependency>
     <groupId>com.github.Eisi05</groupId>
     <artifactId>Sql-Builder</artifactId>
-    <version>v1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation 'com.github.Eisi05:Sql-Builder:v1.0.0'
+    implementation 'com.github.Eisi05:Sql-Builder:1.0.1'
 }
 ```
 
