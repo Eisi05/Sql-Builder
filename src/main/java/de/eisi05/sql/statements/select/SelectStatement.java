@@ -57,7 +57,7 @@ public class SelectStatement extends AbstractStatement
 
         default FromStatement selectAll(Class<?> clazz)
         {
-            return create(new SelectStatement("*").from(OrmUtils.resolveTable(clazz)));
+            return create(new SelectStatement("*")).from(OrmUtils.resolveTable(clazz));
         }
     }
 }

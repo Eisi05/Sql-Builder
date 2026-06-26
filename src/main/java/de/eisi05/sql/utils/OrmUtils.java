@@ -1,11 +1,11 @@
 package de.eisi05.sql.utils;
 
 import de.eisi05.sql.annotations.Column;
+import de.eisi05.sql.annotations.GeneratedValue;
 import de.eisi05.sql.annotations.Id;
 import de.eisi05.sql.annotations.Table;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.RecordComponent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -15,42 +15,18 @@ public class OrmUtils
     {
         Map<String, Object> map = new LinkedHashMap<>();
         Class<?> clazz = object.getClass();
-
-        if(clazz.isRecord())
-        {
-            for(RecordComponent component : clazz.getRecordComponents())
-            {
-                try
-                {
-                    String name = component.getName();
-
-                    Column column = component.getAnnotation(Column.class);
-                    if(column != null && !column.name().isEmpty())
-                        name = column.name();
-
-                    Object value = component.getAccessor().invoke(object);
-
-                    map.put(name, value);
-                }
-                catch(Exception e)
-                {
-                    throw new RuntimeException(e);
-                }
-            }
-            return map;
-        }
-
         for(Field field : clazz.getDeclaredFields())
         {
             try
             {
                 field.setAccessible(true);
 
-                String name = field.getName();
+                if (field.isAnnotationPresent(GeneratedValue.class))
+                    continue;
 
                 Column column = field.getAnnotation(Column.class);
-                if(column != null && !column.name().isEmpty())
-                    name = column.name();
+
+                String name = column != null && !column.name().isEmpty() ? column.name() : field.getName();
 
                 map.put(name, field.get(object));
             }
@@ -66,25 +42,6 @@ public class OrmUtils
     public static Object extractId(Object object)
     {
         Class<?> clazz = object.getClass();
-
-        if(clazz.isRecord())
-        {
-            for(RecordComponent component : clazz.getRecordComponents())
-            {
-                if(component.isAnnotationPresent(Id.class))
-                {
-                    try
-                    {
-                        return component.getAccessor().invoke(object);
-                    }
-                    catch(Exception e)
-                    {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        }
-
         for(Field field : clazz.getDeclaredFields())
         {
             if(field.isAnnotationPresent(Id.class))

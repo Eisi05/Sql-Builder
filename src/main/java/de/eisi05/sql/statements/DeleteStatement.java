@@ -37,36 +37,19 @@ public class DeleteStatement extends FinalStatement implements WhereStatement.Wh
             String table = OrmUtils.resolveTable(clazz);
             Object id = OrmUtils.extractId(object);
 
-            String idColumn;
+            String idColumn = Arrays.stream(clazz.getDeclaredFields())
+                    .filter(f -> f.isAnnotationPresent(Id.class))
+                    .findFirst()
+                    .map(f ->
+                    {
+                        Column col = f.getAnnotation(Column.class);
+                        return (col != null && !col.name().isEmpty()) ? col.name() : f.getName();
+                    })
+                    .orElseThrow();
 
-            if(clazz.isRecord())
-            {
-                idColumn = Arrays.stream(clazz.getRecordComponents())
-                        .filter(c -> c.isAnnotationPresent(Id.class))
-                        .findFirst()
-                        .map(c ->
-                        {
-                            Column col = c.getAnnotation(Column.class);
-                            return (col != null && !col.name().isEmpty()) ? col.name() : c.getName();
-                        })
-                        .orElseThrow();
-            }
-            else
-            {
-                idColumn = Arrays.stream(clazz.getDeclaredFields())
-                        .filter(f -> f.isAnnotationPresent(Id.class))
-                        .findFirst()
-                        .map(f ->
-                        {
-                            Column col = f.getAnnotation(Column.class);
-                            return (col != null && !col.name().isEmpty()) ? col.name() : f.getName();
-                        })
-                        .orElseThrow();
-            }
-
-            return create(delete(table)
+            return create(delete(table))
                     .where(idColumn)
-                    .equal(OrmUtils.formatValue(id)));
+                    .equal(OrmUtils.formatValue(id));
         }
     }
 }

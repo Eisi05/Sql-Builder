@@ -30,7 +30,7 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
         {
             UpdateStatement updateStatement = new UpdateStatement(OrmUtils.resolveTable(object.getClass()));
             Map<String, Object> values = OrmUtils.toColumnMap(object);
-            return create(updateStatement.set(values));
+            return create(updateStatement).set(values);
         }
     }
 }

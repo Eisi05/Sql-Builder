@@ -1,6 +1,7 @@
 package de.eisi05.sql.statements.table;
 
 import de.eisi05.sql.annotations.Column;
+import de.eisi05.sql.annotations.GeneratedValue;
 import de.eisi05.sql.annotations.Id;
 import de.eisi05.sql.exceptions.PrimaryKeyException;
 import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
@@ -37,6 +38,9 @@ public class CreateTableStatement extends FinalStatement
             if(Arrays.stream(columns).filter(TableColumn::isPrimaryKey).count() > 1)
                 throw new PrimaryKeyException("Cannot have more than one primary key in a table");
 
+            System.out.println("TEST:" + table + " (" + Arrays.stream(columns).map(TableColumn::asQuery)
+                    .collect(Collectors.joining(", ")) + ")");
+
             return create(new CreateTableStatement(
                     table + " (" + Arrays.stream(columns).map(TableColumn::asQuery)
                             .collect(Collectors.joining(", ")) + ")"));
@@ -51,68 +55,36 @@ public class CreateTableStatement extends FinalStatement
         {
             String tableName = OrmUtils.resolveTable(clazz);
 
-            TableColumn[] columns;
+            TableColumn[] columns = Arrays.stream(clazz.getDeclaredFields())
+                    .map(field ->
+                    {
+                        Column column = field.getAnnotation(Column.class);
 
-            if(clazz.isRecord())
-            {
-                columns = Arrays.stream(clazz.getRecordComponents())
-                        .map(component ->
-                        {
-                            Column column = component.getAnnotation(Column.class);
+                        String name = (column != null && !column.name().isEmpty()) ? column.name() : field.getName();
 
-                            String name = (column != null && !column.name().isEmpty()) ? column.name() : component.getName();
+                        boolean isPrimaryKey = field.isAnnotationPresent(Id.class);
+                        boolean isGenerated = field.isAnnotationPresent(GeneratedValue.class);
+                        boolean isNotNull = column != null && column.notNull();
+                        boolean isUnique = column != null && column.unique();
+                        String defaultValue = column != null ? column.defaultValue() : null;
 
-                            boolean isPrimaryKey = component.isAnnotationPresent(Id.class);
-                            boolean isNotNull = column != null && column.notNull();
-                            boolean isUnique = column != null && column.unique();
-                            String defaultValue = column != null ? column.defaultValue() : null;
+                        SqlDataType<?> sqlType = SqlDataType.fromJavaType(field.getType());
+                        TableColumn col = new TableColumn(name, sqlType);
 
-                            SqlDataType<?> sqlType = SqlDataType.fromJavaType(component.getType());
-                            TableColumn col = new TableColumn(name, sqlType);
+                        if(isPrimaryKey)
+                            col.primaryKey();
+                        if (isGenerated)
+                            col.autoIncrement();
+                        if(isNotNull)
+                            col.notNull();
+                        if(isUnique)
+                            col.unique();
+                        if(defaultValue != null && !defaultValue.isEmpty())
+                            col.defaultValue(defaultValue);
 
-                            if(isPrimaryKey)
-                                col.primaryKey();
-                            if(isNotNull)
-                                col.notNull();
-                            if(isUnique)
-                                col.unique();
-                            if(defaultValue != null && !defaultValue.isEmpty())
-                                col.defaultValue(defaultValue);
-
-                            return col;
-                        })
-                        .toArray(TableColumn[]::new);
-            }
-            else
-            {
-                columns = Arrays.stream(clazz.getDeclaredFields())
-                        .map(field ->
-                        {
-                            Column column = field.getAnnotation(Column.class);
-
-                            String name = (column != null && !column.name().isEmpty()) ? column.name() : field.getName();
-
-                            boolean isPrimaryKey = field.isAnnotationPresent(Id.class);
-                            boolean isNotNull = column != null && column.notNull();
-                            boolean isUnique = column != null && column.unique();
-                            String defaultValue = column != null ? column.defaultValue() : null;
-
-                            SqlDataType<?> sqlType = SqlDataType.fromJavaType(field.getType());
-                            TableColumn col = new TableColumn(name, sqlType);
-
-                            if(isPrimaryKey)
-                                col.primaryKey();
-                            if(isNotNull)
-                                col.notNull();
-                            if(isUnique)
-                                col.unique();
-                            if(defaultValue != null && !defaultValue.isEmpty())
-                                col.defaultValue(defaultValue);
-
-                            return col;
-                        })
-                        .toArray(TableColumn[]::new);
-            }
+                        return col;
+                    })
+                    .toArray(TableColumn[]::new);
 
             if(Arrays.stream(columns).filter(TableColumn::isPrimaryKey).count() > 1)
                 throw new PrimaryKeyException("Cannot have more than one primary key in a table");
