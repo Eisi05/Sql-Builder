@@ -3,7 +3,10 @@ package de.eisi05.sql.statements.table;
 import de.eisi05.sql.interfaces.SqlDataType;
 import de.eisi05.sql.statements.where.AbstractWhereStatement;
 import de.eisi05.sql.statements.where.WhereStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class TableColumn
@@ -17,6 +20,7 @@ public class TableColumn
     private String check = null;
     private String defaultValue = null;
     private int[] autoIncrement = null;
+    private final List<String> constraints = new ArrayList<>();
 
     public TableColumn(String name, SqlDataType<?> dataType)
     {
@@ -84,6 +88,12 @@ public class TableColumn
         return this;
     }
 
+    public TableColumn references(Class<?> table, String column)
+    {
+        constraints.add("REFERENCES " + OrmUtils.resolveTable(table) + "(" + column + ")");
+        return this;
+    }
+
     boolean isPrimaryKey()
     {
         return isPrimaryKey;
@@ -107,6 +117,7 @@ public class TableColumn
                 (isNotNull ? " NOT NULL" : "") + (isUnique ? " UNIQUE" : "") +
                 (isPrimaryKey ? " PRIMARY KEY" : "") + (check != null ? " CHECK (" + check + ")" : "") +
                 (defaultValue != null ? defaultValue : "") +
-                (autoIncrement != null && autoIncrement.length < 2 ? " AUTO_INCREMENT" : "");
+                (autoIncrement != null && autoIncrement.length < 2 ? " AUTO_INCREMENT" : "")
+                + String.join(" ", constraints);
     }
 }
