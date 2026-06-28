@@ -198,6 +198,14 @@ public interface SqlDataType<T>
             return TIMESTAMP;
         if(type == UUID.class)
             return UNIQUE_IDENTIFIER;
+
+        if(type.isEnum())
+        {
+            Object[] enumConstants = Arrays.stream(type.getEnumConstants())
+                    .map(obj -> ((Enum<?>) obj).name()).toArray();
+            return ENUM(enumConstants);
+        }
+
         if(type.isArray())
         {
             Class<?> component = type.getComponentType();
@@ -290,8 +298,8 @@ public interface SqlDataType<T>
         @Override
         public String getName()
         {
-            return super.getName() + "(" +
-                    Arrays.stream(objects).map(Object::toString).collect(Collectors.joining(", ")) + ")";
+            return super.getName() + "(" + Arrays.stream(objects).map(obj -> "'" + obj.toString() + "'")
+                    .collect(Collectors.joining(", ")) + ")";
         }
     }
 

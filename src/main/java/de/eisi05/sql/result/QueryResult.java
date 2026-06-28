@@ -69,6 +69,7 @@ public class QueryResult
         return value;
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public <T> T map(Class<T> clazz)
     {
         try
@@ -83,7 +84,11 @@ public class QueryResult
                             Column column = param.getAnnotation(Column.class);
                             String name = (column != null && !column.name().isEmpty()) ? column.name() : param.getName();
 
-                            return results.get(name);
+                            Object value = results.get(name);
+                            if(value instanceof String && param.getType().isEnum())
+                                return Enum.valueOf((Class) param.getType(), (String) value);
+
+                            return value;
                         })
                         .toArray();
 
@@ -104,7 +109,12 @@ public class QueryResult
                 Object value = results.get(name);
 
                 if(value != null)
+                {
+                    if(value instanceof String && field.getType().isEnum())
+                        value = Enum.valueOf((Class) field.getType(), (String) value);
+
                     field.set(obj, value);
+                }
             }
 
             return obj;
