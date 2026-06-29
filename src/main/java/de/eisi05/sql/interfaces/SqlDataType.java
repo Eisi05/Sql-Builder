@@ -259,11 +259,7 @@ public interface SqlDataType<T>
             return UNIQUE_IDENTIFIER;
 
         if(type.isEnum())
-        {
-            Object[] enumConstants = Arrays.stream(type.getEnumConstants())
-                    .map(obj -> ((Enum<?>) obj).name()).toArray();
-            return ENUM(enumConstants);
-        }
+            return VARCHAR(255);
 
         if(type.isArray())
         {

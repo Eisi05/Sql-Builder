@@ -1,8 +1,10 @@
 package de.eisi05.sql.result;
 
 import de.eisi05.sql.annotations.Column;
+import de.eisi05.sql.annotations.PersistenceConstructor;
 import de.eisi05.sql.interfaces.SqlDataType;
 
+import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -76,52 +78,79 @@ public class QueryResult
         {
             if(clazz.isRecord())
             {
-                var constructor = clazz.getDeclaredConstructors()[0];
+                var components = clazz.getRecordComponents();
+                Class<?>[] paramTypes = Arrays.stream(components)
+                        .map(java.lang.reflect.RecordComponent::getType)
+                        .toArray(Class<?>[]::new);
 
-                Object[] args = Arrays.stream(constructor.getParameters())
-                        .map(param ->
+                var constructor = clazz.getDeclaredConstructor(paramTypes);
+
+                Object[] args = Arrays.stream(components)
+                        .map(component ->
                         {
-                            Column column = param.getAnnotation(Column.class);
-                            String name = (column != null && !column.name().isEmpty()) ? column.name() : param.getName();
-
-                            Object value = results.get(name);
-                            if(value instanceof String && param.getType().isEnum())
-                                return Enum.valueOf((Class) param.getType(), (String) value);
-
-                            return value;
+                            Column column = component.getAnnotation(Column.class);
+                            String name = (column != null && !column.name().isEmpty()) ? column.name() : component.getName();
+                            return mapValue(results.get(name), component.getType());
                         })
                         .toArray();
 
-                @SuppressWarnings("unchecked")
-                T obj = (T) constructor.newInstance(args);
-
-                return obj;
+                constructor.setAccessible(true);
+                return constructor.newInstance(args);
             }
 
-            T obj = clazz.getDeclaredConstructor().newInstance();
+            Constructor<?> constructor = Arrays.stream(clazz.getDeclaredConstructors())
+                    .filter(c -> c.isAnnotationPresent(PersistenceConstructor.class))
+                    .findFirst()
+                    .orElseGet(() -> clazz.getDeclaredConstructors()[0]);
 
-            for(var field : clazz.getDeclaredFields())
-            {
-                field.setAccessible(true);
+            Object[] args = Arrays.stream(constructor.getParameters())
+                    .map(param ->
+                    {
+                        Column column = param.getAnnotation(Column.class);
+                        String name = (column != null && !column.name().isEmpty()) ? column.name() : param.getName();
+                        return mapValue(results.get(name), param.getType());
+                    })
+                    .toArray();
 
-                Column column = field.getAnnotation(Column.class);
-                String name = (column != null && !column.name().isEmpty()) ? column.name() : field.getName();
-                Object value = results.get(name);
-
-                if(value != null)
-                {
-                    if(value instanceof String && field.getType().isEnum())
-                        value = Enum.valueOf((Class) field.getType(), (String) value);
-
-                    field.set(obj, value);
-                }
-            }
-
-            return obj;
+            constructor.setAccessible(true);
+            return (T) constructor.newInstance(args);
         }
         catch(Exception e)
         {
             throw new RuntimeException("Mapping failed for " + clazz.getName(), e);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Object mapValue(Object value, Class<?> targetType)
+    {
+        if(value == null)
+        {
+            if(targetType.isPrimitive())
+            {
+                if(targetType == int.class)
+                    return 0;
+                if(targetType == long.class)
+                    return 0L;
+                if(targetType == double.class)
+                    return 0.0;
+                if(targetType == float.class)
+                    return 0.0f;
+                if(targetType == boolean.class)
+                    return false;
+                if(targetType == byte.class)
+                    return (byte) 0;
+                if(targetType == short.class)
+                    return (short) 0;
+                if(targetType == char.class)
+                    return '\u0000';
+            }
+            return null;
+        }
+
+        if(value instanceof String && targetType.isEnum())
+            return Enum.valueOf((Class) targetType, (String) value);
+
+        return value;
     }
 }

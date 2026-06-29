@@ -6,6 +6,7 @@ import de.eisi05.sql.annotations.Id;
 import de.eisi05.sql.annotations.Table;
 
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -80,6 +81,7 @@ public class OrmUtils
             case null -> "NULL";
             case String s -> "'" + s.replace("'", "''") + "'";
             case Enum<?> e -> "'" + e.name() + "'";
+            case Timestamp t -> "'" + t + "'";
             case int[] primitiveInts -> "'{" + Arrays.stream(primitiveInts)
                     .mapToObj(String::valueOf)
                     .collect(Collectors.joining(",")) + "}'";
