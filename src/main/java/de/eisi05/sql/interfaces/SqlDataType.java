@@ -1,5 +1,6 @@
 package de.eisi05.sql.interfaces;
 
+import de.eisi05.sql.annotations.Column;
 import de.eisi05.sql.statements.table.TableColumn;
 
 import java.lang.reflect.Field;
@@ -11,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public interface SqlDataType<T>
@@ -42,6 +45,8 @@ public interface SqlDataType<T>
     SqlDataType<Double> DOUBLE = new PrimitiveSqlDataType<>(Double.class);
     SqlDataType<BigDecimal> DECIMAL = new PrimitiveSqlDataType<>(BigDecimal.class);
     SqlDataType<BigDecimal> DEC = DECIMAL;
+
+    SqlDataType<BigDecimal> NUMERIC = new PrimitiveSqlDataType<>(BigDecimal.class);
     SqlDataType<Long> BIGINT = new PrimitiveSqlDataType<>(Long.class);
     SqlDataType<String> VARCHAR = new PrimitiveSqlDataType<>(String.class);
     SqlDataType<String> TEXT = new PrimitiveSqlDataType<>(String.class);
@@ -89,6 +94,11 @@ public interface SqlDataType<T>
     static SqlDataType<BigDecimal> DEC(int length)
     {
         return DECIMAL(length);
+    }
+
+    static SqlDataType<BigDecimal> NUMERIC(int precision, int scale)
+    {
+        return new NumericSqlDataType<>(precision, scale);
     }
 
     static SqlDataType<Long> BIGINT(int length)
@@ -159,8 +169,55 @@ public interface SqlDataType<T>
                 }).findAny().orElse(null);
     }
 
+    /**
+     * Resolves the SqlDataType from a Java Field, processing @Column definitions first.
+     */
     static SqlDataType<?> fromField(Field field)
     {
+        Column column = field.getAnnotation(Column.class);
+
+        if(column != null && !column.columnDefinition().isEmpty())
+        {
+            String definition = column.columnDefinition().trim().toUpperCase();
+
+            Pattern complexPattern = Pattern.compile("^([A-Z]+)\\s*\\(\\s*(\\d+)\\s*,\\s*(\\d+)\\s*\\)");
+            Matcher complexMatcher = complexPattern.matcher(definition);
+            if(complexMatcher.find())
+            {
+                String typeName = complexMatcher.group(1);
+                int p1 = Integer.parseInt(complexMatcher.group(2));
+                int p2 = Integer.parseInt(complexMatcher.group(3));
+
+                if(typeName.equals("NUMERIC"))
+                    return NUMERIC(p1, p2);
+                if(typeName.equals("DECIMAL") || typeName.equals("DEC"))
+                    return DECIMAL(p1);
+            }
+
+            Pattern simplePattern = Pattern.compile("^([A-Z]+)\\s*\\(\\s*(\\d+)\\s*\\)");
+            Matcher simpleMatcher = simplePattern.matcher(definition);
+            if(simpleMatcher.find())
+            {
+                String typeName = simpleMatcher.group(1);
+                int length = Integer.parseInt(simpleMatcher.group(2));
+
+                switch(typeName)
+                {
+                    case "VARCHAR" -> VARCHAR(length);
+                    case "TEXT" -> TEXT(length);
+                    case "INT", "INTEGER" -> INT(length);
+                    case "BIGINT" -> BIGINT(length);
+                    case "DOUBLE" -> DOUBLE(length);
+                    case "FLOAT" -> FLOAT(length);
+                    case "CHAR" -> CHAR(length);
+                }
+            }
+
+            SqlDataType<?> parsed = fromString(definition);
+            if(parsed != null)
+                return parsed;
+        }
+
         Class<?> type = field.getType();
 
         if(List.class.isAssignableFrom(type))
@@ -178,7 +235,7 @@ public interface SqlDataType<T>
         return fromJavaType(type);
     }
 
-    static SqlDataType<?> fromJavaType(Class<?> type)
+    private static SqlDataType<?> fromJavaType(Class<?> type)
     {
         if(type == int.class || type == Integer.class)
             return INT;
@@ -192,6 +249,8 @@ public interface SqlDataType<T>
             return DOUBLE;
         if(type == float.class || type == Float.class)
             return FLOAT;
+        if(type == BigDecimal.class)
+            return NUMERIC;
         if(type == Date.class)
             return DATE;
         if(type == Timestamp.class)
@@ -282,6 +341,27 @@ public interface SqlDataType<T>
         public String getName()
         {
             return super.getName() + "(" + length + ")";
+        }
+    }
+
+    // New specific inner class for (precision, scale) definitions like NUMERIC(10,2)
+    class NumericSqlDataType<T> extends PrimitiveSqlDataType<T>
+    {
+        private final int precision;
+        private final int scale;
+
+        @SuppressWarnings("unchecked")
+        private NumericSqlDataType(int precision, int scale)
+        {
+            super((Class<T>) BigDecimal.class);
+            this.precision = precision;
+            this.scale = scale;
+        }
+
+        @Override
+        public String getName()
+        {
+            return "NUMERIC(" + precision + ", " + scale + ")";
         }
     }
 

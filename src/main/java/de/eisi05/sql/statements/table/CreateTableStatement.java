@@ -67,7 +67,7 @@ public class CreateTableStatement extends FinalStatement
                         boolean isUnique = column != null && column.unique();
                         String defaultValue = column != null ? column.defaultValue() : null;
 
-                        SqlDataType<?> sqlType = SqlDataType.fromJavaType(field.getType());
+                        SqlDataType<?> sqlType = SqlDataType.fromField(field);
                         TableColumn col = new TableColumn(name, sqlType);
 
                         if(isPrimaryKey)
