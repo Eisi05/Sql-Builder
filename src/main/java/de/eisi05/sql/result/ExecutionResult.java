@@ -1,5 +1,7 @@
 package de.eisi05.sql.result;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -65,6 +67,17 @@ public record ExecutionResult<T>(T result, RuntimeException exception)
             return empty();
         else
             return new ExecutionResult<>(mapper.apply(result), exception);
+    }
+
+    public <U> Stream<U> mapAllTo(Class<U> clazz)
+    {
+        if (result == null || !(result instanceof List<?> queryResults))
+            return Stream.empty();
+
+        return queryResults.stream()
+                .filter(o -> o instanceof QueryResult)
+                .map(o -> ((QueryResult) o).map(clazz))
+                .filter(Objects::nonNull);
     }
 
     public <U> ExecutionResult<U> flatMap(Function<? super T, ? extends ExecutionResult<? extends U>> mapper)
