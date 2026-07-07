@@ -11,6 +11,7 @@ import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -254,6 +255,8 @@ public interface SqlDataType<T>
         if(type == Date.class)
             return DATE;
         if(type == Timestamp.class)
+            return TIMESTAMP;
+        if(type == LocalDateTime.class)
             return TIMESTAMP;
         if(type == UUID.class)
             return UNIQUE_IDENTIFIER;
