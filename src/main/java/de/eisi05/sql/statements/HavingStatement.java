@@ -2,7 +2,8 @@ package de.eisi05.sql.statements;
 
 import de.eisi05.sql.statements.where.WhereDefaultStatementContainer;
 
-public class HavingStatement extends FinalStatement implements WhereDefaultStatementContainer
+public class HavingStatement extends FinalStatement implements WhereDefaultStatementContainer,
+                                                               ForUpdateStatement.ForUpdateStatementContainer
 {
     protected HavingStatement(String key)
     {

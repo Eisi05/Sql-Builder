@@ -10,7 +10,8 @@ import java.util.Arrays;
 public class FromStatement extends FinalStatement implements WhereStatement.WhereStatementContainer,
                                                              JoinStatementContainer, UnionStatementContainer, OrderByStatement.OrderByStatementContainer,
                                                              GroupByStatement.GroupByStatementContainer, WhereExistsStatement.WhereExistsStatementContainer,
-                                                             FetchFirstStatement.FetchFirstStatementContainer
+                                                             FetchFirstStatement.FetchFirstStatementContainer,
+                                                             ForUpdateStatement.ForUpdateStatementContainer
 {
     private FromStatement(String... tables)
     {

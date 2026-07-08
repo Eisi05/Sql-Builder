@@ -1,6 +1,7 @@
 package de.eisi05.sql.statements;
 
-public class GroupByStatement extends FinalStatement implements HavingStatement.HavingStatementContainer
+public class GroupByStatement extends FinalStatement implements HavingStatement.HavingStatementContainer,
+                                                                ForUpdateStatement.ForUpdateStatementContainer
 {
     protected GroupByStatement(String key)
     {

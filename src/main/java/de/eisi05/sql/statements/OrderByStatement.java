@@ -6,7 +6,8 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class OrderByStatement extends FinalStatement implements LimitStatement.LimitStatementContainer,
-                                                                FetchFirstStatement.FetchFirstStatementContainer
+                                                                FetchFirstStatement.FetchFirstStatementContainer,
+                                                                ForUpdateStatement.ForUpdateStatementContainer
 {
     private OrderByStatement(OrderObject... orderObjects)
     {

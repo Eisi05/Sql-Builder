@@ -4,7 +4,7 @@ import de.eisi05.sql.annotations.SqlData;
 import de.eisi05.sql.enums.DatabaseType;
 
 @SqlData(DatabaseType.MYSQL)
-public class LimitStatement extends FinalStatement
+public class LimitStatement extends FinalStatement implements ForUpdateStatement.ForUpdateStatementContainer
 {
     private LimitStatement(long amount)
     {

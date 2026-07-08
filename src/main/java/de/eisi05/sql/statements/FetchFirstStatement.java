@@ -4,7 +4,7 @@ import de.eisi05.sql.annotations.SqlData;
 import de.eisi05.sql.enums.DatabaseType;
 
 @SqlData(value = {DatabaseType.ORACLE}, oracleVersion = 12)
-public class FetchFirstStatement extends FinalStatement implements AbstractStatement.StatementContainer
+public class FetchFirstStatement extends FinalStatement implements ForUpdateStatement.ForUpdateStatementContainer
 {
     protected FetchFirstStatement(String query)
     {
