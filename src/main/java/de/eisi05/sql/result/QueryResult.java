@@ -6,8 +6,10 @@ import de.eisi05.sql.interfaces.SqlDataType;
 import de.eisi05.sql.utils.OrmUtils;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -102,16 +104,48 @@ public class QueryResult
             Constructor<?> constructor = Arrays.stream(clazz.getDeclaredConstructors())
                     .filter(c -> c.isAnnotationPresent(PersistenceConstructor.class))
                     .findFirst()
-                    .orElseGet(() -> clazz.getDeclaredConstructors()[0]);
+                    .orElseGet(() -> Arrays.stream(clazz.getDeclaredConstructors())
+                            .filter(constructor1 -> constructor1.getParameterCount() > 0)
+                            .findFirst()
+                            .orElse(getClass().getDeclaredConstructors()[0]));
 
-            Object[] args = Arrays.stream(constructor.getParameters())
-                    .map(param ->
+            var parameters = constructor.getParameters();
+            var declaredFields = clazz.getDeclaredFields();
+            Object[] args = new Object[parameters.length];
+
+            for(int i = 0; i < parameters.length; i++)
+            {
+                var param = parameters[i];
+                Column column = param.getAnnotation(Column.class);
+                String name = null;
+
+                if(column != null && !column.name().isEmpty())
+                    name = column.name();
+                else
+                {
+                    try
                     {
-                        Column column = param.getAnnotation(Column.class);
-                        String name = (column != null && !column.name().isEmpty()) ? column.name() : param.getName();
-                        return mapValue(results.get(name), param.getType(), param.getParameterizedType());
-                    })
-                    .toArray();
+                        Field field = clazz.getDeclaredField(param.getName());
+                        Column fieldColumn = field.getAnnotation(Column.class);
+                        name = (fieldColumn != null && !fieldColumn.name().isEmpty()) ? fieldColumn.name() : field.getName();
+                    }
+                    catch(NoSuchFieldException e)
+                    {
+                        if(i < declaredFields.length)
+                        {
+                            Field field = declaredFields[i];
+                            Column fieldColumn = field.getAnnotation(Column.class);
+                            name = (fieldColumn != null && !fieldColumn.name().isEmpty()) ? fieldColumn.name() : field.getName();
+                        }
+                    }
+                }
+
+                if(name == null)
+                    name = param.getName();
+
+                var result = results.get(name);
+                args[i] = mapValue(result, param.getType(), param.getParameterizedType());
+            }
 
             constructor.setAccessible(true);
             return (T) constructor.newInstance(args);
@@ -149,8 +183,29 @@ public class QueryResult
             return null;
         }
 
+        if(value instanceof java.sql.Timestamp ts && targetType == LocalDateTime.class)
+            return ts.toLocalDateTime();
+
+        if(value instanceof java.sql.Date date && targetType == java.time.LocalDate.class)
+            return date.toLocalDate();
+
         if(value instanceof String && targetType.isEnum())
             return Enum.valueOf((Class) targetType, (String) value);
+
+        if(value instanceof java.sql.Array sqlArray)
+        {
+            try
+            {
+                Object nativeArray = sqlArray.getArray();
+                if(List.class.isAssignableFrom(targetType) && nativeArray != null)
+                    return Arrays.asList((Object[]) nativeArray);
+
+                return nativeArray;
+            }
+            catch(java.sql.SQLException e)
+            {
+            }
+        }
 
         if((targetType.isRecord() || List.class.isAssignableFrom(targetType)) && !(value instanceof List))
         {

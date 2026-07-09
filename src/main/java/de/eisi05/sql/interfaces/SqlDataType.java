@@ -31,6 +31,14 @@ public interface SqlDataType<T>
     SqlDataType<Date> DATE = new PrimitiveSqlDataType<>(Date.class);
     SqlDataType<Timestamp> DATETIME = new PrimitiveSqlDataType<>(Timestamp.class);
     SqlDataType<Timestamp> TIMESTAMP = new PrimitiveSqlDataType<>(Timestamp.class);
+    SqlDataType<LocalDateTime> LOCAL_DATE_TIME = new PrimitiveSqlDataType<>(LocalDateTime.class)
+    {
+        @Override
+        public String getName()
+        {
+            return "TIMESTAMP";
+        }
+    };
     SqlDataType<Time> TIME = new PrimitiveSqlDataType<>(Time.class);
     SqlDataType<Integer> YEAR = new PrimitiveSqlDataType<>(Integer.class);
     SqlDataType<UUID> UNIQUE_IDENTIFIER = new PrimitiveSqlDataType<>(UUID.class);
@@ -178,7 +186,7 @@ public interface SqlDataType<T>
     {
         Column column = field.getAnnotation(Column.class);
 
-        if (column != null && column.columnDefinition().trim().equalsIgnoreCase("JSONB"))
+        if(column != null && column.columnDefinition().trim().equalsIgnoreCase("JSONB"))
             return JSONB;
 
         if(column != null && !column.columnDefinition().isEmpty())
@@ -261,7 +269,7 @@ public interface SqlDataType<T>
         if(type == Timestamp.class)
             return TIMESTAMP;
         if(type == LocalDateTime.class)
-            return TIMESTAMP;
+            return LOCAL_DATE_TIME;
         if(type == UUID.class)
             return UNIQUE_IDENTIFIER;
 
