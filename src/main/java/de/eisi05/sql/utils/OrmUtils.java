@@ -4,6 +4,7 @@ import de.eisi05.sql.annotations.Column;
 import de.eisi05.sql.annotations.GeneratedValue;
 import de.eisi05.sql.annotations.Id;
 import de.eisi05.sql.annotations.Table;
+import de.eisi05.sql.statements.FinalStatement;
 
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
@@ -80,6 +81,11 @@ public class OrmUtils
         return switch(value)
         {
             case null -> "NULL";
+            case FinalStatement statement ->
+            {
+                String query = statement.getQuery();
+                yield query.substring(0, query.length() - 1);
+            }
             case String s -> "'" + s.replace("'", "''") + "'";
             case Enum<?> e -> "'" + e.name() + "'";
             case Timestamp t -> "'" + t + "'";

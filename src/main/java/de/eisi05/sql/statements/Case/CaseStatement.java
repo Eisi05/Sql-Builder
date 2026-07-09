@@ -14,6 +14,11 @@ public class CaseStatement extends AbstractStatement implements CaseWhenStatemen
         return new CaseStatement("CASE");
     }
 
+    public static CaseStatement createCase(String name)
+    {
+        return new CaseStatement("CASE " + name);
+    }
+
     @Override
     protected String getKey()
     {
