@@ -51,6 +51,7 @@ public interface SqlDataType<T>
     SqlDataType<Long> BIGINT = new PrimitiveSqlDataType<>(Long.class);
     SqlDataType<String> VARCHAR = new PrimitiveSqlDataType<>(String.class);
     SqlDataType<String> TEXT = new PrimitiveSqlDataType<>(String.class);
+    SqlDataType<String> JSONB = new PrimitiveSqlDataType<>(String.class);
 
     static SqlDataType<String> CHAR(int length)
     {
@@ -176,6 +177,9 @@ public interface SqlDataType<T>
     static SqlDataType<?> fromField(Field field)
     {
         Column column = field.getAnnotation(Column.class);
+
+        if (column != null && column.columnDefinition().trim().equalsIgnoreCase("JSONB"))
+            return JSONB;
 
         if(column != null && !column.columnDefinition().isEmpty())
         {

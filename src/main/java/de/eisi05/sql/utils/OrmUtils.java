@@ -5,6 +5,7 @@ import de.eisi05.sql.annotations.GeneratedValue;
 import de.eisi05.sql.annotations.Id;
 import de.eisi05.sql.annotations.Table;
 import de.eisi05.sql.statements.FinalStatement;
+import tools.jackson.databind.ObjectMapper;
 
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 
 public class OrmUtils
 {
+    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     public static Map<String, Object> toColumnMap(Object object)
     {
         Map<String, Object> map = new LinkedHashMap<>();
@@ -99,7 +102,16 @@ public class OrmUtils
             case Object[] objectArray -> "'{" + Arrays.stream(objectArray)
                     .map(Object::toString)
                     .collect(Collectors.joining(",")) + "}'";
-            default -> value.toString();
+            default ->
+            {
+                try
+                {
+                    String json = OBJECT_MAPPER.writeValueAsString(value);
+                    yield "'" + json.replace("'", "''") + "'::jsonb";
+                } catch (Exception e) {
+                   yield value.toString();
+                }
+            }
         };
     }
 }

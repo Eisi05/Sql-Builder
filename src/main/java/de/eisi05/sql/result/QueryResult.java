@@ -3,6 +3,7 @@ package de.eisi05.sql.result;
 import de.eisi05.sql.annotations.Column;
 import de.eisi05.sql.annotations.PersistenceConstructor;
 import de.eisi05.sql.interfaces.SqlDataType;
+import de.eisi05.sql.utils.OrmUtils;
 
 import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
@@ -90,7 +91,7 @@ public class QueryResult
                         {
                             Column column = component.getAnnotation(Column.class);
                             String name = (column != null && !column.name().isEmpty()) ? column.name() : component.getName();
-                            return mapValue(results.get(name), component.getType());
+                            return mapValue(results.get(name), component.getType(), component.getGenericType());
                         })
                         .toArray();
 
@@ -108,7 +109,7 @@ public class QueryResult
                     {
                         Column column = param.getAnnotation(Column.class);
                         String name = (column != null && !column.name().isEmpty()) ? column.name() : param.getName();
-                        return mapValue(results.get(name), param.getType());
+                        return mapValue(results.get(name), param.getType(), param.getParameterizedType());
                     })
                     .toArray();
 
@@ -122,7 +123,7 @@ public class QueryResult
     }
 
     @SuppressWarnings("unchecked")
-    private Object mapValue(Object value, Class<?> targetType)
+    private Object mapValue(Object value, Class<?> targetType, java.lang.reflect.Type genericType)
     {
         if(value == null)
         {
@@ -150,6 +151,18 @@ public class QueryResult
 
         if(value instanceof String && targetType.isEnum())
             return Enum.valueOf((Class) targetType, (String) value);
+
+        if((targetType.isRecord() || List.class.isAssignableFrom(targetType)) && !(value instanceof List))
+        {
+            try
+            {
+                String jsonString = value.toString();
+                return OrmUtils.OBJECT_MAPPER.readValue(jsonString, OrmUtils.OBJECT_MAPPER.getTypeFactory().constructType(genericType));
+            }
+            catch(Exception e)
+            {
+            }
+        }
 
         return value;
     }
