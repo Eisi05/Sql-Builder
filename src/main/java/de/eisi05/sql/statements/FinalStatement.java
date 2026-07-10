@@ -177,7 +177,7 @@ public abstract class FinalStatement extends AbstractStatement
     {
         try
         {
-            PreparedStatement preparedStatement = getDatabaseStatement().connection.prepareStatement(getQuery());
+            PreparedStatement preparedStatement = getDatabaseStatement().getConnection().prepareStatement(getQuery());
             List<Object> totalParams = new ArrayList<>(getChainParameters());
             totalParams.addAll(appendedParameters);
             for(int i = 0; i < totalParams.size(); i++)

@@ -55,7 +55,7 @@ public abstract class Database implements AbstractStatement.StatementContainer
     {
         public SQLData(Database database)
         {
-            super(database, database.con);
+            super(database, () -> database.con);
         }
 
         public void close()

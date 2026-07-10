@@ -8,28 +8,28 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.util.function.Supplier;
 
 public abstract class DatabaseStatement extends AbstractStatement
         implements AbstractStatement.DefaultStatementContainers
 {
     protected final Database database;
-    protected final Connection connection;
+    private final Supplier<Connection> connectionSupplier;
 
-    protected DatabaseStatement(Database database, Connection connection)
+    protected DatabaseStatement(Database database, Supplier<Connection> connectionSupplier)
     {
         super(null);
         this.database = database;
-        this.connection = connection;
+        this.connectionSupplier = connectionSupplier;
     }
 
     public static DatabaseStatement fromJdbcTemplate(JdbcTemplate jdbcTemplate)
     {
-        Connection connection = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
-
+        Connection tempConnection = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
         Database database;
         try
         {
-            DatabaseMetaData metaData = connection.getMetaData();
+            DatabaseMetaData metaData = tempConnection.getMetaData();
             String dbName = metaData.getDatabaseProductName().toLowerCase();
             String url = metaData.getURL();
             String user = metaData.getUserName();
@@ -47,15 +47,15 @@ public abstract class DatabaseStatement extends AbstractStatement
         }
         finally
         {
-            DataSourceUtils.releaseConnection(connection, jdbcTemplate.getDataSource());
+            DataSourceUtils.releaseConnection(tempConnection, jdbcTemplate.getDataSource());
         }
 
-        return new DatabaseStatement(database, DataSourceUtils.getConnection(jdbcTemplate.getDataSource())) {};
+        return new DatabaseStatement(database, () -> DataSourceUtils.getConnection(jdbcTemplate.getDataSource())) {};
     }
 
     public Connection getConnection()
     {
-        return connection;
+        return connectionSupplier.get();
     }
 
     @Override
