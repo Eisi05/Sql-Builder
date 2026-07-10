@@ -2,7 +2,6 @@ package de.eisi05.sql.statements.where;
 
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
-import de.eisi05.sql.utils.OrmUtils;
 
 public class WhereNotGreaterThanStatement extends WhereGreaterThanStatement implements WhereNotStatement
 {
@@ -21,7 +20,7 @@ public class WhereNotGreaterThanStatement extends WhereGreaterThanStatement impl
     {
         default WhereNotGreaterThanStatement notGreaterThan(Object o)
         {
-            return create(new WhereNotGreaterThanStatement(OrmUtils.formatValue(o)));
+            return create(new WhereNotGreaterThanStatement("?"), o);
         }
 
         default WhereNotGreaterThanStatement notGreaterThan(FinalStatement finalStatement)

@@ -2,7 +2,6 @@ package de.eisi05.sql.statements.where;
 
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
-import de.eisi05.sql.utils.OrmUtils;
 
 public class WhereLessThanOrEqualStatement extends AbstractWhereStatement
 {
@@ -21,7 +20,7 @@ public class WhereLessThanOrEqualStatement extends AbstractWhereStatement
     {
         default WhereLessThanOrEqualStatement lessThanOrEqual(Object o)
         {
-            return create(new WhereLessThanOrEqualStatement(OrmUtils.formatValue(o)));
+            return create(new WhereLessThanOrEqualStatement("?"), o);
         }
 
         default WhereLessThanOrEqualStatement lessThanOrEqual(FinalStatement finalStatement)

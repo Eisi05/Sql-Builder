@@ -4,15 +4,14 @@ import de.eisi05.sql.annotations.Column;
 import de.eisi05.sql.annotations.GeneratedValue;
 import de.eisi05.sql.annotations.Id;
 import de.eisi05.sql.annotations.Table;
-import de.eisi05.sql.statements.FinalStatement;
 import tools.jackson.databind.ObjectMapper;
 
 import java.lang.reflect.Field;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class OrmUtils
 {
@@ -84,42 +83,27 @@ public class OrmUtils
         return table.name().isEmpty() ? clazz.getSimpleName() : table.name();
     }
 
-    public static String formatValue(Object value)
+    public static Object cleanParameter(Object value)
     {
         return switch(value)
         {
-            case null -> "NULL";
-            case FinalStatement statement ->
-            {
-                String query = statement.getQuery();
-                yield query.substring(0, query.length() - 1);
-            }
-            case String s -> "'" + s.replace("'", "''") + "'";
-            case Enum<?> e -> "'" + e.name() + "'";
-            case Timestamp t -> "'" + t + "'";
-            case LocalDateTime t -> "'" + t + "'";
-            case Number n -> n.toString();
-            case Boolean b -> b.toString();
-            case UUID uuid -> "'" + uuid + "'";
-            case int[] primitiveInts -> "'{" + Arrays.stream(primitiveInts)
-                    .mapToObj(String::valueOf)
-                    .collect(Collectors.joining(",")) + "}'";
-            case long[] primitiveLongs -> "'{" + Arrays.stream(primitiveLongs)
-                    .mapToObj(String::valueOf)
-                    .collect(Collectors.joining(",")) + "}'";
-            case Object[] objectArray -> "'{" + Arrays.stream(objectArray)
-                    .map(Object::toString)
-                    .collect(Collectors.joining(",")) + "}'";
+            case null -> null;
+            case Enum<?> e -> e.name();
+            case String s -> s;
+            case java.time.LocalDateTime t -> t;
+            case java.sql.Timestamp t -> t;
+            case Number n -> n;
+            case Boolean b -> b;
+            case java.util.UUID uuid -> uuid;
             default ->
             {
                 String className = value.getClass().getPackageName();
                 if(className.startsWith("java.lang") || className.startsWith("java.math") || className.startsWith("java.util"))
-                    yield value.toString();
+                    yield value;
 
                 try
                 {
-                    String json = OBJECT_MAPPER.writeValueAsString(value);
-                    yield "'" + json.replace("'", "''") + "'::jsonb";
+                    yield OBJECT_MAPPER.writeValueAsString(value);
                 }
                 catch(Exception e)
                 {

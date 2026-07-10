@@ -1,7 +1,6 @@
 package de.eisi05.sql.statements;
 
 import de.eisi05.sql.statements.where.WhereStatement;
-import de.eisi05.sql.utils.OrmUtils;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -9,21 +8,19 @@ import java.util.stream.Collectors;
 
 public class SetStatement extends AbstractStatement implements WhereStatement.WhereStatementContainer
 {
-    private SetStatement(String column, Object value)
+    private SetStatement(String column)
     {
-        super(column + " = " + OrmUtils.formatValue(value));
+        super(column + " = ?");
     }
 
     private SetStatement(SetObject... setObjects)
     {
-        super(Arrays.stream(setObjects).map(setObject -> setObject.column + " = " + OrmUtils.formatValue(setObject.value)).collect(Collectors.joining(", ")));
+        super(Arrays.stream(setObjects).map(setObject -> setObject.column + " = ?").collect(Collectors.joining(", ")));
     }
 
     private SetStatement(Map<String, Object> setObjects)
     {
-        super(setObjects.entrySet().stream()
-                .map(entry -> entry.getKey() + " = " + OrmUtils.formatValue(entry.getValue()))
-                .collect(Collectors.joining(", ")));
+        super(setObjects.keySet().stream().map(key -> key + " = ?").collect(Collectors.joining(", ")));
     }
 
     @Override
@@ -36,17 +33,17 @@ public class SetStatement extends AbstractStatement implements WhereStatement.Wh
     {
         default SetStatement set(String column, Object value)
         {
-            return create(new SetStatement(column, value));
+            return create(new SetStatement(column), value);
         }
 
         default SetStatement set(SetObject... setObjects)
         {
-            return create(new SetStatement(setObjects));
+            return create(new SetStatement(setObjects), Arrays.stream(setObjects).map(setObject -> setObject.value).toList());
         }
 
         default SetStatement set(Map<String, Object> objects)
         {
-            return create(new SetStatement(objects));
+            return create(new SetStatement(objects), objects.values());
         }
     }
 

@@ -25,8 +25,10 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
     {
         default InsertIntoStatement insertInto(String table, Object... values)
         {
-            return create(
-                    new InsertIntoStatement(table + " VALUES (" + Arrays.stream(values).map(OrmUtils::formatValue).collect(Collectors.joining(", ")) + ")"));
+            String placeholders = String.join(", ", Collections.nCopies(values.length, "?"));
+            InsertIntoStatement statement = create(new InsertIntoStatement(table + " VALUES (" + placeholders + ")"));
+            statement.localParameters.addAll(Arrays.asList(values));
+            return statement;
         }
 
         default InsertIntoSelectStatement insertInto(String table, String... keys)
@@ -46,16 +48,12 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
                     .toList();
 
             String columns = String.join(", ", rows.getFirst().keySet());
-
-            String values = rows.stream()
-                    .map(row -> "(" +
-                            row.values().stream()
-                                    .map(OrmUtils::formatValue)
-                                    .collect(Collectors.joining(", ")) +
-                            ")")
+            String valuesPlaceholders = rows.stream()
+                    .map(row -> "(" + String.join(", ", Collections.nCopies(row.size(), "?")) + ")")
                     .collect(Collectors.joining(", "));
 
-            return create(new InsertIntoStatement(table + " (" + columns + ") VALUES " + values));
+            return create(new InsertIntoStatement(table + " (" + columns + ") VALUES " + valuesPlaceholders),
+                    rows.stream().flatMap(stringObjectMap -> stringObjectMap.values().stream()).toList());
         }
 
         default InsertIntoStatement insertInto(String table, InsertObject... insertObjects)
@@ -90,21 +88,26 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
             }
 
             int numRows = columnValuesMap.values().stream().mapToInt(List::size).max().orElse(0);
-            List<String> rows = new ArrayList<>();
+            List<String> rowsPlaceholders = new ArrayList<>();
+            List<Object> rawValuesCollector = new ArrayList<>();
+
             for(int i = 0; i < numRows; i++)
             {
-                List<String> rowValues = new ArrayList<>();
+                List<String> rowPlaceholders = new ArrayList<>();
                 for(String column : columns)
                 {
                     List<Object> values = columnValuesMap.get(column);
                     if(values != null && i < values.size())
-                        rowValues.add(OrmUtils.formatValue(values.get(i)));
+                    {
+                        rowPlaceholders.add("?");
+                        rawValuesCollector.add(values.get(i));
+                    }
                 }
-                rows.add("(" + String.join(", ", rowValues) + ")");
+                rowsPlaceholders.add("(" + String.join(", ", rowPlaceholders) + ")");
             }
 
             return create(new InsertIntoStatement(table + " (" + String.join(", ", columns) + ")" +
-                    " VALUES " + String.join(", ", rows)));
+                    " VALUES " + String.join(", ", rowsPlaceholders)), rawValuesCollector);
         }
 
         default InsertIntoStatement insertInto(String table, Map<String, Object[]> insertMap)

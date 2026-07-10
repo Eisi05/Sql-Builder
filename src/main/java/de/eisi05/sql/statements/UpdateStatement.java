@@ -5,7 +5,7 @@ import de.eisi05.sql.annotations.Id;
 import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.Case.CaseStatement;
 import de.eisi05.sql.statements.Case.CaseThenStatement;
-import de.eisi05.sql.statements.Case.CaseWhenStatement;
+import de.eisi05.sql.statements.Case.CaseWhenStatementContainer;
 import de.eisi05.sql.statements.where.AbstractWhereStatement;
 import de.eisi05.sql.utils.OrmUtils;
 
@@ -59,14 +59,14 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
             Map<String, Object> caseValues = new LinkedHashMap<>();
             for(String column : columns)
             {
-                CaseWhenStatement.CaseWhenStatementContainer caseStatement = CaseStatement.createCase(idColumn);
+                CaseWhenStatementContainer caseStatement = CaseStatement.createCase(idColumn);
                 for(T obj : allObjects)
                 {
                     Object idVal = OrmUtils.extractId(obj);
                     Map<String, Object> objValues = OrmUtils.toColumnMap(obj);
                     Object colVal = objValues.get(column);
 
-                    caseStatement = caseStatement.when(OrmUtils.formatValue(idVal)).thenValue(colVal);
+                    caseStatement = caseStatement.when(idVal).thenValue(colVal);
                 }
 
                 caseValues.put(column, ((CaseThenStatement) caseStatement).elseReturn(column).end());
@@ -98,7 +98,7 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
             return create(updateStatement)
                     .set(values)
                     .where(idColumn)
-                    .equal(OrmUtils.formatValue(id));
+                    .equal(id);
         }
     }
 }

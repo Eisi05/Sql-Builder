@@ -16,6 +16,7 @@ import de.eisi05.sql.statements.view.CreateViewStatement;
 import de.eisi05.sql.statements.view.DropViewStatement;
 import de.eisi05.sql.statements.where.WhereNotStatement;
 import de.eisi05.sql.statements.where.WhereStatement;
+import de.eisi05.sql.utils.OrmUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,12 +24,20 @@ import java.util.stream.Collectors;
 public abstract class AbstractStatement
 {
     private final String query;
-
     protected AbstractStatement parent = null;
+    protected final List<Object> localParameters = new ArrayList<>();
 
     protected AbstractStatement(String query)
     {
         this.query = query;
+    }
+
+    public List<Object> getChainParameters()
+    {
+        List<Object> allParams = new ArrayList<>();
+        for (AbstractStatement stmt : getAllStatements())
+            allParams.addAll(stmt.localParameters);
+        return allParams;
     }
 
     protected abstract String getKey();
@@ -94,6 +103,18 @@ public abstract class AbstractStatement
 
     public interface StatementContainer
     {
+        default <T extends AbstractStatement> T create(T statement, Object... parameters) {
+            if (parameters != null && parameters.length > 0)
+                statement.localParameters.addAll(Arrays.stream(parameters).map(OrmUtils::cleanParameter).toList());
+            return create(statement);
+        }
+
+        default <T extends AbstractStatement> T create(T statement, Collection<Object> parameters) {
+            if (parameters != null && !parameters.isEmpty())
+                statement.localParameters.addAll(parameters.stream().map(OrmUtils::cleanParameter).toList());
+            return create(statement);
+        }
+
         default <T extends AbstractStatement> T create(T t)
         {
             if(this instanceof AbstractStatement statement)

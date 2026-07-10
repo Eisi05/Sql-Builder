@@ -26,7 +26,7 @@ public abstract class DatabaseStatement extends AbstractStatement
     {
         Connection connection = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
 
-        Database database = null;
+        Database database;
         try
         {
             DatabaseMetaData metaData = connection.getMetaData();

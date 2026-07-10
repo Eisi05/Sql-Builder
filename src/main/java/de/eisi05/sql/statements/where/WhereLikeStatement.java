@@ -2,7 +2,6 @@ package de.eisi05.sql.statements.where;
 
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
-import de.eisi05.sql.utils.OrmUtils;
 
 public class WhereLikeStatement extends AbstractWhereStatement
 {
@@ -21,7 +20,7 @@ public class WhereLikeStatement extends AbstractWhereStatement
     {
         default WhereLikeStatement like(Object o)
         {
-            return create(new WhereLikeStatement(OrmUtils.formatValue(o)));
+            return create(new WhereLikeStatement("?"), o);
         }
 
         default WhereLikeStatement like(FinalStatement finalStatement)

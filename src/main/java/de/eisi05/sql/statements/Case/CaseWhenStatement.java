@@ -6,7 +6,7 @@ import de.eisi05.sql.statements.AbstractNotStatement;
 public class CaseWhenStatement extends AbstractNotStatement
         implements CaseConditionStatement.CaseConditionStatementContainer,
                    CaseNotConditionStatement.CaseNotConditionStatementContainer,
-                   CaseThenStatementContainer
+                   CaseThenStatement.CaseThenStatementContainer
 {
     boolean withNot = false;
     private LogicOperator logicOperator = null;
@@ -27,13 +27,5 @@ public class CaseWhenStatement extends AbstractNotStatement
     {
         return (logicOperator == null ? "WHEN" : "") + (logicOperator != null ? logicOperator.name() : "") +
                 (withNot ? " NOT" : "");
-    }
-
-    public interface CaseWhenStatementContainer extends StatementContainer
-    {
-        default CaseWhenStatement when(String key)
-        {
-            return create(new CaseWhenStatement(key));
-        }
     }
 }

@@ -8,6 +8,7 @@ import de.eisi05.sql.result.ExecutionResult;
 import de.eisi05.sql.result.QueryResult;
 import de.eisi05.sql.statements.select.SelectStatement;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,6 +20,7 @@ import java.util.function.BiConsumer;
 
 public abstract class FinalStatement extends AbstractStatement
 {
+    private final List<Object> appendedParameters = new ArrayList<>();
     private String appendQuery;
 
     protected FinalStatement(String query)
@@ -32,6 +34,7 @@ public abstract class FinalStatement extends AbstractStatement
             appendQuery = getQuery();
 
         appendQuery = appendQuery + "\n" + statement.getQuery();
+        this.appendedParameters.addAll(statement.getChainParameters());
         return this;
     }
 
@@ -42,11 +45,11 @@ public abstract class FinalStatement extends AbstractStatement
             throw new ExecutionException(
                     "Can't execute an update without an execution statement like insert, update or delete");
 
-        return createStatement().map(statement ->
+        return createPreparedStatement().map(statement ->
         {
             try
             {
-                return ExecutionResult.of(statement.executeUpdate(getQuery()));
+                return ExecutionResult.of(statement.executeUpdate());
             }
             catch(SQLException e)
             {
@@ -66,11 +69,11 @@ public abstract class FinalStatement extends AbstractStatement
             throw new ExecutionException(
                     "Can't execute a large update without an execution statement like insert, update or delete");
 
-        return createStatement().map(statement ->
+        return createPreparedStatement().map(statement ->
         {
             try
             {
-                return ExecutionResult.of(statement.executeLargeUpdate(getQuery()));
+                return ExecutionResult.of(statement.executeLargeUpdate());
             }
             catch(SQLException e)
             {
@@ -88,11 +91,11 @@ public abstract class FinalStatement extends AbstractStatement
         if(getAllStatements().stream().noneMatch(statement -> statement instanceof ExecuteQueryStatement))
             throw new ExecutionException("Cannot execute a query without a query statement like select");
 
-        return createStatement().map(statement ->
+        return createPreparedStatement().map(statement ->
         {
             try
             {
-                ResultSet rs = statement.executeQuery(getQuery());
+                ResultSet rs = statement.executeQuery();
 
                 List<QueryResult> results = new ArrayList<>();
                 while(rs.next())
@@ -126,9 +129,9 @@ public abstract class FinalStatement extends AbstractStatement
         if(!(type instanceof SqlDataType.PrimitiveSqlDataType<T> primitiveSQLDataType))
             throw new ExecutionException("Use a type from the SqlDataType class");
 
-        return createStatement().map(statement ->
+        return createPreparedStatement().map(statement ->
         {
-            try(ResultSet rs = statement.executeQuery(getQuery()))
+            try(ResultSet rs = statement.executeQuery())
             {
                 rs.next();
                 String key = getAllStatements().stream()
@@ -153,11 +156,11 @@ public abstract class FinalStatement extends AbstractStatement
 
     public ExecutionResult<Boolean> execute()
     {
-        return createStatement().map(statement ->
+        return createPreparedStatement().map(statement ->
         {
             try
             {
-                return ExecutionResult.of(statement.execute(getQuery()));
+                return ExecutionResult.of(statement.execute());
             }
             catch(SQLException e)
             {
@@ -170,11 +173,16 @@ public abstract class FinalStatement extends AbstractStatement
         }).orElse(ExecutionResult.empty());
     }
 
-    private Optional<Statement> createStatement()
+    private Optional<PreparedStatement> createPreparedStatement()
     {
         try
         {
-            return Optional.ofNullable(getDatabaseStatement().connection.createStatement());
+            PreparedStatement preparedStatement = getDatabaseStatement().connection.prepareStatement(getQuery());
+            List<Object> totalParams = new ArrayList<>(getChainParameters());
+            totalParams.addAll(appendedParameters);
+            for(int i = 0; i < totalParams.size(); i++)
+                preparedStatement.setObject(i + 1, totalParams.get(i));
+            return Optional.of(preparedStatement);
         }
         catch(SQLException e)
         {
@@ -182,10 +190,9 @@ public abstract class FinalStatement extends AbstractStatement
         }
     }
 
-    public void createStatement(BiConsumer<Statement, String> statementConsumer)
+    public void createStatement(BiConsumer<PreparedStatement, String> statementConsumer)
     {
-        statementConsumer.accept(
-                createStatement().orElseThrow(() -> new RuntimeException("Statement cannot be created")), getQuery());
+        statementConsumer.accept(createPreparedStatement().orElseThrow(() -> new RuntimeException("Statement cannot be created")), getQuery());
     }
 
     private void closeStatement(Statement statement)

@@ -49,7 +49,7 @@ public class DeleteStatement extends FinalStatement implements WhereStatement.Wh
 
             return create(delete(table))
                     .where(idColumn)
-                    .equal(OrmUtils.formatValue(id));
+                    .equal(id);
         }
     }
 }

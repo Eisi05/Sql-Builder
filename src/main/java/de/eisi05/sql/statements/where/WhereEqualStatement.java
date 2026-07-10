@@ -2,7 +2,6 @@ package de.eisi05.sql.statements.where;
 
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
-import de.eisi05.sql.utils.OrmUtils;
 
 public class WhereEqualStatement extends AbstractWhereStatement
 {
@@ -21,7 +20,7 @@ public class WhereEqualStatement extends AbstractWhereStatement
     {
         default WhereEqualStatement equal(Object o)
         {
-            return create(new WhereEqualStatement(OrmUtils.formatValue(o)));
+            return create(new WhereEqualStatement("?"), o);
         }
 
         default WhereEqualStatement equal(FinalStatement finalStatement)

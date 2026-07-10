@@ -5,10 +5,11 @@ import de.eisi05.sql.statements.FinalStatement;
 import de.eisi05.sql.utils.OrmUtils;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class CaseConditionStatement extends AbstractStatement
-        implements CaseThenStatementContainer, CaseNextConditionStatementContainer
+        implements CaseThenStatement.CaseThenStatementContainer, CaseNextConditionStatementContainer
 {
     protected CaseConditionStatement(String query)
     {
@@ -25,7 +26,7 @@ public class CaseConditionStatement extends AbstractStatement
     {
         default CaseConditionStatement equal(Object value)
         {
-            return create(new CaseConditionStatement(" = " + OrmUtils.formatValue(value)));
+            return create(new CaseConditionStatement(" = ?"), value);
         }
 
         default CaseConditionStatement equal(FinalStatement finalStatement)
@@ -35,7 +36,7 @@ public class CaseConditionStatement extends AbstractStatement
 
         default <T> CaseConditionStatement between(T t1, T t2)
         {
-            return create(new CaseConditionStatement("BETWEEN " + OrmUtils.formatValue(t1) + " AND " + OrmUtils.formatValue(t2)));
+            return create(new CaseNotConditionStatement("NOT BETWEEN ? AND ?"), t1, t2);
         }
 
         default CaseConditionStatement between(FinalStatement finalStatement1, FinalStatement finalStatement2)
@@ -45,12 +46,12 @@ public class CaseConditionStatement extends AbstractStatement
 
         default <T> CaseConditionStatement between(FinalStatement finalStatement1, T t2)
         {
-            return create(new CaseConditionStatement("BETWEEN (" + finalStatement1.getQuery() + ") AND " + OrmUtils.formatValue(t2)));
+            return create(new CaseConditionStatement("BETWEEN (" + finalStatement1.getQuery() + ") AND ?"), t2);
         }
 
         default CaseConditionStatement greaterThanOrEqual(Object o)
         {
-            return create(new CaseConditionStatement(">= " + OrmUtils.formatValue(o)));
+            return create(new CaseConditionStatement(">= ?"), o);
         }
 
         default CaseConditionStatement greaterThanOrEqual(FinalStatement finalStatement)
@@ -60,7 +61,7 @@ public class CaseConditionStatement extends AbstractStatement
 
         default CaseConditionStatement greaterThan(Object o)
         {
-            return create(new CaseConditionStatement("> " + OrmUtils.formatValue(o)));
+            return create(new CaseConditionStatement("> ?"), o);
         }
 
         default CaseConditionStatement greaterThan(FinalStatement finalStatement)
@@ -70,7 +71,8 @@ public class CaseConditionStatement extends AbstractStatement
 
         default CaseConditionStatement in(Object... o)
         {
-            return create(new CaseConditionStatement("IN (" + Arrays.stream(o).map(OrmUtils::formatValue).collect(Collectors.joining(",")) + ")"));
+            String placeholders = String.join(",", Collections.nCopies(o.length, "?"));
+            return create(new CaseConditionStatement("IN (" + placeholders + ")"), o);
         }
 
         default CaseConditionStatement in(FinalStatement finalStatement)
@@ -85,7 +87,7 @@ public class CaseConditionStatement extends AbstractStatement
 
         default CaseConditionStatement lessThanOrEqual(Object o)
         {
-            return create(new CaseConditionStatement("<= " + OrmUtils.formatValue(o)));
+            return create(new CaseConditionStatement("<= ?"), o);
         }
 
         default CaseConditionStatement lessThanOrEqual(FinalStatement finalStatement)
@@ -95,7 +97,7 @@ public class CaseConditionStatement extends AbstractStatement
 
         default CaseConditionStatement lessThan(Object o)
         {
-            return create(new CaseConditionStatement("< " + OrmUtils.formatValue(o)));
+            return create(new CaseConditionStatement("< ?"), o);
         }
 
         default CaseConditionStatement lessThan(FinalStatement finalStatement)
@@ -105,7 +107,7 @@ public class CaseConditionStatement extends AbstractStatement
 
         default CaseConditionStatement like(Object o)
         {
-            return create(new CaseConditionStatement("LIKE " + OrmUtils.formatValue(o)));
+            return create(new CaseConditionStatement("LIKE ?"), o);
         }
 
         default CaseConditionStatement like(FinalStatement finalStatement)

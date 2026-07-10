@@ -2,7 +2,6 @@ package de.eisi05.sql.statements.where;
 
 import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
-import de.eisi05.sql.utils.OrmUtils;
 
 public class WhereBetweenStatement extends AbstractWhereStatement
 {
@@ -21,7 +20,7 @@ public class WhereBetweenStatement extends AbstractWhereStatement
     {
         default <T> WhereBetweenStatement between(T t1, T t2)
         {
-            return create(new WhereBetweenStatement(OrmUtils.formatValue(t1) + " AND " + OrmUtils.formatValue(t2)));
+            return create(new WhereBetweenStatement("? AND ?"), t1, t2);
         }
 
         default WhereBetweenStatement between(FinalStatement finalStatement1, FinalStatement finalStatement2)
@@ -31,7 +30,7 @@ public class WhereBetweenStatement extends AbstractWhereStatement
 
         default <T> WhereBetweenStatement between(FinalStatement finalStatement1, T t2)
         {
-            return create(new WhereBetweenStatement("(" + finalStatement1.getQuery() + ") AND " + OrmUtils.formatValue(t2)));
+            return create(new WhereBetweenStatement("(" + finalStatement1.getQuery() + ") AND ?"), t2);
         }
     }
 }

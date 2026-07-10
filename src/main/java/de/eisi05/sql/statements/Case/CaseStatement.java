@@ -2,7 +2,7 @@ package de.eisi05.sql.statements.Case;
 
 import de.eisi05.sql.statements.AbstractStatement;
 
-public class CaseStatement extends AbstractStatement implements CaseWhenStatement.CaseWhenStatementContainer
+public class CaseStatement extends AbstractStatement implements CaseWhenStatementContainer
 {
     protected CaseStatement(String query)
     {

@@ -5,13 +5,13 @@ import de.eisi05.sql.statements.AbstractStatement;
 
 public interface CaseNextConditionStatementContainer extends AbstractStatement.StatementContainer
 {
-    default CaseWhenStatement or(String key)
+    default CaseWhenStatement or(Object key)
     {
-        return create(new CaseWhenStatement(key).withOperation(LogicOperator.OR));
+        return create(new CaseWhenStatement("?").withOperation(LogicOperator.OR), key);
     }
 
-    default CaseWhenStatement and(String key)
+    default CaseWhenStatement and(Object key)
     {
-        return create(new CaseWhenStatement(key).withOperation(LogicOperator.AND));
+        return create(new CaseWhenStatement("?").withOperation(LogicOperator.AND), key);
     }
 }
