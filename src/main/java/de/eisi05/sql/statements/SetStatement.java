@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SetStatement extends AbstractStatement implements WhereStatement.WhereStatementContainer
+public class SetStatement extends AbstractStatement implements WhereStatement.WhereStatementContainer, ReturningStatement.ReturningStatementContainer
 {
     private SetStatement(String column)
     {

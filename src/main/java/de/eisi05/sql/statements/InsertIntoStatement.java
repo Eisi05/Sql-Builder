@@ -8,7 +8,7 @@ import de.eisi05.sql.utils.OrmUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class InsertIntoStatement extends FinalStatement implements ExecuteUpdateStatement
+public class InsertIntoStatement extends FinalStatement implements ExecuteUpdateStatement, ReturningStatement.ReturningStatementContainer
 {
     private InsertIntoStatement(String query)
     {

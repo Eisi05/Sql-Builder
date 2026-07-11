@@ -11,7 +11,8 @@ public class FromStatement extends FinalStatement implements WhereStatement.Wher
                                                              JoinStatementContainer, UnionStatementContainer, OrderByStatement.OrderByStatementContainer,
                                                              GroupByStatement.GroupByStatementContainer, WhereExistsStatement.WhereExistsStatementContainer,
                                                              FetchFirstStatement.FetchFirstStatementContainer,
-                                                             ForUpdateStatement.ForUpdateStatementContainer
+                                                             ForUpdateStatement.ForUpdateStatementContainer,
+                                                             ReturningStatement.ReturningStatementContainer
 {
     private FromStatement(String... tables)
     {

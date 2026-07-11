@@ -6,7 +6,8 @@ public abstract class AbstractWhereStatement extends FinalStatement implements W
                                                                                LimitStatement.LimitStatementContainer,
                                                                                OrderByStatement.OrderByStatementContainer,
                                                                                FetchFirstStatement.FetchFirstStatementContainer,
-                                                                               ForUpdateStatement.ForUpdateStatementContainer
+                                                                               ForUpdateStatement.ForUpdateStatementContainer,
+                                                                               ReturningStatement.ReturningStatementContainer
 {
     protected AbstractWhereStatement(String query)
     {
