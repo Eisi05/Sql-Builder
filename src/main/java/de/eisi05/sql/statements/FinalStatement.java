@@ -57,7 +57,8 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 closeStatement(statement);
             }
-        }).orElse(ExecutionResult.ofException(preparedStatement.exception()));
+        }).orElse(ExecutionResult.ofException(preparedStatement.hasException() ? preparedStatement.exception() :
+                new RuntimeException("Failed to create statement")));
     }
 
     public ExecutionResult<Long> executeLargeUpdate()
@@ -82,7 +83,8 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 closeStatement(statement);
             }
-        }).orElse(ExecutionResult.ofException(preparedStatement.exception()));
+        }).orElse(ExecutionResult.ofException(preparedStatement.hasException() ? preparedStatement.exception() :
+                new RuntimeException("Failed to create statement")));
     }
 
     public ExecutionResult<List<QueryResult>> executeQuery()
@@ -109,7 +111,8 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 closeStatement(statement);
             }
-        }).orElse(ExecutionResult.ofException(preparedStatement.exception()));
+        }).orElse(ExecutionResult.ofException(preparedStatement.hasException() ? preparedStatement.exception() :
+                new RuntimeException("Failed to create statement")));
     }
 
     public <T> ExecutionResult<T> executeQuery(SqlDataType<T> type)
@@ -150,7 +153,8 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 closeStatement(statement);
             }
-        }).orElse(ExecutionResult.ofException(preparedStatement.exception()));
+        }).orElse(ExecutionResult.ofException(preparedStatement.hasException() ? preparedStatement.exception() :
+                new RuntimeException("Failed to create statement")));
     }
 
     public ExecutionResult<Boolean> execute()
@@ -170,7 +174,8 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 closeStatement(statement);
             }
-        }).orElse(ExecutionResult.ofException(preparedStatement.exception()));
+        }).orElse(ExecutionResult.ofException(preparedStatement.hasException() ? preparedStatement.exception() :
+                new RuntimeException("Failed to create statement")));
     }
 
     private ExecutionResult<PreparedStatement> createPreparedStatement()
