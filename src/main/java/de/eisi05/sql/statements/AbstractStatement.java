@@ -109,7 +109,7 @@ public abstract class AbstractStatement
             return create(statement);
         }
 
-        default <T extends AbstractStatement> T create(T statement, Collection<Object> parameters) {
+        default <T extends AbstractStatement> T create(T statement, Collection<?> parameters) {
             if (parameters != null && !parameters.isEmpty())
                 statement.localParameters.addAll(parameters.stream().map(OrmUtils::cleanParameter).toList());
             return create(statement);

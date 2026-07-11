@@ -7,12 +7,12 @@ import de.eisi05.sql.interfaces.SqlDataType;
 import de.eisi05.sql.result.ExecutionResult;
 import de.eisi05.sql.result.QueryResult;
 import de.eisi05.sql.statements.select.SelectStatement;
+import org.postgresql.util.PGobject;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.BiConsumer;
 
 public abstract class FinalStatement extends AbstractStatement
@@ -42,7 +42,8 @@ public abstract class FinalStatement extends AbstractStatement
             throw new ExecutionException(
                     "Can't execute an update without an execution statement like insert, update or delete");
 
-        return createPreparedStatement().map(statement ->
+        ExecutionResult<PreparedStatement> preparedStatement = createPreparedStatement();
+        return preparedStatement.map(statement ->
         {
             try
             {
@@ -56,7 +57,7 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 closeStatement(statement);
             }
-        }).orElse(ExecutionResult.empty());
+        }).orElse(ExecutionResult.ofException(preparedStatement.exception()));
     }
 
     public ExecutionResult<Long> executeLargeUpdate()
@@ -66,7 +67,8 @@ public abstract class FinalStatement extends AbstractStatement
             throw new ExecutionException(
                     "Can't execute a large update without an execution statement like insert, update or delete");
 
-        return createPreparedStatement().map(statement ->
+        ExecutionResult<PreparedStatement> preparedStatement = createPreparedStatement();
+        return preparedStatement.map(statement ->
         {
             try
             {
@@ -80,7 +82,7 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 closeStatement(statement);
             }
-        }).orElse(ExecutionResult.empty());
+        }).orElse(ExecutionResult.ofException(preparedStatement.exception()));
     }
 
     public ExecutionResult<List<QueryResult>> executeQuery()
@@ -88,7 +90,8 @@ public abstract class FinalStatement extends AbstractStatement
         if(getAllStatements().stream().noneMatch(statement -> statement instanceof ExecuteQueryStatement))
             throw new ExecutionException("Cannot execute a query without a query statement like select");
 
-        return createPreparedStatement().map(statement ->
+        ExecutionResult<PreparedStatement> preparedStatement = createPreparedStatement();
+        return preparedStatement.map(statement ->
         {
             try(ResultSet rs = statement.executeQuery())
             {
@@ -106,7 +109,7 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 closeStatement(statement);
             }
-        }).orElse(ExecutionResult.empty());
+        }).orElse(ExecutionResult.ofException(preparedStatement.exception()));
     }
 
     public <T> ExecutionResult<T> executeQuery(SqlDataType<T> type)
@@ -124,7 +127,8 @@ public abstract class FinalStatement extends AbstractStatement
         if(!(type instanceof SqlDataType.PrimitiveSqlDataType<T> primitiveSQLDataType))
             throw new ExecutionException("Use a type from the SqlDataType class");
 
-        return createPreparedStatement().map(statement ->
+        ExecutionResult<PreparedStatement> preparedStatement = createPreparedStatement();
+        return preparedStatement.map(statement ->
         {
             try(ResultSet rs = statement.executeQuery())
             {
@@ -146,12 +150,13 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 closeStatement(statement);
             }
-        }).orElse(ExecutionResult.empty());
+        }).orElse(ExecutionResult.ofException(preparedStatement.exception()));
     }
 
     public ExecutionResult<Boolean> execute()
     {
-        return createPreparedStatement().map(statement ->
+        ExecutionResult<PreparedStatement> preparedStatement = createPreparedStatement();
+        return preparedStatement.map(statement ->
         {
             try
             {
@@ -165,10 +170,10 @@ public abstract class FinalStatement extends AbstractStatement
             {
                 closeStatement(statement);
             }
-        }).orElse(ExecutionResult.empty());
+        }).orElse(ExecutionResult.ofException(preparedStatement.exception()));
     }
 
-    private Optional<PreparedStatement> createPreparedStatement()
+    private ExecutionResult<PreparedStatement> createPreparedStatement()
     {
         try
         {
@@ -176,19 +181,25 @@ public abstract class FinalStatement extends AbstractStatement
             List<Object> totalParams = new ArrayList<>(getChainParameters());
             totalParams.addAll(appendedParameters);
             for(int i = 0; i < totalParams.size(); i++)
-                preparedStatement.setObject(i + 1, totalParams.get(i));
-            return Optional.of(preparedStatement);
+            {
+                Object param = totalParams.get(i);
+
+                if(param instanceof PGobject)
+                    preparedStatement.setObject(i + 1, param, Types.OTHER);
+                else
+                    preparedStatement.setObject(i + 1, param);
+            }
+            return ExecutionResult.of(preparedStatement);
         }
         catch(SQLException e)
         {
-            return Optional.empty();
+            return ExecutionResult.ofException(new RuntimeException(e));
         }
     }
 
     public void createStatement(BiConsumer<PreparedStatement, String> statementConsumer)
     {
-        PreparedStatement preparedStatement = createPreparedStatement()
-                .orElseThrow(() -> new RuntimeException("Statement cannot be created"));
+        PreparedStatement preparedStatement = createPreparedStatement().orElseThrow();
         try
         {
             statementConsumer.accept(preparedStatement, getQuery());
@@ -210,7 +221,7 @@ public abstract class FinalStatement extends AbstractStatement
 
             statement.close();
 
-            if (connection != null && !connection.isClosed() && connection.getAutoCommit())
+            if(connection != null && !connection.isClosed() && connection.getAutoCommit())
                 connection.close();
         }
         catch(SQLException e)

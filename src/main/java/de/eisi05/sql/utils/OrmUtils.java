@@ -4,13 +4,13 @@ import de.eisi05.sql.annotations.Column;
 import de.eisi05.sql.annotations.GeneratedValue;
 import de.eisi05.sql.annotations.Id;
 import de.eisi05.sql.annotations.Table;
+import org.postgresql.util.PGobject;
 import tools.jackson.databind.ObjectMapper;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class OrmUtils
@@ -41,7 +41,25 @@ public class OrmUtils
 
             try
             {
-                map.put(config.columnName(), config.field().get(object));
+                Object value = config.field().get(object);
+
+                Column column = config.field().getAnnotation(Column.class);
+                if (value != null && column != null && "JSONB".equalsIgnoreCase(column.columnDefinition()))
+                {
+                    try
+                    {
+                        PGobject pgObject = new PGobject();
+                        pgObject.setType("jsonb");
+                        pgObject.setValue(OBJECT_MAPPER.writeValueAsString(value));
+                        value = pgObject;
+                    }
+                    catch (Exception e)
+                    {
+                        throw new RuntimeException("Failed to serialize field to JSONB: " + config.field().getName(), e);
+                    }
+                }
+
+                map.put(config.columnName(), value);
             }
             catch(IllegalAccessException e)
             {
@@ -90,11 +108,12 @@ public class OrmUtils
             case null -> null;
             case Enum<?> e -> e.name();
             case String s -> s;
-            case java.time.LocalDateTime t -> t;
-            case java.sql.Timestamp t -> t;
+            case PGobject pg -> pg;
+            case LocalDateTime t -> t;
+            case Timestamp t -> t;
             case Number n -> n;
             case Boolean b -> b;
-            case java.util.UUID uuid -> uuid;
+            case UUID uuid -> uuid;
             default ->
             {
                 String className = value.getClass().getPackageName();
