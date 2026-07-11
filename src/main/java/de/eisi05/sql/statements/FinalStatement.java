@@ -8,10 +8,7 @@ import de.eisi05.sql.result.ExecutionResult;
 import de.eisi05.sql.result.QueryResult;
 import de.eisi05.sql.statements.select.SelectStatement;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,10 +90,8 @@ public abstract class FinalStatement extends AbstractStatement
 
         return createPreparedStatement().map(statement ->
         {
-            try
+            try(ResultSet rs = statement.executeQuery())
             {
-                ResultSet rs = statement.executeQuery();
-
                 List<QueryResult> results = new ArrayList<>();
                 while(rs.next())
                     results.add(new QueryResult(rs));
@@ -192,14 +187,31 @@ public abstract class FinalStatement extends AbstractStatement
 
     public void createStatement(BiConsumer<PreparedStatement, String> statementConsumer)
     {
-        statementConsumer.accept(createPreparedStatement().orElseThrow(() -> new RuntimeException("Statement cannot be created")), getQuery());
+        PreparedStatement preparedStatement = createPreparedStatement()
+                .orElseThrow(() -> new RuntimeException("Statement cannot be created"));
+        try
+        {
+            statementConsumer.accept(preparedStatement, getQuery());
+        }
+        finally
+        {
+            closeStatement(preparedStatement);
+        }
     }
 
     private void closeStatement(Statement statement)
     {
+        if(statement == null)
+            return;
+
         try
         {
+            Connection connection = statement.getConnection();
+
             statement.close();
+
+            if (connection != null && !connection.isClosed() && connection.getAutoCommit())
+                connection.close();
         }
         catch(SQLException e)
         {
