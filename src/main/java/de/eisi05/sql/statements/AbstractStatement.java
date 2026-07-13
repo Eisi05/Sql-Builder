@@ -26,6 +26,7 @@ public abstract class AbstractStatement
     private final String query;
     protected AbstractStatement parent = null;
     protected final List<Object> localParameters = new ArrayList<>();
+    protected final List<List<Object>> batchParameters = new ArrayList<>();
 
     protected AbstractStatement(String query)
     {
@@ -37,6 +38,14 @@ public abstract class AbstractStatement
         List<Object> allParams = new ArrayList<>();
         for (AbstractStatement stmt : getAllStatements())
             allParams.addAll(stmt.localParameters);
+        return allParams;
+    }
+
+    public List<List<Object>> getAllBatchParameters()
+    {
+        List<List<Object>> allParams = new ArrayList<>();
+        for (AbstractStatement stmt : getAllStatements())
+            allParams.addAll(stmt.batchParameters);
         return allParams;
     }
 

@@ -35,12 +35,74 @@ public abstract class FinalStatement extends AbstractStatement
         return this;
     }
 
+    public boolean isBatch()
+    {
+        return getAllBatchParameters() != null && !getAllBatchParameters().isEmpty();
+    }
+
+    public ExecutionResult<int[]> executeBatchUpdate()
+    {
+        if(getAllStatements().stream().noneMatch(statement -> statement instanceof ExecuteUpdateStatement))
+            throw new ExecutionException("Can't execute a batch update without an update/insert statement");
+
+        if(!isBatch())
+            return executeUpdate().map(integer -> new int[]{integer});
+
+        ExecutionResult<PreparedStatement> preparedStatement = createPreparedStatement();
+        return preparedStatement.map(statement ->
+        {
+            try
+            {
+                return ExecutionResult.of(statement.executeBatch());
+            }
+            catch(SQLException e)
+            {
+                return ExecutionResult.<int[]>ofException(new RuntimeException(e));
+            }
+            finally
+            {
+                closeStatement(statement);
+            }
+        }).orElse(ExecutionResult.ofException(preparedStatement.hasException() ? preparedStatement.exception() :
+                new RuntimeException("Failed to create statement")));
+    }
+
+    public ExecutionResult<long[]> executeLargeBatchUpdate()
+    {
+        if(getAllStatements().stream().noneMatch(statement -> statement instanceof ExecuteUpdateStatement))
+            throw new ExecutionException("Can't execute a batch update without an update/insert statement");
+
+        if(!isBatch())
+            return executeLargeUpdate().map(l -> new long[]{l});
+
+        ExecutionResult<PreparedStatement> preparedStatement = createPreparedStatement();
+        return preparedStatement.map(statement ->
+        {
+            try
+            {
+                return ExecutionResult.of(statement.executeLargeBatch());
+            }
+            catch(SQLException e)
+            {
+                return ExecutionResult.<long[]>ofException(new RuntimeException(e));
+            }
+            finally
+            {
+                closeStatement(statement);
+            }
+        }).orElse(ExecutionResult.ofException(preparedStatement.hasException() ? preparedStatement.exception() :
+                new RuntimeException("Failed to create statement")));
+    }
+
     public ExecutionResult<Integer> executeUpdate()
     {
         if(getAllStatements().stream().noneMatch(
                 statement -> statement instanceof ExecuteUpdateStatement))
             throw new ExecutionException(
                     "Can't execute an update without an execution statement like insert, update or delete");
+
+        if(isBatch())
+            throw new ExecutionException("This statement contains batch parameters. Use executeBatchUpdate() instead.");
 
         ExecutionResult<PreparedStatement> preparedStatement = createPreparedStatement();
         return preparedStatement.map(statement ->
@@ -67,6 +129,9 @@ public abstract class FinalStatement extends AbstractStatement
                 statement -> statement instanceof ExecuteUpdateStatement))
             throw new ExecutionException(
                     "Can't execute a large update without an execution statement like insert, update or delete");
+
+        if(isBatch())
+            throw new ExecutionException("This statement contains batch parameters. Use executeBatchUpdate() instead.");
 
         ExecutionResult<PreparedStatement> preparedStatement = createPreparedStatement();
         return preparedStatement.map(statement ->
@@ -183,6 +248,24 @@ public abstract class FinalStatement extends AbstractStatement
         try
         {
             PreparedStatement preparedStatement = getDatabaseStatement().getConnection().prepareStatement(getQuery());
+
+            if(isBatch())
+            {
+                for(List<Object> rowParams : getAllBatchParameters())
+                {
+                    for(int i = 0; i < rowParams.size(); i++)
+                    {
+                        Object param = rowParams.get(i);
+                        if(param instanceof PGobject)
+                            preparedStatement.setObject(i + 1, param, Types.OTHER);
+                        else
+                            preparedStatement.setObject(i + 1, param);
+                    }
+                    preparedStatement.addBatch();
+                }
+                return ExecutionResult.of(preparedStatement);
+            }
+
             List<Object> totalParams = new ArrayList<>(getChainParameters());
             totalParams.addAll(appendedParameters);
             for(int i = 0; i < totalParams.size(); i++)

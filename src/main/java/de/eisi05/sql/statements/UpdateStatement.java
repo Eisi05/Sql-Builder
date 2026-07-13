@@ -3,9 +3,6 @@ package de.eisi05.sql.statements;
 import de.eisi05.sql.annotations.Column;
 import de.eisi05.sql.annotations.Id;
 import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
-import de.eisi05.sql.statements.Case.CaseStatement;
-import de.eisi05.sql.statements.Case.CaseThenStatement;
-import de.eisi05.sql.statements.Case.CaseWhenStatementContainer;
 import de.eisi05.sql.statements.where.AbstractWhereStatement;
 import de.eisi05.sql.utils.OrmUtils;
 
@@ -40,9 +37,13 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
             allObjects.add(object);
             allObjects.addAll(Arrays.asList(objects));
 
-            Class<?> clazz = object.getClass();
-            UpdateStatement updateStatement = new UpdateStatement(OrmUtils.resolveTable(clazz));
+            return update(allObjects);
+        }
 
+        default <T> AbstractWhereStatement update(Collection<T> objects)
+        {
+            T first = objects.iterator().next();
+            Class<?> clazz = first.getClass();
             String idColumn = Arrays.stream(clazz.getDeclaredFields())
                     .filter(f -> f.isAnnotationPresent(Id.class))
                     .findFirst()
@@ -53,36 +54,42 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
                     })
                     .orElseThrow(() -> new IllegalStateException("Missing @Id-Column"));
 
-            Set<String> columns = OrmUtils.toColumnMap(object).keySet();
-            columns.remove(idColumn);
+            UpdateStatement updateStatement = new UpdateStatement(OrmUtils.resolveTable(clazz));
+            Map<String, Object> baseValues = OrmUtils.toColumnMap(first);
 
-            Map<String, Object> caseValues = new LinkedHashMap<>();
-            for(String column : columns)
+            List<String> columnsOrder = new ArrayList<>(baseValues.keySet());
+            columnsOrder.remove(idColumn);
+
+            List<List<Object>> batchParameters = new ArrayList<>();
+            for(T obj : objects)
             {
-                CaseWhenStatementContainer caseStatement = CaseStatement.createCase(idColumn);
-                for(T obj : allObjects)
-                {
-                    Object idVal = OrmUtils.extractId(obj);
-                    Map<String, Object> objValues = OrmUtils.toColumnMap(obj);
-                    Object colVal = objValues.get(column);
+                Map<String, Object> objValues = OrmUtils.toColumnMap(obj);
+                List<Object> paramsForObj = new ArrayList<>();
 
-                    caseStatement = caseStatement.when(idVal).thenValue(colVal);
-                }
+                for(String col : columnsOrder)
+                    paramsForObj.add(objValues.get(col));
+                paramsForObj.add(OrmUtils.extractId(obj));
 
-                caseValues.put(column, ((CaseThenStatement) caseStatement).elseReturn(column).end());
+                batchParameters.add(paramsForObj);
             }
 
-            return create(updateStatement)
-                    .set(caseValues)
+            Map<String, Object> setTemplate = new LinkedHashMap<>();
+            for(String col : columnsOrder)
+                setTemplate.put(col, baseValues.get(col));
+
+            AbstractWhereStatement builtStatement = create(updateStatement)
+                    .set(setTemplate)
                     .where(idColumn)
-                    .in(allObjects.stream().map(OrmUtils::extractId).toList());
+                    .equal(OrmUtils.extractId(first));
+
+            builtStatement.batchParameters.addAll(batchParameters);
+            return builtStatement;
         }
 
         private <T> AbstractWhereStatement updateSingle(T object)
         {
             UpdateStatement updateStatement = new UpdateStatement(OrmUtils.resolveTable(object.getClass()));
             Map<String, Object> values = OrmUtils.toColumnMap(object);
-
             Object id = OrmUtils.extractId(object);
 
             String idColumn = Arrays.stream(object.getClass().getDeclaredFields())
