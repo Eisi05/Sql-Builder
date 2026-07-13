@@ -10,10 +10,7 @@ import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class QueryResult
 {
@@ -208,6 +205,18 @@ public class QueryResult
         }
 
         if((targetType.isRecord() || List.class.isAssignableFrom(targetType)) && !(value instanceof List))
+        {
+            try
+            {
+                String jsonString = value.toString();
+                return OrmUtils.OBJECT_MAPPER.readValue(jsonString, OrmUtils.OBJECT_MAPPER.getTypeFactory().constructType(genericType));
+            }
+            catch(Exception e)
+            {
+            }
+        }
+
+        if((targetType.isRecord() || Map.class.isAssignableFrom(targetType)) && !(value instanceof Map<?,?>))
         {
             try
             {
