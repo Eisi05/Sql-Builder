@@ -4,14 +4,15 @@ import de.eisi05.sql.statements.FinalStatement;
 import de.eisi05.sql.statements.OrderByStatement;
 
 /**
- * Abstract base class for SQL JOIN statements. Supports different join types (INNER, LEFT, RIGHT, FULL OUTER). Can be followed by ORDER BY clauses.
+ * Abstract base class for SQL <b>{@code JOIN}</b> statements. Supports different join types (<b>{@code INNER}</b> , <b>{@code LEFT}</b> , <b>{@code RIGHT}</b>
+ * , <b>{@code FULL OUTER}</b> ). Can be followed by <b>{@code ORDER BY}</b> clauses.
  */
 public abstract class JoinStatement extends FinalStatement implements OrderByStatement.OrderByStatementContainer
 {
     /**
      * Constructs a new JoinStatement with the given query.
      *
-     * @param query the JOIN query fragment
+     * @param query the <b>{@code JOIN}</b> query fragment
      */
     protected JoinStatement(String query)
     {

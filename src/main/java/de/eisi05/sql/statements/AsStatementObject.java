@@ -1,7 +1,7 @@
 package de.eisi05.sql.statements;
 
 /**
- * Represents a SQL column or expression that can be aliased using the AS keyword. Used to create structured alias objects for SELECT statements and other
+ * Represents a SQL column or expression that can be aliased using the <b>{@code AS}</b> keyword. Used to create structured alias objects for <b>{@code SELECT}</b> statements and other
  * contexts.
  */
 public class AsStatementObject
@@ -43,7 +43,7 @@ public class AsStatementObject
     }
 
     /**
-     * Creates a final alias object with the specified alias name. If the alias contains spaces, it will be wrapped in brackets.
+     * Creates a final <b>{@code AS}</b> object with the specified alias name. If the alias contains spaces, it will be wrapped in brackets.
      *
      * @param as the alias name
      * @return a FinalAsStatementObject with the alias applied

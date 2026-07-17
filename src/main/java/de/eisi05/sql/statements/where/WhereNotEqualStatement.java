@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL non-equality condition fragment.
+ * Represents an SQL <b>{@code NOT EQUAL}</b> condition fragment.
  */
 public class WhereNotEqualStatement extends WhereEqualStatement implements WhereNotStatement
 {
@@ -19,9 +19,9 @@ public class WhereNotEqualStatement extends WhereEqualStatement implements Where
     }
 
     /**
-     * Defines whether the keyword NOT should immediately follow the word WHERE structurally.
+     * Defines whether the keyword <b>{@code NOT}</b> should immediately follow the word <b>{@code WHERE}</b> structurally.
      *
-     * @return {@code true} indicating a standalone NOT rule placement modification
+     * @return {@code true} indicating a standalone <b>{@code NOT}</b> rule placement modification
      */
     @Override
     public boolean isNotAfterWhere()
@@ -30,12 +30,12 @@ public class WhereNotEqualStatement extends WhereEqualStatement implements Where
     }
 
     /**
-     * A container interface providing fluent builder methods for non-equality conditions.
+     * A container interface providing fluent builder methods for <b>{@code NOT EQUAL}</b> conditions.
      */
     public interface WhereNotEqualStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends a non-equality condition against a single object value parameter.
+         * Appends a <b>{@code NOT EQUAL}</b> condition against a single object value parameter.
          *
          * @param o the object value to compare against
          * @return a configured {@link WhereNotEqualStatement}
@@ -46,7 +46,7 @@ public class WhereNotEqualStatement extends WhereEqualStatement implements Where
         }
 
         /**
-         * Appends a non-equality condition evaluating against an SQL subquery or statement fragment.
+         * Appends a <b>{@code NOT EQUAL}</b> condition evaluating against an SQL subquery or statement fragment.
          *
          * @param finalStatement the statement representing the target value
          * @return a configured {@link WhereNotEqualStatement}

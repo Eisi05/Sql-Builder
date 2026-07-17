@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL negated greater-than condition fragment.
+ * Represents an SQL <b>{@code NOT GREATER THAN}</b> condition fragment.
  */
 public class WhereNotGreaterThanStatement extends WhereGreaterThanStatement implements WhereNotStatement
 {
@@ -19,9 +19,9 @@ public class WhereNotGreaterThanStatement extends WhereGreaterThanStatement impl
     }
 
     /**
-     * Defines whether the keyword NOT should immediately follow the word WHERE structurally.
+     * Defines whether the keyword <b>{@code NOT}</b> should immediately follow the word <b>{@code WHERE}</b> structurally.
      *
-     * @return {@code true} indicating a standalone NOT rule placement modification
+     * @return {@code true} indicating a standalone <b>{@code NOT}</b> rule placement modification
      */
     @Override
     public boolean isNotAfterWhere()
@@ -30,12 +30,12 @@ public class WhereNotGreaterThanStatement extends WhereGreaterThanStatement impl
     }
 
     /**
-     * A container interface providing fluent builder methods for negated greater-than conditions.
+     * A container interface providing fluent builder methods for <b>{@code NOT GREATER THAN}</b> conditions.
      */
     public interface WhereNotGreaterStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends a negated greater-than condition against a single object value parameter.
+         * Appends a <b>{@code NOT GREATER THAN}</b> condition against a single object value parameter.
          *
          * @param o the object value to compare against
          * @return a configured {@link WhereNotGreaterThanStatement}
@@ -46,7 +46,7 @@ public class WhereNotGreaterThanStatement extends WhereGreaterThanStatement impl
         }
 
         /**
-         * Appends a negated greater-than condition evaluating against an SQL subquery or statement fragment.
+         * Appends a <b>{@code NOT GREATER THAN}</b> condition evaluating against an SQL subquery or statement fragment.
          *
          * @param finalStatement the statement representing the target value
          * @return a configured {@link WhereNotGreaterThanStatement}

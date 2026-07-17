@@ -1,7 +1,7 @@
 package de.eisi05.sql.statements.select;
 
 /**
- * Unified compound interface containing all variations of SQL SELECT statement builder containers.
+ * Unified compound interface containing all variations of SQL <b>{@code SELECT}</b> statement builder containers.
  */
 public interface SelectStatementContainer
         extends SelectAllStatement.SelectAllStatementContainer, SelectAvgStatement.SelectAvgStatementContainer,

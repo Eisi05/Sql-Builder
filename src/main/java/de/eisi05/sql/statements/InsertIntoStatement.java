@@ -9,14 +9,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Represents a SQL INSERT INTO statement. Supports inserting single or multiple rows into a table. Can insert from values, SELECT statements, or ORM objects.
+ * Represents a SQL <b>{@code INSERT INTO}</b> statement. Supports inserting single or multiple rows into a table. Can insert from values, <b>{@code SELECT}</b>
+ * statements, or ORM objects.
  */
 public class InsertIntoStatement extends FinalStatement implements ExecuteUpdateStatement, ReturningStatement.ReturningStatementContainer
 {
     /**
      * Constructs a new InsertIntoStatement with the given query.
      *
-     * @param query the INSERT INTO query fragment
+     * @param query the <b>{@code INSERT INTO}</b> query fragment
      */
     private InsertIntoStatement(String query)
     {
@@ -35,12 +36,12 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
     }
 
     /**
-     * Interface for containers that can create INSERT INTO statements.
+     * Interface for containers that can create <b>{@code INSERT INTO}</b> statements.
      */
     public interface InsertIntoStatementContainer extends StatementContainer
     {
         /**
-         * Creates an INSERT INTO statement with the given values.
+         * Creates an <b>{@code INSERT INTO}</b> statement with the given values.
          *
          * @param table  the table to insert into
          * @param values the values to insert
@@ -55,7 +56,7 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
         }
 
         /**
-         * Creates an INSERT INTO statement with a SELECT subquery.
+         * Creates an <b>{@code INSERT INTO}</b> statement with a <b>{@code SELECT}</b> subquery.
          *
          * @param table the table to insert into
          * @param keys  the columns to insert into
@@ -67,7 +68,7 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
         }
 
         /**
-         * Creates an INSERT INTO statement from ORM objects. Uses ORM annotations to determine the table and columns.
+         * Creates an <b>{@code INSERT INTO}</b> statement from ORM objects. Uses ORM annotations to determine the table and columns.
          *
          * @param objects the objects to insert
          * @param <T>     the type of the objects
@@ -95,7 +96,7 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
         }
 
         /**
-         * Creates an INSERT INTO statement with column-based values. Allows specifying values per column for multiple rows.
+         * Creates an <b>{@code INSERT INTO}</b> statement with column-based values. Allows specifying values per column for multiple rows.
          *
          * @param table         the table to insert into
          * @param insertObjects the column-value pairs
@@ -157,7 +158,7 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
         }
 
         /**
-         * Creates an INSERT INTO statement from a map of column to value arrays.
+         * Creates an <b>{@code INSERT INTO}</b> statement from a map of column to value arrays.
          *
          * @param table     the table to insert into
          * @param insertMap the map of column names to value arrays
@@ -181,7 +182,8 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
     }
 
     /**
-     * An INSERT INTO statement that uses a SELECT subquery. Extends InsertIntoStatement and supports SELECT statement chaining.
+     * An <b>{@code INSERT INTO}</b> statement that uses a <b>{@code SELECT}</b> subquery. Extends InsertIntoStatement and supports <b>{@code SELECT}</b>
+     * statement chaining.
      */
     public static class InsertIntoSelectStatement extends InsertIntoStatement
             implements SelectStatement.SelectStatementContainer
@@ -189,7 +191,7 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
         /**
          * Constructs a new InsertIntoSelectStatement.
          *
-         * @param query the INSERT INTO SELECT query fragment
+         * @param query the <b>{@code INSERT INTO SELECT}</b> query fragment
          */
         private InsertIntoSelectStatement(String query)
         {

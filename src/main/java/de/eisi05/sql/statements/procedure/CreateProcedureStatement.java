@@ -4,7 +4,7 @@ import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL CREATE PROCEDURE statement. Creates a new stored procedure with the specified name. SQL Server-specific syntax.
+ * Represents a SQL <b>{@code CREATE PROCEDURE}</b> statement. Creates a new stored procedure with the specified name. SQL Server-specific syntax.
  */
 public class CreateProcedureStatement extends AbstractStatement
         implements CreateProcedureAsStatement.CreateProcedureAsStatementContainer, ExecuteUpdateStatement
@@ -31,12 +31,12 @@ public class CreateProcedureStatement extends AbstractStatement
     }
 
     /**
-     * Interface for containers that can create CREATE PROCEDURE statements.
+     * Interface for containers that can create <b>{@code CREATE PROCEDURE}</b> statements.
      */
     public interface CreateProcedureStatementContainer extends StatementContainer
     {
         /**
-         * Creates a CREATE PROCEDURE statement for the specified procedure.
+         * Creates a <b>{@code CREATE PROCEDURE}</b> statement for the specified procedure.
          *
          * @param name the procedure name
          * @return a new CreateProcedureStatement

@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL negated less-than condition fragment.
+ * Represents an SQL <b>{@code NOT LESS THAN}</b> condition fragment.
  */
 public class WhereNotLessThanStatement extends WhereLessThanStatement implements WhereNotStatement
 {
@@ -19,9 +19,9 @@ public class WhereNotLessThanStatement extends WhereLessThanStatement implements
     }
 
     /**
-     * Defines whether the keyword NOT should immediately follow the word WHERE structurally.
+     * Defines whether the keyword <b>{@code NOT}</b> should immediately follow the word <b>{@code WHERE}</b> structurally.
      *
-     * @return {@code true} indicating a standalone NOT rule placement modification
+     * @return {@code true} indicating a standalone <b>{@code NOT}</b> rule placement modification
      */
     @Override
     public boolean isNotAfterWhere()
@@ -30,12 +30,12 @@ public class WhereNotLessThanStatement extends WhereLessThanStatement implements
     }
 
     /**
-     * A container interface providing fluent builder methods for negated less-than conditions.
+     * A container interface providing fluent builder methods for <b>{@code NOT LESS THAN}</b> conditions.
      */
     public interface WhereNotLessStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends a negated less-than condition against a single object value parameter.
+         * Appends a <b>{@code NOT LESS THAN}</b> condition against a single object value parameter.
          *
          * @param o the object value to compare against
          * @return a configured {@link WhereNotLessThanStatement}
@@ -46,7 +46,7 @@ public class WhereNotLessThanStatement extends WhereLessThanStatement implements
         }
 
         /**
-         * Appends a negated less-than condition evaluating against an SQL subquery or statement fragment.
+         * Appends a <b>{@code NOT LESS THAN}</b> condition evaluating against an SQL subquery or statement fragment.
          *
          * @param finalStatement the statement representing the target value
          * @return a configured {@link WhereNotLessThanStatement}

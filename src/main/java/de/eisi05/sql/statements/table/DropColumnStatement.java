@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL DROP COLUMN statement used during alter table routines.
+ * Represents a SQL <b>{@code DROP COLUMN}</b> statement used during alter table routines.
  */
 public class DropColumnStatement extends FinalStatement
 {
@@ -35,7 +35,7 @@ public class DropColumnStatement extends FinalStatement
     public interface DropColumnStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends a DROP COLUMN routine targeting a specific column.
+         * Appends a <b>{@code DROP COLUMN}</b> routine targeting a specific column.
          *
          * @param key the column to drop
          * @return a new DropColumnStatement

@@ -3,15 +3,15 @@ package de.eisi05.sql.statements.Case;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL CASE expression. Used for conditional logic in SELECT statements, returning different values based on conditions. Can be used with or
- * without a case expression (simple CASE vs searched CASE).
+ * Represents a SQL <b>{@code CASE}</b> expression. Used for conditional logic in <b>{@code SELECT}</b> statements, returning different values based on
+ * conditions. Can be used with or without a case expression (simple <b>{@code CASE}</b> vs searched <b>{@code CASE}</b> ).
  */
 public class CaseStatement extends AbstractStatement implements CaseWhenStatementContainer
 {
     /**
      * Constructs a new CaseStatement with the given query.
      *
-     * @param query the CASE expression fragment
+     * @param query the <b>{@code CASE}</b> expression fragment
      */
     protected CaseStatement(String query)
     {
@@ -19,7 +19,7 @@ public class CaseStatement extends AbstractStatement implements CaseWhenStatemen
     }
 
     /**
-     * Creates a simple CASE expression without a case value.
+     * Creates a simple <b>{@code CASE}</b> expression without a case value.
      *
      * @return a new CaseStatement
      */
@@ -29,7 +29,7 @@ public class CaseStatement extends AbstractStatement implements CaseWhenStatemen
     }
 
     /**
-     * Creates a simple CASE expression with a case value.
+     * Creates a simple <b>{@code CASE}</b> expression with a case value.
      *
      * @param name the case value to compare against
      * @return a new CaseStatement
@@ -40,7 +40,7 @@ public class CaseStatement extends AbstractStatement implements CaseWhenStatemen
     }
 
     /**
-     * Gets the SQL keyword for this statement. Returns empty string since CASE doesn't have a keyword prefix.
+     * Gets the SQL keyword for this statement. Returns empty string since <b>{@code CASE}</b> doesn't have a keyword prefix.
      *
      * @return empty string
      */
@@ -51,12 +51,12 @@ public class CaseStatement extends AbstractStatement implements CaseWhenStatemen
     }
 
     /**
-     * Interface for containers that can create CASE statements.
+     * Interface for containers that can create <b>{@code CASE}</b> statements.
      */
     public interface CaseStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a CASE expression without a case value.
+         * Creates a <b>{@code CASE}</b> expression without a case value.
          *
          * @return a new CaseStatement
          */

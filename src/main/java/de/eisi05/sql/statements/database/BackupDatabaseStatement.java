@@ -4,7 +4,7 @@ import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL BACKUP DATABASE statement. Used to create a backup of a database to a disk location. SQL Server-specific syntax.
+ * Represents a SQL <b>{@code BACKUP DATABASE}</b> statement. Used to create a backup of a database to a disk location. SQL Server-specific syntax.
  */
 public class BackupDatabaseStatement extends AbstractStatement implements ToDiskStatement.ToDiskStatementContainer,
                                                                           ExecuteUpdateStatement
@@ -31,12 +31,12 @@ public class BackupDatabaseStatement extends AbstractStatement implements ToDisk
     }
 
     /**
-     * Interface for containers that can create BACKUP DATABASE statements.
+     * Interface for containers that can create <b>{@code BACKUP DATABASE}</b> statements.
      */
     public interface BackupDatabaseStatementContainer extends StatementContainer
     {
         /**
-         * Creates a BACKUP DATABASE statement for the specified database.
+         * Creates a <b>{@code BACKUP DATABASE}</b> statement for the specified database.
          *
          * @param name the database name to backup
          * @return a new BackupDatabaseStatement

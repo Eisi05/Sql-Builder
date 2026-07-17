@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Represents an SQL {@code IN} condition fragment evaluating inclusion within a set of values or a subquery.
+ * Represents an SQL <b>{@code IN}</b> condition fragment evaluating inclusion within a set of values or a subquery.
  */
 public class WhereInStatement extends AbstractWhereStatement
 {
@@ -34,12 +34,12 @@ public class WhereInStatement extends AbstractWhereStatement
     }
 
     /**
-     * A container interface providing multiple overloaded fluent builder methods for assembling an {@code IN} clause.
+     * A container interface providing multiple overloaded fluent builder methods for assembling an <b>{@code IN}</b> clause.
      */
     public interface WhereInStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends an IN clause featuring a variable argument list of objects.
+         * Appends an <b>{@code IN}</b> clause featuring a variable argument list of objects.
          *
          * @param o one or more object parameters matching the column target
          * @return a configured {@link WhereInStatement}
@@ -51,7 +51,7 @@ public class WhereInStatement extends AbstractWhereStatement
         }
 
         /**
-         * Appends an IN clause specialized for raw primitive integer arrays. Handles auto-boxing internally.
+         * Appends an <b>{@code IN}</b> clause specialized for raw primitive integer arrays. Handles auto-boxing internally.
          *
          * @param ids an array of primitive integer elements
          * @return a configured {@link WhereInStatement}
@@ -64,7 +64,7 @@ public class WhereInStatement extends AbstractWhereStatement
         }
 
         /**
-         * Appends an IN clause mapping elements from a standard Java collection type into parameters.
+         * Appends an <b>{@code IN}</b> clause mapping elements from a standard Java collection type into parameters.
          *
          * @param collection a collection of elements representing the parameter list
          * @return a configured {@link WhereInStatement}
@@ -76,7 +76,7 @@ public class WhereInStatement extends AbstractWhereStatement
         }
 
         /**
-         * Appends an IN clause mapping evaluated fields against an entire embedded subquery.
+         * Appends an <b>{@code IN}</b> clause mapping evaluated fields against an entire embedded subquery.
          *
          * @param finalStatement the statement representing the subquery source
          * @return a configured {@link WhereInStatement}

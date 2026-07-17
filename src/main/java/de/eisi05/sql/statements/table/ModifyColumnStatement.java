@@ -5,7 +5,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL MODIFY or ALTER COLUMN statement within alter table contexts.
+ * Represents a SQL <b>{@code MODIFY}</b> or <b>{@code ALTER COLUMN}</b> statement within alter table contexts.
  */
 public class ModifyColumnStatement extends FinalStatement
 {
@@ -40,7 +40,7 @@ public class ModifyColumnStatement extends FinalStatement
     public interface ModifyColumnStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Formulates a "MODIFY COLUMN" action mapping to SQL specifications.
+         * Formulates a <b>{@code MODIFY COLUMN}</b> action mapping to SQL specifications.
          *
          * @param key      the column to modify
          * @param dataType the target SqlDataType
@@ -52,7 +52,7 @@ public class ModifyColumnStatement extends FinalStatement
         }
 
         /**
-         * Formulates an "ALTER COLUMN" action mapping to alternate SQL dialects.
+         * Formulates an <b>{@code ALTER COLUMN}</b> action mapping to alternate SQL dialects.
          *
          * @param key      the column to alter
          * @param dataType the target SqlDataType

@@ -5,7 +5,7 @@ import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL DROP INDEX statement to remove indexes from tables.
+ * Represents a SQL <b>{@code DROP INDEX}</b> statement to remove indexes from tables.
  */
 public class DropIndexStatement extends FinalStatement implements ExecuteUpdateStatement
 {

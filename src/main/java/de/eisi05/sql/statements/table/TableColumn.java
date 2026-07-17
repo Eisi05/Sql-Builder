@@ -49,7 +49,7 @@ public class TableColumn
     }
 
     /**
-     * Flags this column instance to incorporate a NOT NULL constraint.
+     * Flags this column instance to incorporate a <b>{@code NOT NULL}</b> constraint.
      *
      * @return the builder instance for chaining
      */
@@ -60,7 +60,7 @@ public class TableColumn
     }
 
     /**
-     * Flags this column instance to enforce a UNIQUE value restriction.
+     * Flags this column instance to enforce a <b>{@code UNIQUE}</b> value restriction.
      *
      * @return the builder instance for chaining
      */
@@ -71,7 +71,7 @@ public class TableColumn
     }
 
     /**
-     * Sets this column instance as a Primary Key identifier.
+     * Sets this column instance as a <b>{@code PRIMARY KEY}</b> identifier.
      *
      * @return the builder instance for chaining
      */
@@ -82,7 +82,7 @@ public class TableColumn
     }
 
     /**
-     * Sets a traditional inline SQL DEFAULT value modifier.
+     * Sets a traditional inline SQL <b>{@code DEFAULT}</b> value modifier.
      *
      * @param defaultValue the raw default value expression string
      * @return the builder instance for chaining
@@ -94,7 +94,7 @@ public class TableColumn
     }
 
     /**
-     * Sets a modification statement to update defaults during column updates (e.g. SET DEFAULT).
+     * Sets a modification statement to update defaults during column updates (e.g. <b>{@code SET DEFAULT}</b> ).
      *
      * @param defaultValue the raw default target expression string
      * @return the builder instance for chaining
@@ -106,7 +106,7 @@ public class TableColumn
     }
 
     /**
-     * Activates a standard database auto increment rule sequence on this column.
+     * Activates a standard database <b>{@code AUTO INCREMENT}</b> rule sequence on this column.
      *
      * @return the builder instance for chaining
      */
@@ -130,7 +130,7 @@ public class TableColumn
     }
 
     /**
-     * Appends an operational CHECK criteria filter routine evaluating inputs safely.
+     * Appends an operational <b>{@code CHECK}</b> criteria filter routine evaluating inputs safely.
      *
      * @param key   the targeted verification base element context
      * @param check the functional mapping strategy converting conditions to where evaluation syntax blocks
@@ -150,7 +150,7 @@ public class TableColumn
     }
 
     /**
-     * Links a relative structural foreign key constraint validation map.
+     * Links a relative structural <b>{@code FOREIGN KEY}</b> constraint validation map.
      *
      * @param table  the target table class reference to map relationships
      * @param column the target foreign column key descriptor

@@ -4,14 +4,15 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.where.WhereStatement;
 
 /**
- * Represents a SQL FULL OUTER JOIN statement. Combines rows from both tables, matching rows when possible and including non-matching rows from both sides.
+ * Represents a SQL <b>{@code FULL OUTER JOIN}</b> statement. Combines rows from both tables, matching rows when possible and including non-matching rows from
+ * both sides.
  */
 public class FullJoinStatement extends JoinStatement implements WhereStatement.WhereStatementContainer
 {
     /**
      * Constructs a new FullJoinStatement with the given query.
      *
-     * @param query the FULL JOIN query fragment
+     * @param query the <b>{@code FULL JOIN}</b> query fragment
      */
     protected FullJoinStatement(String query)
     {
@@ -30,12 +31,12 @@ public class FullJoinStatement extends JoinStatement implements WhereStatement.W
     }
 
     /**
-     * Interface for containers that can create FULL JOIN statements.
+     * Interface for containers that can create <b>{@code FULL JOIN}</b> statements.
      */
     public interface FullJoinStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a FULL JOIN statement with the specified table and join keys.
+         * Creates a <b>{@code FULL JOIN}</b> statement with the specified table and join keys.
          *
          * @param table     the table to join
          * @param table1Key the key from the first table

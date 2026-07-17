@@ -4,7 +4,7 @@ import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL DROP TABLE statement used to delete an entire table structure from a database.
+ * Represents a SQL <b>{@code DROP TABLE}</b> statement used to delete an entire table structure from a database.
  */
 public class DropTableStatement extends FinalStatement implements ExecuteUpdateStatement
 {

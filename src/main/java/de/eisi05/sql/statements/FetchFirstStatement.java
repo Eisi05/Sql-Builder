@@ -4,8 +4,8 @@ import de.eisi05.sql.annotations.SqlData;
 import de.eisi05.sql.enums.DatabaseType;
 
 /**
- * Represents a SQL FETCH FIRST statement for limiting result rows. Oracle-specific syntax (requires Oracle 12+). Supports both row count and percentage-based
- * limiting.
+ * Represents a SQL <b>{@code FETCH FIRST}</b> statement for limiting result rows. Oracle-specific syntax (requires Oracle 12+). Supports both row count and
+ * percentage-based limiting.
  */
 @SqlData(value = {DatabaseType.ORACLE}, oracleVersion = 12)
 public class FetchFirstStatement extends FinalStatement implements ForUpdateStatement.ForUpdateStatementContainer
@@ -13,7 +13,7 @@ public class FetchFirstStatement extends FinalStatement implements ForUpdateStat
     /**
      * Constructs a new FetchFirstStatement with the given query.
      *
-     * @param query the FETCH FIRST query fragment
+     * @param query the <b>{@code FETCH FIRST}</b> query fragment
      */
     protected FetchFirstStatement(String query)
     {
@@ -32,12 +32,12 @@ public class FetchFirstStatement extends FinalStatement implements ForUpdateStat
     }
 
     /**
-     * Interface for containers that can create FETCH FIRST statements.
+     * Interface for containers that can create <b>{@code FETCH FIRST}</b> statements.
      */
     public interface FetchFirstStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a FETCH FIRST statement with a row count limit.
+         * Creates a <b>{@code FETCH FIRST}</b> statement with a row count limit.
          *
          * @param amount the number of rows to fetch
          * @return a new FetchFirstStatement
@@ -48,7 +48,7 @@ public class FetchFirstStatement extends FinalStatement implements ForUpdateStat
         }
 
         /**
-         * Creates a FETCH FIRST statement with a percentage limit.
+         * Creates a <b>{@code FETCH FIRST}</b> statement with a percentage limit.
          *
          * @param percent the percentage of rows to fetch
          * @return a new FetchFirstStatement

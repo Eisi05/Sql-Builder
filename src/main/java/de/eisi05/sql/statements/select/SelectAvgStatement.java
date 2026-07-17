@@ -3,7 +3,7 @@ package de.eisi05.sql.statements.select;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL SELECT AVG aggregate function. Calculates the average value of a numeric column.
+ * Represents a SQL <b>{@code SELECT AVG}</b> aggregate function. Calculates the average value of a numeric column.
  */
 public class SelectAvgStatement extends SelectStatement
 {
@@ -18,12 +18,12 @@ public class SelectAvgStatement extends SelectStatement
     }
 
     /**
-     * Interface for containers that can create SELECT AVG statements.
+     * Interface for containers that can create <b>{@code SELECT AVG}</b> statements.
      */
     public interface SelectAvgStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a SELECT AVG statement for the specified column.
+         * Creates a <b>{@code SELECT AVG}</b> statement for the specified column.
          *
          * @param key the column to calculate the average for
          * @return a new SelectAvgStatement

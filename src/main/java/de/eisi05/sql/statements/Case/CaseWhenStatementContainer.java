@@ -3,12 +3,12 @@ package de.eisi05.sql.statements.Case;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Interface for containers that can create WHEN statements in a CASE expression.
+ * Interface for containers that can create <b>{@code WHEN}</b> statements in a <b>{@code CASE}</b> expression.
  */
 public interface CaseWhenStatementContainer extends AbstractStatement.StatementContainer
 {
     /**
-     * Creates a WHEN statement with the specified value.
+     * Creates a <b>{@code WHEN}</b> statement with the specified value.
      *
      * @param value the value to compare
      * @return a new CaseWhenStatement

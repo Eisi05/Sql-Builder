@@ -1,7 +1,8 @@
 package de.eisi05.sql.statements;
 
 /**
- * Represents a SQL INTO clause. Used in INSERT statements to specify the target table. Also used in SELECT ... INTO statements for table creation.
+ * Represents a SQL <b>{@code INTO}</b> clause. Used in <b>{@code INSERT}</b> statements to specify the target table. Also used in
+ * <b>{@code SELECT ... INTO}</b> statements for table creation.
  */
 public class IntoStatement extends AbstractStatement implements InStatement.InStatementContainer,
                                                                 FromStatement.FromStatementContainer
@@ -28,12 +29,12 @@ public class IntoStatement extends AbstractStatement implements InStatement.InSt
     }
 
     /**
-     * Interface for containers that can create INTO statements.
+     * Interface for containers that can create <b>{@code INTO}</b> statements.
      */
     public interface IntoStatementContainer extends StatementContainer
     {
         /**
-         * Creates an INTO statement for the specified table.
+         * Creates an <b>{@code INTO}</b> statement for the specified table.
          *
          * @param table the table name
          * @return a new IntoStatement

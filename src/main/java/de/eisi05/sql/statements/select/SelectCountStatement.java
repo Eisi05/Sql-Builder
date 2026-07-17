@@ -3,7 +3,7 @@ package de.eisi05.sql.statements.select;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL SELECT COUNT aggregate function. Calculates the number of rows that match specified criteria.
+ * Represents a SQL <b>{@code SELECT COUNT}</b> aggregate function. Calculates the number of rows that match specified criteria.
  */
 public class SelectCountStatement extends SelectStatement
 {
@@ -18,12 +18,12 @@ public class SelectCountStatement extends SelectStatement
     }
 
     /**
-     * Interface for containers that can create SELECT COUNT statements.
+     * Interface for containers that can create <b>{@code SELECT COUNT}</b> statements.
      */
     public interface SelectCountStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a SELECT COUNT statement for the specified column or expression.
+         * Creates a <b>{@code SELECT COUNT}</b> statement for the specified column or expression.
          *
          * @param key the column or expression to count
          * @return a new SelectCountStatement
@@ -34,10 +34,10 @@ public class SelectCountStatement extends SelectStatement
         }
 
         /**
-         * Creates a SELECT COUNT DISTINCT statement for the specified column.
+         * Creates a <b>{@code SELECT COUNT DISTINCT}</b> statement for the specified column.
          *
          * @param key the column to count unique values for
-         * @return a new SelectCountStatement containing DISTINCT
+         * @return a new SelectCountStatement containing <b>{@code DISTINCT}</b>
          */
         default SelectCountStatement selectCountDistinct(String key)
         {

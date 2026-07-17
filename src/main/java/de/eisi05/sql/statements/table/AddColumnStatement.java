@@ -5,7 +5,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL ADD COLUMN statement used within an ALTER TABLE block.
+ * Represents a SQL <b>{@code ADD COLUMN}</b> statement used within an <b>{@code ALTER TABLE}</b> block.
  */
 public class AddColumnStatement extends FinalStatement
 {
@@ -31,7 +31,7 @@ public class AddColumnStatement extends FinalStatement
     }
 
     /**
-     * Interface for containers that can append ADD COLUMN clauses to alter table actions.
+     * Interface for containers that can append <b>{@code ADD COLUMN}</b> clauses to alter table actions.
      */
     public interface AddColumnStatementContainer extends AbstractStatement.StatementContainer
     {

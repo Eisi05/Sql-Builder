@@ -6,8 +6,9 @@ import de.eisi05.sql.statements.FinalStatement;
 import java.util.Collections;
 
 /**
- * Represents a condition in a CASE WHEN expression. Supports various comparison operators like equal, between, greater than, less than, etc. Can be followed by
- * THEN or additional conditions with AND/OR.
+ * Represents a condition in a <b>{@code CASE WHEN}</b> expression. Supports various comparison operators like <b>{@code EQUAL}</b> , <b>{@code BETWEEN}</b> ,
+ * <b>{@code GREATER THAN}</b> , <b>{@code LESS THAN}</b> , etc. Can be followed by
+ * <b>{@code THEN}</b> or additional conditions with <b>{@code AND/OR}</b> .
  */
 public class CaseConditionStatement extends AbstractStatement
         implements CaseThenStatement.CaseThenStatementContainer, CaseNextConditionStatementContainer
@@ -34,12 +35,12 @@ public class CaseConditionStatement extends AbstractStatement
     }
 
     /**
-     * Interface for containers that can create CASE condition statements.
+     * Interface for containers that can create <b>{@code CASE}</b> condition statements.
      */
     public interface CaseConditionStatementContainer extends StatementContainer
     {
         /**
-         * Creates an equal condition.
+         * Creates an <b>{@code EQUAL}</b> condition.
          *
          * @param value the value to compare
          * @return a new CaseConditionStatement
@@ -50,7 +51,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates an equal condition with a subquery.
+         * Creates an <b>{@code EQUAL}</b> condition with a subquery.
          *
          * @param finalStatement the subquery
          * @return a new CaseConditionStatement
@@ -61,7 +62,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates a between condition.
+         * Creates a <b>{@code BETWEEN}</b> condition.
          *
          * @param t1  the lower bound
          * @param t2  the upper bound
@@ -74,7 +75,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates a between condition with subqueries.
+         * Creates a <b>{@code BETWEEN}</b> condition with subqueries.
          *
          * @param finalStatement1 the lower bound subquery
          * @param finalStatement2 the upper bound subquery
@@ -86,7 +87,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates a between condition with a subquery and value.
+         * Creates a <b>{@code BETWEEN}</b> condition with a subquery and value.
          *
          * @param finalStatement1 the lower bound subquery
          * @param t2              the upper bound value
@@ -166,7 +167,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates an IS NULL condition.
+         * Creates an <b>{@code IS NULL}</b> condition.
          *
          * @return a new CaseConditionStatement
          */
@@ -176,7 +177,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates a less than or equal condition.
+         * Creates a <b>{@code LESS THAN OR EQUAL}</b> condition.
          *
          * @param o the value to compare
          * @return a new CaseConditionStatement
@@ -187,7 +188,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates a less than or equal condition with a subquery.
+         * Creates a <b>{@code LESS THAN OR EQUAL}</b> condition with a subquery.
          *
          * @param finalStatement the subquery
          * @return a new CaseConditionStatement
@@ -198,7 +199,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates a less than condition.
+         * Creates a <b>{@code LESS THAN}</b> condition.
          *
          * @param o the value to compare
          * @return a new CaseConditionStatement
@@ -209,7 +210,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates a less than condition with a subquery.
+         * Creates a <b>{@code LESS THAN}</b> condition with a subquery.
          *
          * @param finalStatement the subquery
          * @return a new CaseConditionStatement
@@ -220,7 +221,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates a LIKE condition.
+         * Creates a <b>{@code LIKE}</b> condition.
          *
          * @param o the pattern to match
          * @return a new CaseConditionStatement
@@ -231,7 +232,7 @@ public class CaseConditionStatement extends AbstractStatement
         }
 
         /**
-         * Creates a LIKE condition with a subquery.
+         * Creates a <b>{@code LIKE}</b> condition with a subquery.
          *
          * @param finalStatement the subquery
          * @return a new CaseConditionStatement

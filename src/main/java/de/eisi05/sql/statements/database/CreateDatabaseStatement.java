@@ -4,7 +4,7 @@ import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL CREATE DATABASE statement. Creates a new database with the specified name.
+ * Represents a SQL <b>{@code CREATE DATABASE}</b> statement. Creates a new database with the specified name.
  */
 public class CreateDatabaseStatement extends FinalStatement implements ExecuteUpdateStatement
 {
@@ -30,12 +30,12 @@ public class CreateDatabaseStatement extends FinalStatement implements ExecuteUp
     }
 
     /**
-     * Interface for containers that can create CREATE DATABASE statements.
+     * Interface for containers that can create <b>{@code CREATE DATABASE}</b> statements.
      */
     public interface CreateDataBaseStatementContainer extends StatementContainer
     {
         /**
-         * Creates a CREATE DATABASE statement for the specified database.
+         * Creates a <b>{@code CREATE DATABASE}</b> statement for the specified database.
          *
          * @param name the database name
          * @return a new CreateDatabaseStatement

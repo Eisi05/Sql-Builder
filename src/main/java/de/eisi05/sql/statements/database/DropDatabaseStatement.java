@@ -4,7 +4,7 @@ import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL DROP DATABASE statement. Deletes an existing database with the specified name.
+ * Represents a SQL <b>{@code DROP DATABASE}</b> statement. Deletes an existing database with the specified name.
  */
 public class DropDatabaseStatement extends FinalStatement implements ExecuteUpdateStatement
 {
@@ -30,12 +30,12 @@ public class DropDatabaseStatement extends FinalStatement implements ExecuteUpda
     }
 
     /**
-     * Interface for containers that can create DROP DATABASE statements.
+     * Interface for containers that can create <b>{@code DROP DATABASE}</b> statements.
      */
     public interface DropDatabaseStatementContainer extends StatementContainer
     {
         /**
-         * Creates a DROP DATABASE statement for the specified database.
+         * Creates a <b>{@code DROP DATABASE}</b> statement for the specified database.
          *
          * @param name the database name to drop
          * @return a new DropDatabaseStatement

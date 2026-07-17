@@ -5,7 +5,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.select.SelectStatementContainer;
 
 /**
- * Represents a SQL CREATE VIEW statement to establish a virtual table based on a query result.
+ * Represents a SQL <b>{@code CREATE VIEW}</b> statement to establish a virtual table based on a query result.
  */
 public class CreateViewStatement extends AbstractStatement implements AbstractStatement.StatementContainer,
                                                                       ExecuteUpdateStatement
@@ -32,7 +32,7 @@ public class CreateViewStatement extends AbstractStatement implements AbstractSt
     }
 
     /**
-     * Transitions to an AS statement block allowing selection definitions for this view.
+     * Transitions to an <b>{@code AS}</b> statement block allowing selection definitions for this view.
      *
      * @return a new CreateViewAsStatement representing "AS"
      */
@@ -42,12 +42,12 @@ public class CreateViewStatement extends AbstractStatement implements AbstractSt
     }
 
     /**
-     * Interface for containers capable of building CREATE VIEW statements.
+     * Interface for containers capable of building <b>{@code CREATE VIEW}</b> statements.
      */
     public interface CreateViewStatementContainer extends StatementContainer
     {
         /**
-         * Initiates a standard CREATE VIEW command, safely escaping spaces in the view name.
+         * Initiates a standard <b>{@code CREATE VIEW}</b> command, safely escaping spaces in the view name.
          *
          * @param name the name of the target view
          * @return a new CreateViewStatement
@@ -62,14 +62,14 @@ public class CreateViewStatement extends AbstractStatement implements AbstractSt
     }
 
     /**
-     * Represents the SQL AS clause linked immediately after a CREATE VIEW statement.
+     * Represents the SQL <b>{@code AS}</b> clause linked immediately after a <b>{@code CREATE VIEW}</b> statement.
      */
     public static class CreateViewAsStatement extends AbstractStatement implements SelectStatementContainer
     {
         /**
          * Constructs a new CreateViewAsStatement.
          *
-         * @param query the query snippet representing the AS keyword
+         * @param query the query snippet representing the <b>{@code AS}</b> keyword
          */
         protected CreateViewAsStatement(String query)
         {

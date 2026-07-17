@@ -3,8 +3,9 @@ package de.eisi05.sql.statements.Case;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents the THEN clause in a CASE WHEN expression. Specifies the value to return when the corresponding WHEN condition is true. Can be followed by another
- * WHEN, ELSE, or END.
+ * Represents the <b>{@code THEN}</b> clause in a <b>{@code CASE WHEN}</b> expression. Specifies the value to return when the corresponding <b>{@code WHEN}</b>
+ * condition is true. Can be followed by another
+ * <b>{@code WHEN}</b> , <b>{@code ELSE}</b> , or <b>{@code END}</b> .
  */
 public class CaseThenStatement extends AbstractStatement
         implements CaseWhenStatementContainer, CaseElseStatement.CaseElseStatementContainer,
@@ -13,7 +14,7 @@ public class CaseThenStatement extends AbstractStatement
     /**
      * Constructs a new CaseThenStatement with the given value.
      *
-     * @param query the THEN value
+     * @param query the <b>{@code THEN}</b> value
      */
     protected CaseThenStatement(String query)
     {
@@ -32,12 +33,12 @@ public class CaseThenStatement extends AbstractStatement
     }
 
     /**
-     * Interface for containers that can create THEN statements.
+     * Interface for containers that can create <b>{@code THEN}</b> statements.
      */
     public interface CaseThenStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a THEN statement with a direct key value.
+         * Creates a <b>{@code THEN}</b> statement with a direct key value.
          *
          * @param key the value to return
          * @return a new CaseThenStatement
@@ -48,7 +49,7 @@ public class CaseThenStatement extends AbstractStatement
         }
 
         /**
-         * Creates a THEN statement with a parameterized value.
+         * Creates a <b>{@code THEN}</b> statement with a parameterized value.
          *
          * @param value the value to return
          * @return a new CaseThenStatement

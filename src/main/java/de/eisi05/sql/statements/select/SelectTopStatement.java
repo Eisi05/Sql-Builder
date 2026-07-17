@@ -4,7 +4,8 @@ import de.eisi05.sql.annotations.SqlData;
 import de.eisi05.sql.enums.DatabaseType;
 
 /**
- * Represents a SQL SELECT TOP statement. Specifies the number of records to return. Typically supported by specific engines like SQL Server and MS Access.
+ * Represents a SQL <b>{@code SELECT TOP}</b> statement. Specifies the number of records to return. Typically supported by specific engines like SQL Server and
+ * MS Access.
  */
 @SqlData({DatabaseType.SQL_SERVER, DatabaseType.MS_ACCESS})
 public class SelectTopStatement extends SelectStatement
@@ -31,12 +32,12 @@ public class SelectTopStatement extends SelectStatement
     }
 
     /**
-     * Interface for containers that can create SELECT TOP statements.
+     * Interface for containers that can create <b>{@code SELECT TOP}</b> statements.
      */
     public interface SelectTopStatementContainer extends StatementContainer
     {
         /**
-         * Creates a SELECT TOP statement with a fixed maximum number of columns.
+         * Creates a <b>{@code SELECT TOP}</b> statement with a fixed maximum number of columns.
          *
          * @param amount the absolute number of rows to return
          * @param keys   the columns to select
@@ -48,11 +49,11 @@ public class SelectTopStatement extends SelectStatement
         }
 
         /**
-         * Creates a SELECT TOP PERCENT statement returning a percentage of the total record set.
+         * Creates a <b>{@code SELECT TOP PERCENT}</b> statement returning a percentage of the total record set.
          *
          * @param percent the percentage of rows to return (0-100)
          * @param keys    the columns to select
-         * @return a new SelectTopStatement with PERCENT modifier
+         * @return a new SelectTopStatement with <b>{@code PERCENT}</b> modifier
          */
         default SelectTopStatement selectTopPercent(int percent, String... keys)
         {

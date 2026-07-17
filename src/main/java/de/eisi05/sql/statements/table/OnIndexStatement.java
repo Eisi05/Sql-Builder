@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL ON clause used in conjunction with CREATE INDEX statements to define target tables and columns.
+ * Represents a SQL <b>{@code ON}</b> clause used in conjunction with <b>{@code CREATE INDEX}</b> statements to define target tables and columns.
  */
 public class OnIndexStatement extends FinalStatement
 {
@@ -30,7 +30,7 @@ public class OnIndexStatement extends FinalStatement
     }
 
     /**
-     * Interface for containers that can append ON targets to index creation routines.
+     * Interface for containers that can append <b>{@code ON}</b> targets to index creation routines.
      */
     public interface OnIndexStatementContainer extends AbstractStatement.StatementContainer
     {

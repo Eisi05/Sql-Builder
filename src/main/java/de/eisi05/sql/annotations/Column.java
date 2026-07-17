@@ -20,8 +20,8 @@ public @interface Column
     String name() default "";
 
     /**
-     * The immediate previous name of this column in the database. Used by the migration engine to execute safe structural {@code ALTER TABLE ... RENAME COLUMN}
-     * commands rather than fallback drop-and-add sequences.
+     * The immediate previous name of this column in the database. Used by the migration engine to execute safe structural
+     * <b>{@code ALTER TABLE ... RENAME COLUMN}</b> commands rather than fallback drop-and-add sequences.
      *
      * @return the previous name of the column, or an empty string if it has not been renamed
      */

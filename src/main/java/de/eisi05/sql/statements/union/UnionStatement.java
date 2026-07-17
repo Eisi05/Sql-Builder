@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.select.SelectStatement;
 
 /**
- * Represents a SQL UNION or UNION ALL operation used to combine the result sets of multiple queries.
+ * Represents a SQL <b>{@code UNION}</b> or <b>{@code UNION ALL}</b> operation used to combine the result sets of multiple queries.
  */
 public class UnionStatement extends AbstractStatement implements SelectStatement.SelectStatementContainer
 {

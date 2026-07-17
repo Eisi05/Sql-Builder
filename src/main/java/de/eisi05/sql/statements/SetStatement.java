@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Represents a SQL SET clause. Used in UPDATE statements to specify column values to be updated. Supports setting single or multiple columns.
+ * Represents a SQL <b>{@code SET}</b> clause. Used in <b>{@code UPDATE}</b> statements to specify column values to be updated. Supports setting single or
+ * multiple columns.
  */
 public class SetStatement extends AbstractStatement implements WhereStatement.WhereStatementContainer, ReturningStatement.ReturningStatementContainer
 {
@@ -53,12 +54,12 @@ public class SetStatement extends AbstractStatement implements WhereStatement.Wh
     }
 
     /**
-     * Interface for containers that can create SET statements.
+     * Interface for containers that can create <b>{@code SET}</b> statements.
      */
     public interface SetStatementContainer extends StatementContainer
     {
         /**
-         * Creates a SET statement for a single column.
+         * Creates a <b>{@code SET}</b> statement for a single column.
          *
          * @param column the column to set
          * @param value  the value to set
@@ -70,7 +71,7 @@ public class SetStatement extends AbstractStatement implements WhereStatement.Wh
         }
 
         /**
-         * Creates a SET statement for multiple columns.
+         * Creates a <b>{@code SET}</b> statement for multiple columns.
          *
          * @param setObjects the column-value pairs
          * @return a new SetStatement
@@ -81,7 +82,7 @@ public class SetStatement extends AbstractStatement implements WhereStatement.Wh
         }
 
         /**
-         * Creates a SET statement from a map of columns to values.
+         * Creates a <b>{@code SET}</b> statement from a map of columns to values.
          *
          * @param objects the map of column names to values
          * @return a new SetStatement
@@ -93,7 +94,7 @@ public class SetStatement extends AbstractStatement implements WhereStatement.Wh
     }
 
     /**
-     * Represents a column-value pair for the SET clause.
+     * Represents a column-value pair for the <b>{@code SET}</b> clause.
      *
      * @param column the column name
      * @param value  the value to set

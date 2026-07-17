@@ -4,7 +4,7 @@ import de.eisi05.sql.annotations.SqlData;
 import de.eisi05.sql.enums.DatabaseType;
 
 /**
- * Represents a SQL LIMIT clause for limiting result rows. MySQL-specific syntax. Limits the number of rows returned by a query.
+ * Represents a SQL <b>{@code LIMIT}</b> clause for limiting result rows. MySQL-specific syntax. Limits the number of rows returned by a query.
  */
 @SqlData(DatabaseType.MYSQL)
 public class LimitStatement extends FinalStatement implements ForUpdateStatement.ForUpdateStatementContainer
@@ -31,12 +31,12 @@ public class LimitStatement extends FinalStatement implements ForUpdateStatement
     }
 
     /**
-     * Interface for containers that can create LIMIT statements.
+     * Interface for containers that can create <b>{@code LIMIT}</b> statements.
      */
     public interface LimitStatementContainer extends StatementContainer
     {
         /**
-         * Creates a LIMIT statement with the specified row count.
+         * Creates a <b>{@code LIMIT}</b> statement with the specified row count.
          *
          * @param amount the maximum number of rows to return
          * @return a new LimitStatement

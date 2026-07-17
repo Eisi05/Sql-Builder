@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /**
- * Represents a SQL ORDER BY clause. Sorts the result set by one or more columns in ascending or descending order. Supports ordering by columns, aggregate
- * functions, and CASE expressions.
+ * Represents a SQL <b>{@code ORDER BY}</b> clause. Sorts the result set by one or more columns in ascending or descending order. Supports ordering by columns,
+ * aggregate functions, and <b>{@code CASE}</b> expressions.
  */
 public class OrderByStatement extends FinalStatement implements LimitStatement.LimitStatementContainer,
                                                                 FetchFirstStatement.FetchFirstStatementContainer,
@@ -66,12 +66,12 @@ public class OrderByStatement extends FinalStatement implements LimitStatement.L
     }
 
     /**
-     * Interface for containers that can create ORDER BY statements.
+     * Interface for containers that can create <b>{@code ORDER BY}</b> statements.
      */
     public interface OrderByStatementContainer extends StatementContainer
     {
         /**
-         * Creates an ORDER BY statement for a single column in ascending order.
+         * Creates an <b>{@code ORDER BY}</b> statement for a single column in ascending order.
          *
          * @param key the column to order by
          * @return a new OrderByStatement
@@ -82,7 +82,7 @@ public class OrderByStatement extends FinalStatement implements LimitStatement.L
         }
 
         /**
-         * Creates an ORDER BY statement for a single column with specified order.
+         * Creates an <b>{@code ORDER BY}</b> statement for a single column with specified order.
          *
          * @param key  the column to order by
          * @param type the sort order type
@@ -94,7 +94,7 @@ public class OrderByStatement extends FinalStatement implements LimitStatement.L
         }
 
         /**
-         * Creates an ORDER BY statement for a COUNT aggregate in ascending order.
+         * Creates an <b>{@code ORDER BY}</b> statement for a <b>{@code COUNT}</b> aggregate in ascending order.
          *
          * @param key the column to count
          * @return a new OrderByStatement
@@ -105,7 +105,7 @@ public class OrderByStatement extends FinalStatement implements LimitStatement.L
         }
 
         /**
-         * Creates an ORDER BY statement for a COUNT aggregate with specified order.
+         * Creates an <b>{@code ORDER BY}</b> statement for a <b>{@code COUNT}</b> aggregate with specified order.
          *
          * @param key  the column to count
          * @param type the sort order type
@@ -117,7 +117,7 @@ public class OrderByStatement extends FinalStatement implements LimitStatement.L
         }
 
         /**
-         * Creates an ORDER BY statement with multiple order specifications.
+         * Creates an <b>{@code ORDER BY}</b> statement with multiple order specifications.
          *
          * @param orderObjects the order specifications
          * @return a new OrderByStatement
@@ -128,9 +128,9 @@ public class OrderByStatement extends FinalStatement implements LimitStatement.L
         }
 
         /**
-         * Creates an ORDER BY statement for a CASE expression in ascending order.
+         * Creates an <b>{@code ORDER BY}</b> statement for a <b>{@code CASE}</b> expression in ascending order.
          *
-         * @param caseFinalStatement the CASE expression
+         * @param caseFinalStatement the <b>{@code CASE}</b> expression
          * @return a new OrderByStatement
          */
         default OrderByStatement orderBy(CaseFinalStatement caseFinalStatement)
@@ -139,9 +139,9 @@ public class OrderByStatement extends FinalStatement implements LimitStatement.L
         }
 
         /**
-         * Creates an ORDER BY statement for a CASE expression with specified order.
+         * Creates an <b>{@code ORDER BY}</b> statement for a <b>{@code CASE}</b> expression with specified order.
          *
-         * @param caseFinalStatement the CASE expression
+         * @param caseFinalStatement the <b>{@code CASE}</b> expression
          * @param type               the sort order type
          * @return a new OrderByStatement
          */

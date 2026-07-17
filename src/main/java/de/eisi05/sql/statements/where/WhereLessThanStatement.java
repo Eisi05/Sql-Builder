@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL less-than condition ({@code <}) fragment.
+ * Represents an SQL <b>{@code LESS THAN}</b> condition ({@code <}) fragment.
  */
 public class WhereLessThanStatement extends AbstractWhereStatement
 {
@@ -19,7 +19,7 @@ public class WhereLessThanStatement extends AbstractWhereStatement
     }
 
     /**
-     * Returns the SQL operator for less than.
+     * Returns the SQL operator for <b>{@code LESS THAN}</b> .
      *
      * @return {@code "<"}
      */
@@ -30,12 +30,12 @@ public class WhereLessThanStatement extends AbstractWhereStatement
     }
 
     /**
-     * A container interface providing fluent builder methods for less-than conditions.
+     * A container interface providing fluent builder methods for <b>{@code LESS THAN}</b> conditions.
      */
     public interface WhereLessThanStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends a less-than condition against a single object value parameter.
+         * Appends a <b>{@code LESS THAN}</b> condition against a single object value parameter.
          *
          * @param o the object value to compare against
          * @return a configured {@link WhereLessThanStatement}
@@ -46,7 +46,7 @@ public class WhereLessThanStatement extends AbstractWhereStatement
         }
 
         /**
-         * Appends a less-than condition evaluating against an SQL subquery or statement fragment.
+         * Appends a <b>{@code LESS THAN}</b> condition evaluating against an SQL subquery or statement fragment.
          *
          * @param finalStatement the statement representing the target value
          * @return a configured {@link WhereLessThanStatement}

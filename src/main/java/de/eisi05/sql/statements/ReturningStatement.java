@@ -5,7 +5,8 @@ import de.eisi05.sql.interfaces.ExecuteQueryStatement;
 import java.util.Collection;
 
 /**
- * Represents a SQL RETURNING clause. Returns data from modified rows after INSERT, UPDATE, or DELETE operations. PostgreSQL-specific syntax.
+ * Represents a SQL <b>{@code RETURNING}</b> clause. Returns data from modified rows after <b>{@code INSERT}</b> , <b>{@code UPDATE}</b> , or
+ * <b>{@code DELETE}</b> operations. PostgreSQL-specific syntax.
  */
 public class ReturningStatement extends FinalStatement implements ExecuteQueryStatement
 {
@@ -31,12 +32,12 @@ public class ReturningStatement extends FinalStatement implements ExecuteQuerySt
     }
 
     /**
-     * Interface for containers that can create RETURNING statements.
+     * Interface for containers that can create <b>{@code RETURNING}</b> statements.
      */
     public interface ReturningStatementContainer extends StatementContainer
     {
         /**
-         * Creates a RETURNING statement for a single column.
+         * Creates a <b>{@code RETURNING}</b> statement for a single column.
          *
          * @param key the column to return
          * @return a new ReturningStatement
@@ -47,7 +48,7 @@ public class ReturningStatement extends FinalStatement implements ExecuteQuerySt
         }
 
         /**
-         * Creates a RETURNING statement for multiple columns.
+         * Creates a <b>{@code RETURNING}</b> statement for multiple columns.
          *
          * @param keys the collection of columns to return
          * @return a new ReturningStatement
@@ -58,7 +59,7 @@ public class ReturningStatement extends FinalStatement implements ExecuteQuerySt
         }
 
         /**
-         * Creates a RETURNING statement for multiple columns.
+         * Creates a <b>{@code RETURNING}</b> statement for multiple columns.
          *
          * @param keys the array of columns to return
          * @return a new ReturningStatement

@@ -3,7 +3,7 @@ package de.eisi05.sql.statements.select;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL SELECT DISTINCT statement. Returns only distinct (different) values.
+ * Represents a SQL <b>{@code SELECT DISTINCT}</b> statement. Returns only distinct (different) values.
  */
 public class SelectDistinctStatement extends SelectStatement
 {
@@ -29,12 +29,12 @@ public class SelectDistinctStatement extends SelectStatement
     }
 
     /**
-     * Interface for containers that can create SELECT DISTINCT statements.
+     * Interface for containers that can create <b>{@code SELECT DISTINCT}</b> statements.
      */
     public interface SelectDistinctStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a SELECT DISTINCT statement with the specified columns.
+         * Creates a <b>{@code SELECT DISTINCT}</b> statement with the specified columns.
          *
          * @param keys the columns to select distinct values from
          * @return a new SelectDistinctStatement

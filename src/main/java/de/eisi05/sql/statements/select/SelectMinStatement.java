@@ -3,7 +3,7 @@ package de.eisi05.sql.statements.select;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL SELECT MIN aggregate function. Calculates the minimum value of a column.
+ * Represents a SQL <b>{@code SELECT MIN}</b> aggregate function. Calculates the minimum value of a column.
  */
 public class SelectMinStatement extends SelectStatement
 {
@@ -18,12 +18,12 @@ public class SelectMinStatement extends SelectStatement
     }
 
     /**
-     * Interface for containers that can create SELECT MIN statements.
+     * Interface for containers that can create <b>{@code SELECT MIN}</b> statements.
      */
     public interface SelectMinStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a SELECT MIN statement for the specified column.
+         * Creates a <b>{@code SELECT MIN}</b> statement for the specified column.
          *
          * @param key the column to calculate the minimum for
          * @return a new SelectMinStatement

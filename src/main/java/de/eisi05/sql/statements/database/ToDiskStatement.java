@@ -4,7 +4,8 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a TO DISK clause for database backup statements. Specifies the file path where the backup should be stored. SQL Server-specific syntax.
+ * Represents a <b>{@code TO DISK}</b> clause for database backup statements. Specifies the file path where the backup should be stored. SQL Server-specific
+ * syntax.
  */
 public class ToDiskStatement extends FinalStatement implements AbstractStatement.StatementContainer
 {
@@ -30,9 +31,9 @@ public class ToDiskStatement extends FinalStatement implements AbstractStatement
     }
 
     /**
-     * Creates a WITH DIFFERENTIAL clause for differential backups.
+     * Creates a <b>{@code WITH DIFFERENTIAL}</b> clause for differential backups.
      *
-     * @return a FinalStatement with the DIFFERENTIAL option
+     * @return a FinalStatement with the <b>{@code DIFFERENTIAL}</b> option
      */
     public FinalStatement withDifferential()
     {
@@ -47,12 +48,12 @@ public class ToDiskStatement extends FinalStatement implements AbstractStatement
     }
 
     /**
-     * Interface for containers that can create TO DISK statements.
+     * Interface for containers that can create <b>{@code TO DISK}</b> statements.
      */
     public interface ToDiskStatementContainer extends StatementContainer
     {
         /**
-         * Creates a TO DISK statement with the specified file path.
+         * Creates a <b>{@code TO DISK}</b> statement with the specified file path.
          *
          * @param filePath the file path for the backup
          * @return a new ToDiskStatement

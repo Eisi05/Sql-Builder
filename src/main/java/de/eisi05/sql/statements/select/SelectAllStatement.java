@@ -3,7 +3,8 @@ package de.eisi05.sql.statements.select;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL SELECT ALL statement. Selects all rows including duplicates (default behavior). Equivalent to SELECT without DISTINCT.
+ * Represents a SQL <b>{@code SELECT ALL}</b> statement. Selects all rows including duplicates (default behavior). Equivalent to <b>{@code SELECT}</b> without
+ * <b>{@code DISTINCT}</b> .
  */
 public class SelectAllStatement extends SelectStatement
 {
@@ -29,12 +30,12 @@ public class SelectAllStatement extends SelectStatement
     }
 
     /**
-     * Interface for containers that can create SELECT ALL statements.
+     * Interface for containers that can create <b>{@code SELECT ALL}</b> statements.
      */
     public interface SelectAllStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a SELECT ALL statement with the specified columns.
+         * Creates a <b>{@code SELECT ALL}</b> statement with the specified columns.
          *
          * @param keys the columns to select
          * @return a new SelectAllStatement

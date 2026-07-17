@@ -3,7 +3,7 @@ package de.eisi05.sql.statements.view;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL CREATE OR REPLACE VIEW statement used to define or modify an existing virtual table schema.
+ * Represents a SQL <b>{@code CREATE OR REPLACE VIEW}</b> statement used to define or modify an existing virtual table schema.
  */
 public class CreateOrReplaceViewStatement extends CreateViewStatement
 {
@@ -29,12 +29,12 @@ public class CreateOrReplaceViewStatement extends CreateViewStatement
     }
 
     /**
-     * Interface for containers capable of executing a CREATE OR REPLACE VIEW query.
+     * Interface for containers capable of executing a <b>{@code CREATE OR REPLACE VIEW}</b> query.
      */
     public interface CreateOrReplaceViewStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Initiates a CREATE OR REPLACE VIEW command, safely escaping spaces in the view name.
+         * Initiates a <b>{@code CREATE OR REPLACE VIEW}</b> command, safely escaping spaces in the view name.
          *
          * @param name the name of the target view
          * @return a new CreateOrReplaceViewStatement

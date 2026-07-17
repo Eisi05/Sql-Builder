@@ -4,15 +4,16 @@ import de.eisi05.sql.enums.LogicOperator;
 import de.eisi05.sql.statements.AbstractNotStatement;
 
 /**
- * Represents the primary entry point or structural placeholder for building an SQL {@code WHERE} clause.
+ * Represents the primary entry point or structural placeholder for building an SQL <b>{@code WHERE}</b> clause.
  * <p>
- * This class handles the initialization of the clause and manages subsequent logic chaining operators like {@code AND}, {@code OR}, and structural negations.
+ * This class handles the initialization of the clause and manages subsequent logic chaining operators like <b>{@code AND}</b> , <b>{@code OR}</b> , and
+ * structural negations.
  * </p>
  */
 public class WhereStatement extends AbstractNotStatement implements WhereDefaultStatementContainer
 {
     /**
-     * The logical operator connecting this statement fragment to previous fragments (e.g., AND, OR).
+     * The logical operator connecting this statement fragment to previous fragments (e.g., <b>{@code AND}</b> , <b>{@code OR}</b> ).
      */
     protected LogicOperator logicOperator = null;
 
@@ -29,7 +30,7 @@ public class WhereStatement extends AbstractNotStatement implements WhereDefault
     /**
      * Attaches a logical connecting operator to this statement fragment.
      *
-     * @param logicOperator the connector token to attach (e.g., AND, OR)
+     * @param logicOperator the connector token to attach (e.g., <b>{@code AND}</b> , <b>{@code OR}</b> )
      * @return this updated instance for builder chaining
      */
     WhereStatement withOperation(LogicOperator logicOperator)
@@ -51,12 +52,12 @@ public class WhereStatement extends AbstractNotStatement implements WhereDefault
     }
 
     /**
-     * A container interface providing the root entry builder method to spawn an initial {@code WHERE} clause.
+     * A container interface providing the root entry builder method to spawn an initial <b>{@code WHERE}</b> clause.
      */
     public interface WhereStatementContainer extends StatementContainer
     {
         /**
-         * Initializes a new root {@code WHERE} clause constraint.
+         * Initializes a new root <b>{@code WHERE}</b> clause constraint.
          *
          * @param key the database column or base expression context
          * @return a freshly created {@link WhereStatement} configuration hook

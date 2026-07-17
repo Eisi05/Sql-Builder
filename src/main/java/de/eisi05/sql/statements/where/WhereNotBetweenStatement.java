@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL negation boundary condition fragment: {@code NOT BETWEEN}.
+ * Represents an SQL negation boundary condition fragment: <b>{@code NOT BETWEEN}</b> .
  */
 public class WhereNotBetweenStatement extends WhereBetweenStatement implements WhereNotStatement
 {
@@ -19,9 +19,9 @@ public class WhereNotBetweenStatement extends WhereBetweenStatement implements W
     }
 
     /**
-     * Defines whether the keyword NOT should immediately follow the word WHERE structurally.
+     * Defines whether the keyword <b>{@code NOT}</b> should immediately follow the word <b>{@code WHERE}</b> structurally.
      *
-     * @return {@code false} since NOT is grouped before BETWEEN rather than standalone
+     * @return {@code false} since <b>{@code NOT}</b> is grouped before <b>{@code BETWEEN}</b> rather than standalone
      */
     @Override
     public boolean isNotAfterWhere()
@@ -30,12 +30,12 @@ public class WhereNotBetweenStatement extends WhereBetweenStatement implements W
     }
 
     /**
-     * A container interface providing fluent builder methods for {@code NOT BETWEEN} clause creation.
+     * A container interface providing fluent builder methods for <b>{@code NOT BETWEEN}</b> clause creation.
      */
     public interface WhereNotBetweenStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends a NOT BETWEEN condition targeting two positional object values.
+         * Appends a <b>{@code NOT BETWEEN}</b> condition targeting two positional object values.
          *
          * @param <T> the type of the boundary values
          * @param t1  the start range boundary
@@ -48,7 +48,7 @@ public class WhereNotBetweenStatement extends WhereBetweenStatement implements W
         }
 
         /**
-         * Appends a NOT BETWEEN condition where both boundaries are evaluated via subqueries or statement fragments.
+         * Appends a <b>{@code NOT BETWEEN}</b> condition where both boundaries are evaluated via subqueries or statement fragments.
          *
          * @param finalStatement1 the statement representing the start boundary
          * @param finalStatement2 the statement representing the end boundary
@@ -60,7 +60,7 @@ public class WhereNotBetweenStatement extends WhereBetweenStatement implements W
         }
 
         /**
-         * Appends a NOT BETWEEN condition where the start boundary is a statement fragment and the end boundary is an object value.
+         * Appends a <b>{@code NOT BETWEEN}</b> condition where the start boundary is a statement fragment and the end boundary is an object value.
          *
          * @param <T>             the type of the end boundary value
          * @param finalStatement1 the statement representing the start boundary

@@ -4,7 +4,7 @@ import de.eisi05.sql.interfaces.ExecuteQueryStatement;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL ALTER TABLE statement used to add, drop, rename, or modify table structures.
+ * Represents a SQL <b>{@code ALTER TABLE}</b> statement used to add, drop, rename, or modify table structures.
  */
 public class AlterTableStatement extends AbstractStatement implements AddColumnStatement.AddColumnStatementContainer,
                                                                       DropColumnStatement.DropColumnStatementContainer,
@@ -40,7 +40,7 @@ public class AlterTableStatement extends AbstractStatement implements AddColumnS
     public interface AlterTableStatementContainer extends StatementContainer
     {
         /**
-         * Starts an ALTER TABLE block on the specified target table.
+         * Starts an <b>{@code ALTER TABLE}</b> block on the specified target table.
          *
          * @param table the table name to modify
          * @return a new AlterTableStatement builder

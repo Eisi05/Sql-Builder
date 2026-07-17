@@ -3,8 +3,8 @@ package de.eisi05.sql.statements;
 import de.eisi05.sql.statements.where.WhereDefaultStatementContainer;
 
 /**
- * Represents a SQL HAVING clause. Filters groups created by GROUP BY based on specified conditions. Supports aggregate functions like COUNT in the filter
- * condition.
+ * Represents a SQL <b>{@code HAVING}</b> clause. Filters groups created by <b>{@code GROUP BY}</b> based on specified conditions. Supports aggregate functions
+ * like <b>{@code COUNT}</b> in the filter condition.
  */
 public class HavingStatement extends FinalStatement implements WhereDefaultStatementContainer,
                                                                ForUpdateStatement.ForUpdateStatementContainer
@@ -12,7 +12,7 @@ public class HavingStatement extends FinalStatement implements WhereDefaultState
     /**
      * Constructs a new HavingStatement with the given condition.
      *
-     * @param key the HAVING condition
+     * @param key the <b>{@code HAVING}</b> condition
      */
     protected HavingStatement(String key)
     {
@@ -31,15 +31,15 @@ public class HavingStatement extends FinalStatement implements WhereDefaultState
     }
 
     /**
-     * Interface for containers that can create HAVING statements.
+     * Interface for containers that can create <b>{@code HAVING}</b> statements.
      */
     public interface HavingStatementContainer extends StatementContainer
     {
         /**
-         * Creates a HAVING statement with a COUNT condition.
+         * Creates a <b>{@code HAVING}</b> statement with a <b>{@code COUNT}</b> condition.
          *
          * @param key the column to count
-         * @return a new HavingStatement with COUNT condition
+         * @return a new HavingStatement with <b>{@code COUNT}</b> condition
          */
         default HavingStatement hasCount(String key)
         {

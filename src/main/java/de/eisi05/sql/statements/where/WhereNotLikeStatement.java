@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL {@code NOT LIKE} pattern matching condition fragment.
+ * Represents an SQL <b>{@code NOT LIKE}</b> pattern matching condition fragment.
  */
 public class WhereNotLikeStatement extends WhereLikeStatement implements WhereNotStatement
 {
@@ -19,9 +19,9 @@ public class WhereNotLikeStatement extends WhereLikeStatement implements WhereNo
     }
 
     /**
-     * Defines whether the keyword NOT should immediately follow the word WHERE structurally.
+     * Defines whether the keyword <b>{@code NOT}</b> should immediately follow the word <b>{@code WHERE}</b> structurally.
      *
-     * @return {@code false} since NOT is grouped directly within the {@code NOT LIKE} phrase
+     * @return {@code false} since <b>{@code NOT}</b> is grouped directly within the <b>{@code NOT LIKE}</b> phrase
      */
     @Override
     public boolean isNotAfterWhere()
@@ -30,7 +30,7 @@ public class WhereNotLikeStatement extends WhereLikeStatement implements WhereNo
     }
 
     /**
-     * A container interface providing fluent builder methods for {@code NOT LIKE} pattern clauses.
+     * A container interface providing fluent builder methods for <b>{@code NOT LIKE}</b> pattern clauses.
      */
     public interface WhereNotLikeStatementContainer extends AbstractStatement.StatementContainer
     {

@@ -3,15 +3,15 @@ package de.eisi05.sql.statements.join;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL LEFT JOIN statement. Returns all rows from the left table and matching rows from the right table. Non-matching rows from the right table are
- * filled with NULL values.
+ * Represents a SQL <b>{@code LEFT JOIN}</b> statement. Returns all rows from the left table and matching rows from the right table. Non-matching rows from the
+ * right table are filled with <b>{@code NULL}</b> values.
  */
 public class LeftJoinStatement extends JoinStatement
 {
     /**
      * Constructs a new LeftJoinStatement with the given query.
      *
-     * @param query the LEFT JOIN query fragment
+     * @param query the <b>{@code LEFT JOIN}</b> query fragment
      */
     protected LeftJoinStatement(String query)
     {
@@ -30,12 +30,12 @@ public class LeftJoinStatement extends JoinStatement
     }
 
     /**
-     * Interface for containers that can create LEFT JOIN statements.
+     * Interface for containers that can create <b>{@code LEFT JOIN}</b> statements.
      */
     public interface LeftJoinStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a LEFT JOIN statement with the specified table and join keys.
+         * Creates a <b>{@code LEFT JOIN}</b> statement with the specified table and join keys.
          *
          * @param table     the table to join
          * @param table1Key the key from the first table

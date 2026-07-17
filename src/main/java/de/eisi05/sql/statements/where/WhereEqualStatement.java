@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL equality condition ({@code =}) fragment.
+ * Represents an SQL <b>{@code EQUAL}</b> condition ({@code =}) fragment.
  */
 public class WhereEqualStatement extends AbstractWhereStatement
 {
@@ -19,7 +19,7 @@ public class WhereEqualStatement extends AbstractWhereStatement
     }
 
     /**
-     * Returns the SQL equality operator.
+     * Returns the SQL <b>{@code EQUAL}</b> operator.
      *
      * @return {@code "="}
      */
@@ -30,12 +30,12 @@ public class WhereEqualStatement extends AbstractWhereStatement
     }
 
     /**
-     * A container interface providing fluent builder methods for equality conditions.
+     * A container interface providing fluent builder methods for <b>{@code EQUAL}</b> conditions.
      */
     public interface WhereEqualStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends an equality condition against a single object value parameter.
+         * Appends an <b>{@code EQUAL}</b> condition against a single object value parameter.
          *
          * @param o the object value to compare against
          * @return a configured {@link WhereEqualStatement}
@@ -46,7 +46,7 @@ public class WhereEqualStatement extends AbstractWhereStatement
         }
 
         /**
-         * Appends an equality condition evaluating against an SQL subquery or statement fragment.
+         * Appends an <b>{@code EQUAL}</b> condition evaluating against an SQL subquery or statement fragment.
          *
          * @param finalStatement the statement representing the target value
          * @return a configured {@link WhereEqualStatement}

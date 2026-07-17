@@ -3,7 +3,7 @@ package de.eisi05.sql.statements.select;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL SELECT SUM aggregate function. Calculates the total sum of a numeric column.
+ * Represents a SQL <b>{@code SELECT SUM}</b> aggregate function. Calculates the total sum of a numeric column.
  */
 public class SelectSumStatement extends SelectStatement
 {
@@ -18,12 +18,12 @@ public class SelectSumStatement extends SelectStatement
     }
 
     /**
-     * Interface for containers that can create SELECT SUM statements.
+     * Interface for containers that can create <b>{@code SELECT SUM}</b> statements.
      */
     public interface SelectSumStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a SELECT SUM statement for the specified column.
+         * Creates a <b>{@code SELECT SUM}</b> statement for the specified column.
          *
          * @param key the column to calculate the sum for
          * @return a new SelectSumStatement

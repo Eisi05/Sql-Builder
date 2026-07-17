@@ -3,7 +3,7 @@ package de.eisi05.sql.statements.where;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents an SQL {@code IS NOT NULL} condition fragment.
+ * Represents an SQL <b>{@code IS NOT NULL}</b> condition fragment.
  */
 public class WhereNotIsNullStatement extends WhereIsNullStatement
 {
@@ -18,12 +18,12 @@ public class WhereNotIsNullStatement extends WhereIsNullStatement
     }
 
     /**
-     * A container interface providing fluent builder methods for {@code IS NOT NULL} clauses.
+     * A container interface providing fluent builder methods for <b>{@code IS NOT NULL}</b> clauses.
      */
     public interface WhereNotIsNullStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends an {@code IS NOT NULL} condition.
+         * Appends an <b>{@code IS NOT NULL}</b> condition.
          *
          * @return a configured {@link WhereNotIsNullStatement} targeting non-null entries
          */

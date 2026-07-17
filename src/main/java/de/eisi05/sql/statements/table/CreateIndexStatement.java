@@ -4,7 +4,7 @@ import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL CREATE INDEX statement used to speed up search queries on tables.
+ * Represents a SQL <b>{@code CREATE INDEX}</b> statement used to speed up search queries on tables.
  */
 public class CreateIndexStatement extends AbstractStatement implements OnIndexStatement.OnIndexStatementContainer,
                                                                        ExecuteUpdateStatement
@@ -15,7 +15,7 @@ public class CreateIndexStatement extends AbstractStatement implements OnIndexSt
      * Constructs a new CreateIndexStatement with unique and index settings.
      *
      * @param index  the name of the index to create
-     * @param unique true if this is a UNIQUE index, false otherwise
+     * @param unique true if this is a <b>{@code UNIQUE}</b> index, false otherwise
      */
     protected CreateIndexStatement(String index, boolean unique)
     {
@@ -40,7 +40,7 @@ public class CreateIndexStatement extends AbstractStatement implements OnIndexSt
     public interface CreateIndexStatementContainer extends StatementContainer
     {
         /**
-         * Prepares a standard SQL CREATE INDEX statement.
+         * Prepares a standard SQL <b>{@code CREATE INDEX}</b> statement.
          *
          * @param index the name of the index to create
          * @return a new CreateIndexStatement
@@ -51,7 +51,7 @@ public class CreateIndexStatement extends AbstractStatement implements OnIndexSt
         }
 
         /**
-         * Prepares a unique SQL CREATE UNIQUE INDEX statement.
+         * Prepares a unique SQL <b>{@code CREATE UNIQUE INDEX}</b> statement.
          *
          * @param index the name of the unique index to create
          * @return a new CreateIndexStatement

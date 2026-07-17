@@ -6,7 +6,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL RENAME block within an ALTER TABLE flow to rename an existing column.
+ * Represents a SQL <b>{@code RENAME}</b> block within an <b>{@code ALTER TABLE}</b> flow to rename an existing column.
  */
 @SqlData(value = {DatabaseType.MYSQL, DatabaseType.MS_ACCESS, DatabaseType.ORACLE}, oracleVersion = 10)
 public class RenameColumnStatement extends FinalStatement

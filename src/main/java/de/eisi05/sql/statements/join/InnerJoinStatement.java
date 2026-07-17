@@ -3,14 +3,14 @@ package de.eisi05.sql.statements.join;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL INNER JOIN statement. Returns only rows where there is a match in both tables.
+ * Represents a SQL <b>{@code INNER JOIN}</b> statement. Returns only rows where there is a match in both tables.
  */
 public class InnerJoinStatement extends JoinStatement
 {
     /**
      * Constructs a new InnerJoinStatement with the given query.
      *
-     * @param query the INNER JOIN query fragment
+     * @param query the <b>{@code INNER JOIN}</b> query fragment
      */
     protected InnerJoinStatement(String query)
     {
@@ -29,12 +29,12 @@ public class InnerJoinStatement extends JoinStatement
     }
 
     /**
-     * Interface for containers that can create INNER JOIN statements.
+     * Interface for containers that can create <b>{@code INNER JOIN}</b> statements.
      */
     public interface InnerJoinStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates an INNER JOIN statement with the specified table and join keys.
+         * Creates an <b>{@code INNER JOIN}</b> statement with the specified table and join keys.
          *
          * @param table     the table to join
          * @param table1Key the key from the first table

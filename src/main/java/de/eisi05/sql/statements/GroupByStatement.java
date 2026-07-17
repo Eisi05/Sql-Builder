@@ -1,7 +1,8 @@
 package de.eisi05.sql.statements;
 
 /**
- * Represents a SQL GROUP BY clause. Groups rows that have the same values into summary rows. Can be followed by HAVING for filtering groups.
+ * Represents a SQL <b>{@code GROUP BY}</b> clause. Groups rows that have the same values into summary rows. Can be followed by <b>{@code HAVING}</b> for
+ * filtering groups.
  */
 public class GroupByStatement extends FinalStatement implements HavingStatement.HavingStatementContainer,
                                                                 ForUpdateStatement.ForUpdateStatementContainer
@@ -28,12 +29,12 @@ public class GroupByStatement extends FinalStatement implements HavingStatement.
     }
 
     /**
-     * Interface for containers that can create GROUP BY statements.
+     * Interface for containers that can create <b>{@code GROUP BY}</b> statements.
      */
     public interface GroupByStatementContainer extends StatementContainer
     {
         /**
-         * Creates a GROUP BY statement for the specified column.
+         * Creates a <b>{@code GROUP BY}</b> statement for the specified column.
          *
          * @param key the column to group by
          * @return a new GroupByStatement

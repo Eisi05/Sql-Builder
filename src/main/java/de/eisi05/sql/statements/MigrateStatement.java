@@ -14,8 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Represents a database migration statement. Automatically generates {@code ALTER TABLE} or {@code CREATE TABLE} statements to synchronize the live database
- * schema with the entity class definitions using ORM annotations.
+ * Represents a database migration statement. Automatically generates <b>{@code ALTER TABLE}</b> or <b>{@code CREATE TABLE}</b> statements to synchronize the
+ * live database schema with the entity class definitions using ORM annotations.
  */
 public class MigrateStatement extends FinalStatement implements ExecuteUpdateStatement
 {
@@ -40,7 +40,7 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
     }
 
     /**
-     * Interface for containers that can create MIGRATE statements.
+     * Interface for containers that can create <b>{@code MIGRATE}</b> statements.
      */
     public interface MigrateStatementContainer extends AbstractStatement.StatementContainer
     {
@@ -171,8 +171,8 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
      * Record representing column metadata mapped out of an explicit entity field configuration.
      *
      * @param sqlType      the physical SQL data type translation rule
-     * @param isNotNull    whether the target column specifies a NOT NULL constraint
-     * @param isUnique     whether the target column specifies a UNIQUE constraint
+     * @param isNotNull    whether the target column specifies a <b>{@code NOT NULL}</b> constraint
+     * @param isUnique     whether the target column specifies a <b>{@code UNIQUE}</b> constraint
      * @param defaultValue the fallback literal default string evaluation expression
      * @param oldName      the historical name configuration tracking prior renames
      */

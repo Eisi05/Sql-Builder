@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL greater-than-or-equal condition ({@code >=}) fragment.
+ * Represents an SQL <b>{@code GREATER THAN OR EQUAL}</b> condition ({@code >=}) fragment.
  */
 public class WhereGreaterThanOrEqual extends AbstractWhereStatement
 {
@@ -19,7 +19,7 @@ public class WhereGreaterThanOrEqual extends AbstractWhereStatement
     }
 
     /**
-     * Returns the SQL operator for greater than or equal to.
+     * Returns the SQL operator for <b>{@code GREATER THAN OR EQUAL}</b> to.
      *
      * @return {@code ">="}
      */
@@ -30,12 +30,12 @@ public class WhereGreaterThanOrEqual extends AbstractWhereStatement
     }
 
     /**
-     * A container interface providing fluent builder methods for greater-than-or-equal conditions.
+     * A container interface providing fluent builder methods for <b>{@code GREATER THAN OR EQUAL}</b> conditions.
      */
     public interface WhereGreaterThanOrEqualStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends a greater-than-or-equal condition against a single object value parameter.
+         * Appends a <b>{@code GREATER THAN OR EQUAL}</b> condition against a single object value parameter.
          *
          * @param o the object value to compare against
          * @return a configured {@link WhereGreaterThanOrEqual} statement
@@ -46,7 +46,7 @@ public class WhereGreaterThanOrEqual extends AbstractWhereStatement
         }
 
         /**
-         * Appends a greater-than-or-equal condition evaluating against an SQL subquery or statement fragment.
+         * Appends a <b>{@code GREATER THAN OR EQUAL}</b> condition evaluating against an SQL subquery or statement fragment.
          *
          * @param finalStatement the statement representing the target value
          * @return a configured {@link WhereGreaterThanOrEqual} statement

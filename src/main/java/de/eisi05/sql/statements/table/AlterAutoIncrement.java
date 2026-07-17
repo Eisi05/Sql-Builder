@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL AUTO_INCREMENT alter statement used to modify starting values.
+ * Represents a SQL <b>{@code AUTO_INCREMENT ALTER}</b> statement used to modify starting values.
  */
 public class AlterAutoIncrement extends FinalStatement
 {
@@ -30,12 +30,12 @@ public class AlterAutoIncrement extends FinalStatement
     }
 
     /**
-     * Interface for containers that can configure starting auto-increment configurations.
+     * Interface for containers that can configure starting <b>{@code AUTO-INCREMENT}</b> configurations.
      */
     public interface AlterAutoIncrementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Alters the starting auto-increment value.
+         * Alters the starting <b>{@code AUTO-INCREMENT}</b> value.
          *
          * @param startIncrement the integer starting sequence value
          * @return a new AlterAutoIncrement

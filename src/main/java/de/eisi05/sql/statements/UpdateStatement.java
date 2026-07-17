@@ -9,8 +9,8 @@ import de.eisi05.sql.utils.OrmUtils;
 import java.util.*;
 
 /**
- * Represents a SQL UPDATE statement. Supports updating table rows with optional WHERE conditions. Can update single objects or multiple objects using ORM
- * annotations. Supports batch updates for multiple objects.
+ * Represents a SQL <b>{@code UPDATE}</b> statement. Supports updating table rows with optional <b>{@code WHERE}</b> conditions. Can update single objects or
+ * multiple objects using ORM annotations. Supports batch updates for multiple objects.
  */
 public class UpdateStatement extends AbstractStatement implements SetStatement.SetStatementContainer, ExecuteUpdateStatement
 {
@@ -36,12 +36,12 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
     }
 
     /**
-     * Interface for containers that can create UPDATE statements.
+     * Interface for containers that can create <b>{@code UPDATE}</b> statements.
      */
     public interface UpdateStatementContainer extends StatementContainer
     {
         /**
-         * Creates an UPDATE statement for the specified table.
+         * Creates an <b>{@code UPDATE}</b> statement for the specified table.
          *
          * @param table the table to update
          * @return a new UpdateStatement
@@ -52,13 +52,13 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
         }
 
         /**
-         * Creates an UPDATE statement for one or more objects by their ID. Uses ORM annotations to determine the table, columns, and ID column. Supports batch
-         * updates when multiple objects are provided.
+         * Creates an <b>{@code UPDATE}</b> statement for one or more objects by their ID. Uses ORM annotations to determine the table, columns, and ID column.
+         * Supports batch updates when multiple objects are provided.
          *
          * @param object  the first object to update
          * @param objects additional objects to update (optional)
          * @param <T>     the type of the objects
-         * @return an AbstractWhereStatement with the UPDATE, SET, and WHERE conditions
+         * @return an AbstractWhereStatement with the <b>{@code UPDATE}</b> , <b>{@code SET}</b> , and <b>{@code WHERE}</b> conditions
          */
         default <T> AbstractWhereStatement update(T object, T... objects)
         {
@@ -73,12 +73,12 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
         }
 
         /**
-         * Creates a batch UPDATE statement for a collection of objects. Uses ORM annotations to determine the table, columns, and ID column. All objects must
-         * be of the same type.
+         * Creates a batch <b>{@code UPDATE}</b> statement for a collection of objects. Uses ORM annotations to determine the table, columns, and ID column. All
+         * objects must be of the same type.
          *
          * @param objects the collection of objects to update
          * @param <T>     the type of the objects
-         * @return an AbstractWhereStatement with the UPDATE, SET, and WHERE conditions
+         * @return an AbstractWhereStatement with the <b>{@code UPDATE}</b> , <b>{@code SET}</b> , and <b>{@code WHERE}</b> conditions
          * @throws IllegalStateException if the @Id annotation is missing
          */
         default <T> AbstractWhereStatement update(Collection<T> objects)
@@ -128,11 +128,11 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
         }
 
         /**
-         * Creates a single UPDATE statement for an object by its ID. Uses ORM annotations to determine the table, columns, and ID column.
+         * Creates a single <b>{@code UPDATE}</b> statement for an object by its ID. Uses ORM annotations to determine the table, columns, and ID column.
          *
          * @param object the object to update
          * @param <T>    the type of the object
-         * @return an AbstractWhereStatement with the UPDATE, SET, and WHERE conditions
+         * @return an AbstractWhereStatement with the <b>{@code UPDATE}</b> , <b>{@code SET}</b> , and <b>{@code WHERE}</b> conditions
          */
         private <T> AbstractWhereStatement updateSingle(T object)
         {

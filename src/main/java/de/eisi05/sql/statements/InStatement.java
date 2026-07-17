@@ -1,7 +1,8 @@
 package de.eisi05.sql.statements;
 
 /**
- * Represents a SQL IN clause. Used to specify multiple possible values for a column in WHERE conditions. Can be used with subqueries or value lists.
+ * Represents a SQL <b>{@code IN}</b> clause. Used to specify multiple possible values for a column in <b>{@code WHERE}</b> conditions. Can be used with
+ * subqueries or value lists.
  */
 public class InStatement extends AbstractStatement implements FromStatement.FromStatementContainer
 {
@@ -27,12 +28,12 @@ public class InStatement extends AbstractStatement implements FromStatement.From
     }
 
     /**
-     * Interface for containers that can create IN statements.
+     * Interface for containers that can create <b>{@code IN}</b> statements.
      */
     public interface InStatementContainer extends StatementContainer
     {
         /**
-         * Creates an IN statement for the specified database or value list.
+         * Creates an <b>{@code IN}</b> statement for the specified database or value list.
          *
          * @param db the database name, table name, or value list
          * @return a new InStatement

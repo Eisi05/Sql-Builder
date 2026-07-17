@@ -6,8 +6,8 @@ import de.eisi05.sql.statements.FinalStatement;
 import java.util.Collections;
 
 /**
- * Represents negated conditions in a CASE WHEN expression. Extends CaseConditionStatement to support NOT versions of comparison operators. Some conditions like
- * notGreaterThan and notLessThan toggle the NOT flag on the parent.
+ * Represents negated conditions in a <b>{@code CASE WHEN}</b> expression. Extends CaseConditionStatement to support <b>{@code NOT}</b> versions of comparison
+ * operators. Some conditions like notGreaterThan and notLessThan toggle the <b>{@code NOT}</b> flag on the parent.
  */
 public class CaseNotConditionStatement extends CaseConditionStatement
 {
@@ -22,12 +22,12 @@ public class CaseNotConditionStatement extends CaseConditionStatement
     }
 
     /**
-     * Interface for containers that can create negated CASE condition statements.
+     * Interface for containers that can create negated <b>{@code CASE}</b> condition statements.
      */
     public interface CaseNotConditionStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a not equal condition.
+         * Creates a <b>{@code NOT EQUAL}</b> condition.
          *
          * @param value the value to compare
          * @return a new CaseNotConditionStatement
@@ -38,7 +38,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not equal condition with a subquery.
+         * Creates a <b>{@code NOT EQUAL}</b> condition with a subquery.
          *
          * @param finalStatement the subquery
          * @return a new CaseNotConditionStatement
@@ -49,7 +49,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not between condition.
+         * Creates a <b>{@code NOT BETWEEN}</b> condition.
          *
          * @param t1  the lower bound
          * @param t2  the upper bound
@@ -62,7 +62,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not between condition with subqueries.
+         * Creates a <b>{@code NOT BETWEEN}</b> condition with subqueries.
          *
          * @param finalStatement1 the lower bound subquery
          * @param finalStatement2 the upper bound subquery
@@ -74,7 +74,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not between condition with a subquery and value.
+         * Creates a <b>{@code NOT BETWEEN}</b> condition with a subquery and value.
          *
          * @param finalStatement1 the lower bound subquery
          * @param t2              the upper bound value
@@ -87,7 +87,8 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not greater than condition (less than or equal). Toggles the NOT flag on the parent CaseWhenStatement.
+         * Creates a <b>{@code NOT GREATER THAN}</b> condition (<b>{@code LESS THAN OR EQUAL}</b> ). Toggles the <b>{@code NOT}</b> flag on the parent
+         * CaseWhenStatement.
          *
          * @param o the value to compare
          * @return a new CaseNotConditionStatement
@@ -101,7 +102,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not greater than condition with a subquery. Toggles the NOT flag on the parent CaseWhenStatement.
+         * Creates a <b>{@code NOT GREATER THAN}</b> condition with a subquery. Toggles the <b>{@code NOT}</b> flag on the parent CaseWhenStatement.
          *
          * @param finalStatement the subquery
          * @return a new CaseNotConditionStatement
@@ -115,7 +116,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not IN condition.
+         * Creates a <b>{@code NOT IN}</b> condition.
          *
          * @param o the values to check
          * @return a new CaseNotConditionStatement
@@ -127,7 +128,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not IN condition with a subquery.
+         * Creates a <b>{@code NOT IN}</b> condition with a subquery.
          *
          * @param finalStatement the subquery
          * @return a new CaseNotConditionStatement
@@ -138,7 +139,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates an IS NOT NULL condition.
+         * Creates an <b>{@code IS NOT NULL}</b> condition.
          *
          * @return a new CaseNotConditionStatement
          */
@@ -148,7 +149,8 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not less than condition (greater than or equal). Toggles the NOT flag on the parent CaseWhenStatement.
+         * Creates a <b>{@code NOT LESS THAN}</b> condition (<b>{@code GREATER THAN OR EQUAL}</b> ). Toggles the <b>{@code NOT}</b> flag on the parent
+         * CaseWhenStatement.
          *
          * @param o the value to compare
          * @return a new CaseNotConditionStatement
@@ -162,7 +164,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not less than condition with a subquery. Toggles the NOT flag on the parent CaseWhenStatement.
+         * Creates a <b>{@code NOT LESS THAN}</b> condition with a subquery. Toggles the <b>{@code NOT}</b> flag on the parent CaseWhenStatement.
          *
          * @param finalStatement the subquery
          * @return a new CaseNotConditionStatement
@@ -176,7 +178,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not LIKE condition.
+         * Creates a <b>{@code NOT LIKE}</b> condition.
          *
          * @param o the pattern to match
          * @return a new CaseNotConditionStatement
@@ -187,7 +189,7 @@ public class CaseNotConditionStatement extends CaseConditionStatement
         }
 
         /**
-         * Creates a not LIKE condition with a subquery.
+         * Creates a <b>{@code NOT LIKE}</b> condition with a subquery.
          *
          * @param finalStatement the subquery
          * @return a new CaseNotConditionStatement

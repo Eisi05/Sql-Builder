@@ -3,14 +3,14 @@ package de.eisi05.sql.statements.Case;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents the ELSE clause in a CASE expression. Provides a default value when no WHEN conditions match.
+ * Represents the <b>{@code ELSE}</b> clause in a <b>{@code CASE}</b> expression. Provides a default value when no <b>{@code WHEN}</b> conditions match.
  */
 public class CaseElseStatement extends AbstractStatement implements CaseEndStatement.CaseEndStatementContainer
 {
     /**
      * Constructs a new CaseElseStatement with the given value.
      *
-     * @param query the ELSE value
+     * @param query the <b>{@code ELSE}</b> value
      */
     protected CaseElseStatement(String query)
     {
@@ -29,12 +29,12 @@ public class CaseElseStatement extends AbstractStatement implements CaseEndState
     }
 
     /**
-     * Interface for containers that can create ELSE statements.
+     * Interface for containers that can create <b>{@code ELSE}</b> statements.
      */
     public interface CaseElseStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates an ELSE statement with a parameterized value.
+         * Creates an <b>{@code ELSE}</b> statement with a parameterized value.
          *
          * @param value the default value
          * @return a new CaseElseStatement
@@ -47,7 +47,7 @@ public class CaseElseStatement extends AbstractStatement implements CaseEndState
         }
 
         /**
-         * Creates an ELSE statement with a direct value.
+         * Creates an <b>{@code ELSE}</b> statement with a direct value.
          *
          * @param key the default value
          * @return a new CaseElseStatement

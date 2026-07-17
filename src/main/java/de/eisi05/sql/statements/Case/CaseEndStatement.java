@@ -3,14 +3,15 @@ package de.eisi05.sql.statements.Case;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents the END clause of a CASE expression. Terminates the CASE expression and optionally allows aliasing with AS.
+ * Represents the <b>{@code END}</b> clause of a <b>{@code CASE}</b> expression. Terminates the <b>{@code CASE}</b> expression and optionally allows aliasing
+ * with AS.
  */
 public class CaseEndStatement extends CaseFinalStatement implements CaseAsStatement.CaseAsStatementContainer
 {
     /**
      * Constructs a new CaseEndStatement.
      *
-     * @param query the END keyword
+     * @param query the <b>{@code END}</b> keyword
      */
     protected CaseEndStatement(String query)
     {
@@ -18,7 +19,7 @@ public class CaseEndStatement extends CaseFinalStatement implements CaseAsStatem
     }
 
     /**
-     * Gets the SQL keyword for this statement. Returns empty string since END doesn't have a keyword prefix.
+     * Gets the SQL keyword for this statement. Returns empty string since <b>{@code END}</b> doesn't have a keyword prefix.
      *
      * @return empty string
      */
@@ -29,12 +30,12 @@ public class CaseEndStatement extends CaseFinalStatement implements CaseAsStatem
     }
 
     /**
-     * Interface for containers that can create END statements.
+     * Interface for containers that can create <b>{@code END}</b> statements.
      */
     public interface CaseEndStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates an END statement to terminate the CASE expression.
+         * Creates an <b>{@code END}</b> statement to terminate the <b>{@code CASE}</b> expression.
          *
          * @return a new CaseEndStatement
          */

@@ -4,15 +4,16 @@ import de.eisi05.sql.enums.LogicOperator;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Interface for adding additional conditions to a CASE WHEN expression. Supports AND and OR logic operators to chain multiple conditions.
+ * Interface for adding additional conditions to a <b>{@code CASE WHEN}</b> expression. Supports <b>{@code AND}</b> and <b>{@code OR}</b> logic operators to
+ * chain multiple conditions.
  */
 public interface CaseNextConditionStatementContainer extends AbstractStatement.StatementContainer
 {
     /**
-     * Adds an OR condition to the CASE expression.
+     * Adds an <b>{@code OR}</b> condition to the <b>{@code CASE}</b> expression.
      *
-     * @param key the value for the OR condition
-     * @return a new CaseWhenStatement with OR operator
+     * @param key the value for the <b>{@code OR}</b> condition
+     * @return a new CaseWhenStatement with <b>{@code OR}</b> operator
      */
     default CaseWhenStatement or(Object key)
     {
@@ -20,10 +21,10 @@ public interface CaseNextConditionStatementContainer extends AbstractStatement.S
     }
 
     /**
-     * Adds an AND condition to the CASE expression.
+     * Adds an <b>{@code AND}</b> condition to the <b>{@code CASE}</b> expression.
      *
-     * @param key the value for the AND condition
-     * @return a new CaseWhenStatement with AND operator
+     * @param key the value for the <b>{@code AND}</b> condition
+     * @return a new CaseWhenStatement with <b>{@code AND}</b> operator
      */
     default CaseWhenStatement and(Object key)
     {

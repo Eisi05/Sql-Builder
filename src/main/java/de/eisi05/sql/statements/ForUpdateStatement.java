@@ -1,7 +1,7 @@
 package de.eisi05.sql.statements;
 
 /**
- * Represents a SQL FOR UPDATE statement for row-level locking. Used to lock selected rows for update in a transaction.
+ * Represents a SQL <b>{@code FOR UPDATE}</b> statement for row-level locking. Used to lock selected rows for update in a transaction.
  */
 public class ForUpdateStatement extends FinalStatement
 {
@@ -14,7 +14,7 @@ public class ForUpdateStatement extends FinalStatement
     }
 
     /**
-     * Gets the SQL keyword for this statement. Returns empty string since FOR UPDATE doesn't have a keyword prefix.
+     * Gets the SQL keyword for this statement. Returns empty string since <b>{@code FOR UPDATE}</b> doesn't have a keyword prefix.
      *
      * @return empty string
      */
@@ -25,12 +25,12 @@ public class ForUpdateStatement extends FinalStatement
     }
 
     /**
-     * Interface for containers that can create FOR UPDATE statements.
+     * Interface for containers that can create <b>{@code FOR UPDATE}</b> statements.
      */
     public interface ForUpdateStatementContainer extends StatementContainer
     {
         /**
-         * Creates a FOR UPDATE statement to lock rows.
+         * Creates a <b>{@code FOR UPDATE}</b> statement to lock rows.
          *
          * @return a new ForUpdateStatement
          */

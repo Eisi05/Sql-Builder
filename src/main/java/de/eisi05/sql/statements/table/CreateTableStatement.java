@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Represents a SQL CREATE TABLE statement used to create structural tables inside databases.
+ * Represents a SQL <b>{@code CREATE TABLE}</b> statement used to create structural tables inside databases.
  */
 public class CreateTableStatement extends FinalStatement
         implements CreateTableAsStatement.CreateTableAsStatementContainer, ExecuteUpdateStatement
@@ -44,7 +44,7 @@ public class CreateTableStatement extends FinalStatement
     }
 
     /**
-     * Interface for containers that can build CREATE TABLE structures manually or via ORM mappings.
+     * Interface for containers that can build <b>{@code CREATE TABLE}</b> structures manually or via ORM mappings.
      */
     public interface CreateTableStatementContainer extends StatementContainer
     {
@@ -71,7 +71,7 @@ public class CreateTableStatement extends FinalStatement
         }
 
         /**
-         * Creates a skeletal CREATE TABLE query.
+         * Creates a skeletal <b>{@code CREATE TABLE}</b> query.
          *
          * @param table the table name
          * @return a new CreateTableStatement
@@ -82,7 +82,7 @@ public class CreateTableStatement extends FinalStatement
         }
 
         /**
-         * Creates a CREATE TABLE statement dynamically mapped from ORM entity reflections.
+         * Creates a <b>{@code CREATE TABLE}</b> statement dynamically mapped from ORM entity reflections.
          *
          * @param clazz the entity class containing field annotations
          * @return a completed CreateTableStatement mapping class fields to table columns
@@ -130,7 +130,7 @@ public class CreateTableStatement extends FinalStatement
         }
 
         /**
-         * Creates a CREATE TABLE IF NOT EXISTS statement mapped from an entity's reflections.
+         * Creates a <b>{@code CREATE TABLE IF NOT EXISTS}</b> statement mapped from an entity's reflections.
          *
          * @param clazz the class mapped with database annotations
          * @return a CreateTableStatement targeting safe creation sequences
@@ -143,7 +143,7 @@ public class CreateTableStatement extends FinalStatement
         }
 
         /**
-         * Creates a CREATE TABLE IF NOT EXISTS statement using manual TableColumn configurations.
+         * Creates a <b>{@code CREATE TABLE IF NOT EXISTS}</b> statement using manual TableColumn configurations.
          *
          * @param table   the target table identifier
          * @param column  the primary required column

@@ -3,7 +3,7 @@ package de.eisi05.sql.statements.select;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a SQL SELECT MAX aggregate function. Calculates the maximum value of a column.
+ * Represents a SQL <b>{@code SELECT MAX}</b> aggregate function. Calculates the maximum value of a column.
  */
 public class SelectMaxStatement extends SelectStatement
 {
@@ -18,12 +18,12 @@ public class SelectMaxStatement extends SelectStatement
     }
 
     /**
-     * Interface for containers that can create SELECT MAX statements.
+     * Interface for containers that can create <b>{@code SELECT MAX}</b> statements.
      */
     public interface SelectMaxStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a SELECT MAX statement for the specified column.
+         * Creates a <b>{@code SELECT MAX}</b> statement for the specified column.
          *
          * @param key the column to calculate the maximum for
          * @return a new SelectMaxStatement

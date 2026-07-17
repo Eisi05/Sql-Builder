@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL {@code LIKE} pattern matching condition fragment.
+ * Represents an SQL <b>{@code LIKE}</b> pattern matching condition fragment.
  */
 public class WhereLikeStatement extends AbstractWhereStatement
 {
@@ -30,7 +30,7 @@ public class WhereLikeStatement extends AbstractWhereStatement
     }
 
     /**
-     * A container interface providing fluent builder methods for {@code LIKE} pattern clauses.
+     * A container interface providing fluent builder methods for <b>{@code LIKE}</b> pattern clauses.
      */
     public interface WhereLikeStatementContainer extends AbstractStatement.StatementContainer
     {

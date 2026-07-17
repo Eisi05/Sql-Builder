@@ -5,7 +5,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL TRUNCATE TABLE statement to quickly delete all data records from a target table.
+ * Represents a SQL <b>{@code TRUNCATE TABLE}</b> statement to quickly delete all data records from a target table.
  */
 public class TruncateTableStatement extends FinalStatement implements ExecuteUpdateStatement
 {

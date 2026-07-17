@@ -5,7 +5,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL DROP VIEW statement used to permanently delete a view from the database.
+ * Represents a SQL <b>{@code DROP VIEW}</b> statement used to permanently delete a view from the database.
  */
 public class DropViewStatement extends FinalStatement implements ExecuteUpdateStatement
 {
@@ -31,7 +31,7 @@ public class DropViewStatement extends FinalStatement implements ExecuteUpdateSt
     }
 
     /**
-     * Interface for containers capable of executing a DROP VIEW query.
+     * Interface for containers capable of executing a <b>{@code DROP VIEW}</b> query.
      */
     public interface DropViewStatementContainer extends AbstractStatement.StatementContainer
     {

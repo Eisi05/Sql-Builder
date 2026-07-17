@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL {@code EXISTS} condition expression.
+ * Represents an SQL <b>{@code EXISTS}</b> condition expression.
  */
 public class WhereExistsStatement extends FinalStatement
 {
@@ -30,12 +30,12 @@ public class WhereExistsStatement extends FinalStatement
     }
 
     /**
-     * A container interface providing fluent builder methods for {@code EXISTS} clauses.
+     * A container interface providing fluent builder methods for <b>{@code EXISTS}</b> clauses.
      */
     public interface WhereExistsStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends a {@code WHERE EXISTS} condition wrapping a detailed subquery statement.
+         * Appends a <b>{@code WHERE EXISTS}</b> condition wrapping a detailed subquery statement.
          *
          * @param finalStatement the subquery to evaluate for existence
          * @return a configured {@link WhereExistsStatement}

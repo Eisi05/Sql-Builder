@@ -8,8 +8,8 @@ import de.eisi05.sql.statements.where.WhereStatement;
 import java.util.Arrays;
 
 /**
- * Represents a SQL FROM clause. Specifies the table(s) to query from in a SELECT statement. Supports joining, ordering, grouping, and other follow-up
- * operations.
+ * Represents a SQL <b>{@code FROM}</b> clause. Specifies the table(s) to query from in a <b>{@code SELECT}</b> statement. Supports joining, ordering, grouping,
+ * and other follow-up operations.
  */
 public class FromStatement extends FinalStatement implements WhereStatement.WhereStatementContainer,
                                                              JoinStatementContainer, UnionStatementContainer, OrderByStatement.OrderByStatementContainer,
@@ -40,12 +40,12 @@ public class FromStatement extends FinalStatement implements WhereStatement.Wher
     }
 
     /**
-     * Interface for containers that can create FROM statements.
+     * Interface for containers that can create <b>{@code FROM}</b> statements.
      */
     public interface FromStatementContainer extends StatementContainer
     {
         /**
-         * Creates a FROM statement for the specified tables.
+         * Creates a <b>{@code FROM}</b> statement for the specified tables.
          *
          * @param tables the table names to query from
          * @return a new FromStatement
@@ -56,7 +56,7 @@ public class FromStatement extends FinalStatement implements WhereStatement.Wher
         }
 
         /**
-         * Creates a FROM statement using AsStatementObject keys.
+         * Creates a <b>{@code FROM}</b> statement using AsStatementObject keys.
          *
          * @param keys the AsStatementObject keys
          * @return a new FromStatement
@@ -69,7 +69,7 @@ public class FromStatement extends FinalStatement implements WhereStatement.Wher
         }
 
         /**
-         * Creates a FROM statement using final alias objects.
+         * Creates a <b>{@code FROM}</b> statement using final alias objects.
          *
          * @param keys the FinalAsStatementObject keys with aliases
          * @return a new FromStatement

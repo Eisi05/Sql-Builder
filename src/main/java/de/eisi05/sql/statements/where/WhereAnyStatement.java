@@ -4,7 +4,7 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents an SQL condition involving the {@code ANY} (or {@code SOME}) quantifier combined with a relational operator.
+ * Represents an SQL condition involving the <b>{@code ANY}</b> (or <b>{@code SOME}</b> ) quantifier combined with a relational operator.
  * <p>
  * Example: {@code field = ANY (subquery)}
  * </p>
@@ -12,7 +12,7 @@ import de.eisi05.sql.statements.FinalStatement;
 public class WhereAnyStatement extends FinalStatement
 {
     /**
-     * The relational operator combined with ANY (e.g., "=", "<>", ">").
+     * The relational operator combined with <b>{@code ANY}</b> (e.g., "=", "<>", ">").
      */
     private final String operator;
 
@@ -40,15 +40,15 @@ public class WhereAnyStatement extends FinalStatement
     }
 
     /**
-     * A container interface providing fluent builder methods for {@code ANY} quantifier conditions.
+     * A container interface providing fluent builder methods for <b>{@code ANY}</b> quantifier conditions.
      */
     public interface WhereAnyStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Appends an equality condition compared against ANY results of a subquery.
+         * Appends an equality condition compared against <b>{@code ANY}</b> results of a subquery.
          *
          * @param finalStatement the subquery statement
-         * @return a new {@link WhereAnyStatement} matching equals ANY
+         * @return a new {@link WhereAnyStatement} matching equals <b>{@code ANY}</b>
          */
         default WhereAnyStatement anyEquals(FinalStatement finalStatement)
         {
@@ -56,10 +56,10 @@ public class WhereAnyStatement extends FinalStatement
         }
 
         /**
-         * Appends a non-equality condition compared against ANY results of a subquery.
+         * Appends a non-equality condition compared against <b>{@code ANY}</b> results of a subquery.
          *
          * @param finalStatement the subquery statement
-         * @return a new {@link WhereAnyStatement} matching not equals ANY
+         * @return a new {@link WhereAnyStatement} matching not equals <b>{@code ANY}</b>
          */
         default WhereAnyStatement anyNotEquals(FinalStatement finalStatement)
         {
@@ -67,10 +67,10 @@ public class WhereAnyStatement extends FinalStatement
         }
 
         /**
-         * Appends a greater-than condition compared against ANY results of a subquery.
+         * Appends a greater-than condition compared against <b>{@code ANY}</b> results of a subquery.
          *
          * @param finalStatement the subquery statement
-         * @return a new {@link WhereAnyStatement} matching greater than ANY
+         * @return a new {@link WhereAnyStatement} matching greater than <b>{@code ANY}</b>
          */
         default WhereAnyStatement anyGreaterThan(FinalStatement finalStatement)
         {
@@ -78,10 +78,10 @@ public class WhereAnyStatement extends FinalStatement
         }
 
         /**
-         * Appends a greater-than-or-equal condition compared against ANY results of a subquery.
+         * Appends a greater-than-or-equal condition compared against <b>{@code ANY}</b> results of a subquery.
          *
          * @param finalStatement the subquery statement
-         * @return a new {@link WhereAnyStatement} matching greater than or equal ANY
+         * @return a new {@link WhereAnyStatement} matching greater than or equal <b>{@code ANY}</b>
          */
         default WhereAnyStatement anyGreaterThanOrEquals(FinalStatement finalStatement)
         {
@@ -89,10 +89,10 @@ public class WhereAnyStatement extends FinalStatement
         }
 
         /**
-         * Appends a less-than condition compared against ANY results of a subquery.
+         * Appends a less-than condition compared against <b>{@code ANY}</b> results of a subquery.
          *
          * @param finalStatement the subquery statement
-         * @return a new {@link WhereAnyStatement} matching less than ANY
+         * @return a new {@link WhereAnyStatement} matching less than <b>{@code ANY}</b>
          */
         default WhereAnyStatement anyLessThan(FinalStatement finalStatement)
         {
@@ -100,10 +100,10 @@ public class WhereAnyStatement extends FinalStatement
         }
 
         /**
-         * Appends a less-than-or-equal condition compared against ANY results of a subquery.
+         * Appends a less-than-or-equal condition compared against <b>{@code ANY}</b> results of a subquery.
          *
          * @param finalStatement the subquery statement
-         * @return a new {@link WhereAnyStatement} matching less than or equal ANY
+         * @return a new {@link WhereAnyStatement} matching less than or equal <b>{@code ANY}</b>
          */
         default WhereAnyStatement anyLessThanOrEquals(FinalStatement finalStatement)
         {

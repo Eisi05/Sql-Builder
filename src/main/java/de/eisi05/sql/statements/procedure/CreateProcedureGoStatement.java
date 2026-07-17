@@ -4,14 +4,14 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents the GO statement in SQL Server. Used to signal the end of a batch of SQL statements. SQL Server-specific syntax.
+ * Represents the <b>{@code GO}</b> statement in SQL Server. Used to signal the end of a batch of SQL statements. SQL Server-specific syntax.
  */
 public class CreateProcedureGoStatement extends FinalStatement
 {
     /**
      * Constructs a new CreateProcedureGoStatement.
      *
-     * @param query the GO keyword
+     * @param query the <b>{@code GO}</b> keyword
      */
     protected CreateProcedureGoStatement(String query)
     {
@@ -19,7 +19,7 @@ public class CreateProcedureGoStatement extends FinalStatement
     }
 
     /**
-     * Gets the SQL keyword for this statement. Returns empty string since GO doesn't have a keyword prefix.
+     * Gets the SQL keyword for this statement. Returns empty string since <b>{@code GO}</b> doesn't have a keyword prefix.
      *
      * @return empty string
      */
@@ -30,12 +30,12 @@ public class CreateProcedureGoStatement extends FinalStatement
     }
 
     /**
-     * Interface for containers that can create GO statements.
+     * Interface for containers that can create <b>{@code GO}</b> statements.
      */
     public interface CreateProcedureGoStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a GO statement to end the batch.
+         * Creates a <b>{@code GO}</b> statement to end the batch.
          *
          * @return a new CreateProcedureGoStatement
          */

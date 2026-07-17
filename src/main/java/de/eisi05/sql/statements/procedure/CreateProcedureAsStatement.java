@@ -4,7 +4,8 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents the AS clause in a CREATE PROCEDURE statement. Specifies the body of the stored procedure. SQL Server-specific syntax.
+ * Represents the <b>{@code AS}</b> clause in a <b>{@code CREATE PROCEDURE}</b> statement. Specifies the body of the stored procedure. SQL Server-specific
+ * syntax.
  */
 public class CreateProcedureAsStatement extends AbstractStatement
         implements CreateProcedureGoStatement.CreateProcedureGoStatementContainer
@@ -31,12 +32,12 @@ public class CreateProcedureAsStatement extends AbstractStatement
     }
 
     /**
-     * Interface for containers that can create AS statements in CREATE PROCEDURE.
+     * Interface for containers that can create <b>{@code AS}</b> statements in <b>{@code CREATE PROCEDURE}</b> .
      */
     public interface CreateProcedureAsStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates an AS statement with the specified procedure body.
+         * Creates an <b>{@code AS}</b> statement with the specified procedure body.
          *
          * @param finalStatement the procedure body SQL
          * @return a new CreateProcedureAsStatement

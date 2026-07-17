@@ -11,7 +11,7 @@ import de.eisi05.sql.utils.OrmUtils;
 import java.util.Arrays;
 
 /**
- * Represents a standard SQL SELECT statement used to select data from a database.
+ * Represents a standard SQL <b>{@code SELECT}</b> statement used to select data from a database.
  */
 public class SelectStatement extends AbstractStatement
         implements FromStatement.FromStatementContainer, IntoStatement.IntoStatementContainer,
@@ -52,12 +52,12 @@ public class SelectStatement extends AbstractStatement
     }
 
     /**
-     * Interface for containers that can create standard SELECT statements.
+     * Interface for containers that can create standard <b>{@code SELECT}</b> statements.
      */
     public interface SelectStatementContainer extends StatementContainer
     {
         /**
-         * Creates a standard SELECT statement with the specified column names.
+         * Creates a standard <b>{@code SELECT}</b> statement with the specified column names.
          *
          * @param keys the columns to select
          * @return a new SelectStatement
@@ -68,7 +68,7 @@ public class SelectStatement extends AbstractStatement
         }
 
         /**
-         * Creates a standard SELECT statement with the specified alias statement objects.
+         * Creates a standard <b>{@code SELECT}</b> statement with the specified alias statement objects.
          *
          * @param keys the statement objects representing columns
          * @return a new SelectStatement
@@ -81,7 +81,7 @@ public class SelectStatement extends AbstractStatement
         }
 
         /**
-         * Creates a standard SELECT statement with explicit alias mapping.
+         * Creates a standard <b>{@code SELECT}</b> statement with explicit alias mapping.
          *
          * @param keys the final alias statement objects
          * @return a new SelectStatement
@@ -95,7 +95,7 @@ public class SelectStatement extends AbstractStatement
         }
 
         /**
-         * Creates a SELECT * FROM statement mapped automatically from an ORM entity class.
+         * Creates a <b>{@code SELECT * FROM}</b> statement mapped automatically from an ORM entity class.
          *
          * @param clazz the entity class to map to a table
          * @return a FromStatement following the wildcard selection

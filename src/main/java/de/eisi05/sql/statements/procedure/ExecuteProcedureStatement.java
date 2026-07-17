@@ -4,7 +4,8 @@ import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.statements.FinalStatement;
 
 /**
- * Represents a SQL EXEC statement for executing stored procedures. Executes a stored procedure with the specified name. SQL Server-specific syntax.
+ * Represents a SQL <b>{@code EXEC}</b> statement for executing stored procedures. Executes a stored procedure with the specified name. SQL Server-specific
+ * syntax.
  */
 public class ExecuteProcedureStatement extends FinalStatement implements ExecuteUpdateStatement
 {
@@ -30,12 +31,12 @@ public class ExecuteProcedureStatement extends FinalStatement implements Execute
     }
 
     /**
-     * Interface for containers that can create EXEC statements.
+     * Interface for containers that can create <b>{@code EXEC}</b> statements.
      */
     public interface ExecuteProcedureStatementContainer extends StatementContainer
     {
         /**
-         * Creates an EXEC statement for the specified procedure.
+         * Creates an <b>{@code EXEC}</b> statement for the specified procedure.
          *
          * @param name the procedure name
          * @return a new ExecuteProcedureStatement

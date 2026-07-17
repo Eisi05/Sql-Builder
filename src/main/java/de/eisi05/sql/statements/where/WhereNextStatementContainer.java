@@ -4,15 +4,15 @@ import de.eisi05.sql.enums.LogicOperator;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Provides capability for chaining multiple WHERE operations sequentially using logical conjunctions or disjunctions.
+ * Provides capability for chaining multiple <b>{@code WHERE}</b> operations sequentially using logical conjunctions or disjunctions.
  */
 public interface WhereNextStatementContainer extends AbstractStatement.StatementContainer
 {
     /**
-     * Chains a subsequent query condition using an {@code OR} logical operator.
+     * Chains a subsequent query condition using an <b>{@code OR}</b> logical operator.
      *
      * @param key the database column or key expression context for the next condition
-     * @return a updated {@link WhereStatement} initialized with an OR relation
+     * @return a updated {@link WhereStatement} initialized with an <b>{@code OR}</b> relation
      */
     default WhereStatement or(String key)
     {
@@ -20,10 +20,10 @@ public interface WhereNextStatementContainer extends AbstractStatement.Statement
     }
 
     /**
-     * Chains a subsequent query condition using an {@code AND} logical operator.
+     * Chains a subsequent query condition using an <b>{@code AND}</b> logical operator.
      *
      * @param key the database column or key expression context for the next condition
-     * @return an updated {@link WhereStatement} initialized with an AND relation
+     * @return an updated {@link WhereStatement} initialized with an <b>{@code AND}</b> relation
      */
     default WhereStatement and(String key)
     {

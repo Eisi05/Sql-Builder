@@ -3,7 +3,7 @@ package de.eisi05.sql.statements.Case;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Represents a CASE expression with an AS alias. Used to alias the result of a CASE expression in SELECT statements.
+ * Represents a <b>{@code CASE}</b> expression with an AS alias. Used to alias the result of a <b>{@code CASE}</b> expression in <b>{@code SELECT}</b> statements.
  */
 public class CaseAsStatement extends CaseFinalStatement
 {
@@ -29,12 +29,12 @@ public class CaseAsStatement extends CaseFinalStatement
     }
 
     /**
-     * Interface for containers that can create CASE AS statements.
+     * Interface for containers that can create <b>{@code CASE AS}</b> statements.
      */
     public interface CaseAsStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a CASE AS statement with the specified alias.
+         * Creates a <b>{@code CASE AS}</b> statement with the specified alias.
          *
          * @param key the alias name
          * @return a new CaseAsStatement

@@ -10,7 +10,8 @@ import de.eisi05.sql.utils.OrmUtils;
 import java.util.Arrays;
 
 /**
- * Represents a SQL DELETE statement. Supports deleting from a table with optional WHERE conditions. Can also delete objects by their ID using ORM annotations.
+ * Represents a SQL <b>{@code DELETE}</b> statement. Supports deleting from a table with optional <b>{@code WHERE}</b> conditions. Can also delete objects by
+ * their ID using ORM annotations.
  */
 public class DeleteStatement extends FinalStatement implements WhereStatement.WhereStatementContainer,
                                                                ExecuteUpdateStatement
@@ -37,12 +38,12 @@ public class DeleteStatement extends FinalStatement implements WhereStatement.Wh
     }
 
     /**
-     * Interface for containers that can create DELETE statements.
+     * Interface for containers that can create <b>{@code DELETE}</b> statements.
      */
     public interface DeleteStatementContainer extends StatementContainer
     {
         /**
-         * Creates a DELETE statement for the specified table.
+         * Creates a <b>{@code DELETE}</b> statement for the specified table.
          *
          * @param table the table to delete from
          * @return a new DeleteStatement
@@ -53,11 +54,11 @@ public class DeleteStatement extends FinalStatement implements WhereStatement.Wh
         }
 
         /**
-         * Creates a DELETE statement for an object by its ID. Uses ORM annotations to determine the table and ID column.
+         * Creates a <b>{@code DELETE}</b> statement for an object by its ID. Uses ORM annotations to determine the table and ID column.
          *
          * @param object the object to delete
          * @param <T>    the type of the object
-         * @return a WhereEqualStatement with the DELETE and WHERE conditions
+         * @return a WhereEqualStatement with the <b>{@code DELETE}</b> and <b>{@code WHERE}</b> conditions
          */
         default <T> WhereEqualStatement delete(T object)
         {

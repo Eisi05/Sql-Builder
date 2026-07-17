@@ -4,14 +4,14 @@ import de.eisi05.sql.statements.AbstractStatement;
 import de.eisi05.sql.statements.select.SelectStatement;
 
 /**
- * Represents a SQL CREATE TABLE AS select-statement variant.
+ * Represents a SQL <b>{@code CREATE TABLE AS}</b> select-statement variant.
  */
 public class CreateTableAsStatement extends AbstractStatement implements SelectStatement.SelectStatementContainer
 {
     /**
      * Constructs a new CreateTableAsStatement.
      *
-     * @param query the query snippet representing the AS criteria
+     * @param query the query snippet representing the <b>{@code AS}</b> criteria
      */
     protected CreateTableAsStatement(String query)
     {
@@ -30,14 +30,14 @@ public class CreateTableAsStatement extends AbstractStatement implements SelectS
     }
 
     /**
-     * Interface for containers that can transition tables using an AS criteria block.
+     * Interface for containers that can transition tables using an <b>{@code AS}</b> criteria block.
      */
     public interface CreateTableAsStatementContainer extends StatementContainer
     {
         /**
          * Transitions to selecting details to construct a table.
          *
-         * @return a new CreateTableAsStatement representing 'AS'
+         * @return a new CreateTableAsStatement representing "AS"
          */
         default CreateTableAsStatement as()
         {

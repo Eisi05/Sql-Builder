@@ -3,12 +3,12 @@ package de.eisi05.sql.statements.union;
 import de.eisi05.sql.statements.AbstractStatement;
 
 /**
- * Interface for containers that can construct and chain UNION or UNION ALL statements.
+ * Interface for containers that can construct and chain <b>{@code UNION}</b> or <b>{@code UNION ALL}</b> statements.
  */
 public interface UnionStatementContainer extends AbstractStatement.StatementContainer
 {
     /**
-     * Appends a standard UNION clause to combine query results, removing duplicate rows.
+     * Appends a standard <b>{@code UNION}</b> clause to combine query results, removing duplicate rows.
      *
      * @return a new UnionStatement initialized with "UNION"
      */
@@ -18,7 +18,7 @@ public interface UnionStatementContainer extends AbstractStatement.StatementCont
     }
 
     /**
-     * Appends a UNION ALL clause to combine query results, including duplicate rows.
+     * Appends a <b>{@code UNION ALL}</b> clause to combine query results, including duplicate rows.
      *
      * @return a new UnionStatement initialized with "UNION ALL"
      */
