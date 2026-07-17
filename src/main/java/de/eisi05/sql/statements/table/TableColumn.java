@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Builder class and model representation for building out structural SQL Table Columns and their constraints.
+ */
 public class TableColumn
 {
     private final String name;
@@ -21,59 +24,118 @@ public class TableColumn
     private String defaultValue = null;
     private int[] autoIncrement = null;
 
+    /**
+     * Constructs a new TableColumn with standard property values.
+     *
+     * @param name     the label descriptor for the column
+     * @param dataType the mapping SQL structural type
+     */
     public TableColumn(String name, SqlDataType<?> dataType)
     {
         this.name = name;
         this.dataType = dataType;
     }
 
+    /**
+     * Fluent interface helper to instantiate a TableColumn inline.
+     *
+     * @param name     the column label descriptor
+     * @param dataType the target SqlDataType entity
+     * @return a new TableColumn instance
+     */
     public static TableColumn of(String name, SqlDataType<?> dataType)
     {
         return new TableColumn(name, dataType);
     }
 
+    /**
+     * Flags this column instance to incorporate a NOT NULL constraint.
+     *
+     * @return the builder instance for chaining
+     */
     public TableColumn notNull()
     {
         isNotNull = true;
         return this;
     }
 
+    /**
+     * Flags this column instance to enforce a UNIQUE value restriction.
+     *
+     * @return the builder instance for chaining
+     */
     public TableColumn unique()
     {
         isUnique = true;
         return this;
     }
 
+    /**
+     * Sets this column instance as a Primary Key identifier.
+     *
+     * @return the builder instance for chaining
+     */
     public TableColumn primaryKey()
     {
         isPrimaryKey = true;
         return this;
     }
 
+    /**
+     * Sets a traditional inline SQL DEFAULT value modifier.
+     *
+     * @param defaultValue the raw default value expression string
+     * @return the builder instance for chaining
+     */
     public TableColumn defaultValue(String defaultValue)
     {
         this.defaultValue = "DEFAULT (" + defaultValue + ")";
         return this;
     }
 
+    /**
+     * Sets a modification statement to update defaults during column updates (e.g. SET DEFAULT).
+     *
+     * @param defaultValue the raw default target expression string
+     * @return the builder instance for chaining
+     */
     public TableColumn setDefaultValue(String defaultValue)
     {
         this.defaultValue = "SET DEFAULT (" + defaultValue + ")";
         return this;
     }
 
+    /**
+     * Activates a standard database auto increment rule sequence on this column.
+     *
+     * @return the builder instance for chaining
+     */
     public TableColumn autoIncrement()
     {
         this.autoIncrement = new int[1];
         return this;
     }
 
+    /**
+     * Activates an absolute structural identity mechanism defining custom start indices and increments.
+     *
+     * @param start     the base initial initialization identifier value
+     * @param increment the offset increment mapping factor per added entry
+     * @return the builder instance for chaining
+     */
     public TableColumn autoIncrement(int start, int increment)
     {
         this.autoIncrement = new int[]{start, increment};
         return this;
     }
 
+    /**
+     * Appends an operational CHECK criteria filter routine evaluating inputs safely.
+     *
+     * @param key   the targeted verification base element context
+     * @param check the functional mapping strategy converting conditions to where evaluation syntax blocks
+     * @return the builder instance for chaining
+     */
     public TableColumn check(String key, Function<WhereStatement, AbstractWhereStatement> check)
     {
         this.check = check.apply(new WhereStatement(key)
@@ -87,27 +149,55 @@ public class TableColumn
         return this;
     }
 
+    /**
+     * Links a relative structural foreign key constraint validation map.
+     *
+     * @param table  the target table class reference to map relationships
+     * @param column the target foreign column key descriptor
+     * @return the builder instance for chaining
+     */
     public TableColumn references(Class<?> table, String column)
     {
         constraints.add("REFERENCES " + OrmUtils.resolveTable(table) + "(" + column + ")");
         return this;
     }
 
+    /**
+     * Checks if this structural column represents a primary key target definition.
+     *
+     * @return true if primary key configurations are set, false otherwise
+     */
     boolean isPrimaryKey()
     {
         return isPrimaryKey;
     }
 
+    /**
+     * Returns the name label assigned to this column instance.
+     *
+     * @return the absolute textual column name
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Returns the type assigned to this column instance.
+     *
+     * @return the relative underlying database mapping type value descriptor
+     */
     public SqlDataType<?> getDataType()
     {
         return dataType;
     }
 
+    /**
+     * Transforms builder properties into an absolute executable database-safe query fragment.
+     *
+     * @param isPostgres true if the query sequence targets Postgres database environments specifically
+     * @return the formatted SQL column declaration string snippet
+     */
     public String asQuery(boolean isPostgres)
     {
         StringBuilder sql = new StringBuilder();

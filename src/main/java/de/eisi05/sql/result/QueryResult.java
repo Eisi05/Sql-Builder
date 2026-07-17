@@ -12,10 +12,20 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Wraps a single database row result map, providing extraction routines and mapping mechanics to convert database rows directly into Java Objects, Records, or
+ * primitives.
+ */
 public class QueryResult
 {
     private final LinkedHashMap<String, Object> results;
 
+    /**
+     * Constructs a {@code QueryResult} entity container from the current row context of a JDBC {@link ResultSet}.
+     *
+     * @param resultSet the active database result cursor
+     * @throws SQLException if a data access configuration error occurs
+     */
     public QueryResult(ResultSet resultSet) throws SQLException
     {
         this.results = new LinkedHashMap<>();
@@ -33,6 +43,13 @@ public class QueryResult
         }
     }
 
+    /**
+     * Collects and casts all row elements into a sequential linked list.
+     *
+     * @param dataType the target primitive structure type
+     * @param <T>      the matching element casting boundary type
+     * @return a list of typed values mapped from the result columns
+     */
     public <T> List<T> getObjects(SqlDataType<T> dataType)
     {
         if(!(dataType instanceof SqlDataType.PrimitiveSqlDataType<T> primitiveSqlDataType))
@@ -41,6 +58,14 @@ public class QueryResult
         return results.values().stream().map(o -> primitiveSqlDataType.getDataType().cast(o)).toList();
     }
 
+    /**
+     * Extracts a column value by its field name label identifier and casts it safely.
+     *
+     * @param key      the database column name label
+     * @param dataType the validation structure type mapping
+     * @param <T>      the matching casting boundary type
+     * @return the typed row cell value, or {@code null} if missing
+     */
     public <T> T get(String key, SqlDataType<T> dataType)
     {
         if(!(dataType instanceof SqlDataType.PrimitiveSqlDataType<T> primitiveSqlDataType))
@@ -49,6 +74,14 @@ public class QueryResult
         return primitiveSqlDataType.getDataType().cast(results.getOrDefault(key, null));
     }
 
+    /**
+     * Extracts a column value by its absolute index position and casts it safely.
+     *
+     * @param column   the zero-indexed order column location
+     * @param dataType the validation structure type mapping
+     * @param <T>      the matching casting boundary type
+     * @return the typed row cell value, or {@code null} if missing
+     */
     public <T> T get(int column, SqlDataType<T> dataType)
     {
         if(!(dataType instanceof SqlDataType.PrimitiveSqlDataType<T> primitiveSqlDataType))
@@ -57,6 +90,13 @@ public class QueryResult
         return primitiveSqlDataType.getDataType().cast(results.values().stream().toList().get(column));
     }
 
+    /**
+     * Extracts an unchecked loosely typed column value by its label identifier.
+     *
+     * @param key the database column name label
+     * @param <T> the expected casting type
+     * @return the row value entry
+     */
     public <T> T get(String key)
     {
         @SuppressWarnings("unchecked")
@@ -64,6 +104,13 @@ public class QueryResult
         return value;
     }
 
+    /**
+     * Extracts an unchecked loosely typed column value by its absolute index position.
+     *
+     * @param column the zero-indexed order column location
+     * @param <T>    the expected casting type
+     * @return the row value entry
+     */
     public <T> T get(int column)
     {
         @SuppressWarnings("unchecked")
@@ -71,6 +118,15 @@ public class QueryResult
         return value;
     }
 
+    /**
+     * Maps the columns from this row into a fresh instance of the specified class. Handles reflections over standard POJOs (using constructor strategies and
+     * fields) as well as Records. Honors annotation attributes such as {@link Column} and {@link PersistenceConstructor}.
+     *
+     * @param clazz the target class blueprint to populate
+     * @param <T>   the runtime mapping class model parameter type
+     * @return a fully populated object instance
+     * @throws RuntimeException if reflecting or converting types runs into errors
+     */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public <T> T map(Class<T> clazz)
     {
@@ -153,6 +209,10 @@ public class QueryResult
         }
     }
 
+    /**
+     * Converts raw relational database values into complex object fields, handling null default primitives, time representations, enums, SQL arrays, and
+     * Jackson-mapped JSON data blocks.
+     */
     @SuppressWarnings("unchecked")
     private Object mapValue(Object value, Class<?> targetType, java.lang.reflect.Type genericType)
     {
@@ -216,7 +276,7 @@ public class QueryResult
             }
         }
 
-        if((targetType.isRecord() || Map.class.isAssignableFrom(targetType)) && !(value instanceof Map<?,?>))
+        if((targetType.isRecord() || Map.class.isAssignableFrom(targetType)) && !(value instanceof Map<?, ?>))
         {
             try
             {

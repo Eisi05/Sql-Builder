@@ -8,26 +8,58 @@ import de.eisi05.sql.utils.OrmUtils;
 
 import java.util.*;
 
+/**
+ * Represents a SQL UPDATE statement. Supports updating table rows with optional WHERE conditions. Can update single objects or multiple objects using ORM
+ * annotations. Supports batch updates for multiple objects.
+ */
 public class UpdateStatement extends AbstractStatement implements SetStatement.SetStatementContainer, ExecuteUpdateStatement
 {
+    /**
+     * Constructs a new UpdateStatement for the specified table.
+     *
+     * @param table the table to update
+     */
     private UpdateStatement(String table)
     {
         super(table);
     }
 
+    /**
+     * Gets the SQL keyword for this statement.
+     *
+     * @return "UPDATE"
+     */
     @Override
     protected String getKey()
     {
         return "UPDATE";
     }
 
+    /**
+     * Interface for containers that can create UPDATE statements.
+     */
     public interface UpdateStatementContainer extends StatementContainer
     {
+        /**
+         * Creates an UPDATE statement for the specified table.
+         *
+         * @param table the table to update
+         * @return a new UpdateStatement
+         */
         default UpdateStatement update(String table)
         {
             return create(new UpdateStatement(table));
         }
 
+        /**
+         * Creates an UPDATE statement for one or more objects by their ID. Uses ORM annotations to determine the table, columns, and ID column. Supports batch
+         * updates when multiple objects are provided.
+         *
+         * @param object  the first object to update
+         * @param objects additional objects to update (optional)
+         * @param <T>     the type of the objects
+         * @return an AbstractWhereStatement with the UPDATE, SET, and WHERE conditions
+         */
         default <T> AbstractWhereStatement update(T object, T... objects)
         {
             if(objects == null || objects.length == 0)
@@ -40,6 +72,15 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
             return update(allObjects);
         }
 
+        /**
+         * Creates a batch UPDATE statement for a collection of objects. Uses ORM annotations to determine the table, columns, and ID column. All objects must
+         * be of the same type.
+         *
+         * @param objects the collection of objects to update
+         * @param <T>     the type of the objects
+         * @return an AbstractWhereStatement with the UPDATE, SET, and WHERE conditions
+         * @throws IllegalStateException if the @Id annotation is missing
+         */
         default <T> AbstractWhereStatement update(Collection<T> objects)
         {
             T first = objects.iterator().next();
@@ -86,6 +127,13 @@ public class UpdateStatement extends AbstractStatement implements SetStatement.S
             return builtStatement;
         }
 
+        /**
+         * Creates a single UPDATE statement for an object by its ID. Uses ORM annotations to determine the table, columns, and ID column.
+         *
+         * @param object the object to update
+         * @param <T>    the type of the object
+         * @return an AbstractWhereStatement with the UPDATE, SET, and WHERE conditions
+         */
         private <T> AbstractWhereStatement updateSingle(T object)
         {
             UpdateStatement updateStatement = new UpdateStatement(OrmUtils.resolveTable(object.getClass()));

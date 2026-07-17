@@ -17,8 +17,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * Represents SQL data types mapped into Java types. Contains predefined static types as well as helper factory methods to construct or resolve mappings.
+ *
+ * @param <T> the corresponding Java type for the SQL data type
+ */
 public interface SqlDataType<T>
 {
+    // Predefined Standard Data Types
     SqlDataType<Blob> TINYBLOB = new PrimitiveSqlDataType<>(Blob.class);
     SqlDataType<String> TINYTEXT = new PrimitiveSqlDataType<>(String.class);
     SqlDataType<String> MEDIUMTEXT = new PrimitiveSqlDataType<>(String.class);
@@ -31,6 +37,7 @@ public interface SqlDataType<T>
     SqlDataType<Date> DATE = new PrimitiveSqlDataType<>(Date.class);
     SqlDataType<Timestamp> DATETIME = new PrimitiveSqlDataType<>(Timestamp.class);
     SqlDataType<Timestamp> TIMESTAMP = new PrimitiveSqlDataType<>(Timestamp.class);
+
     SqlDataType<LocalDateTime> LOCAL_DATE_TIME = new PrimitiveSqlDataType<>(LocalDateTime.class)
     {
         @Override
@@ -161,6 +168,13 @@ public interface SqlDataType<T>
         return new ArraySqlDataType<>(inner);
     }
 
+    /**
+     * Resolves a {@code SqlDataType} by matching its static field name to a specified string.
+     *
+     * @param string the name of the data type to lookup
+     * @param <T>    the inferred internal Java type mapping
+     * @return the matching SqlDataType instance, or {@code null} if not found
+     */
     static <T> SqlDataType<T> fromString(String string)
     {
         return Arrays.stream(SqlDataType.class.getDeclaredFields()).filter(field -> field.getName().equals(string))
@@ -180,7 +194,11 @@ public interface SqlDataType<T>
     }
 
     /**
-     * Resolves the SqlDataType from a Java Field, processing @Column definitions first.
+     * Resolves the SqlDataType from a Java Field, processing {@link Column} definitions first. Fallback to reflection on raw types and components is used if
+     * explicit DDL definitions are missing.
+     *
+     * @param field the Java field reflecting a database column
+     * @return the resolved SQL data type mapping
      */
     static SqlDataType<?> fromField(Field field)
     {
@@ -287,13 +305,27 @@ public interface SqlDataType<T>
         throw new IllegalArgumentException("Unsupported type: " + type);
     }
 
+    /**
+     * Gets the standard SQL string representation of this data type.
+     *
+     * @return the SQL data type string
+     */
     String getName();
 
+    /**
+     * Helper to wrap this data type context alongside a specific column name.
+     *
+     * @param name the target table column name
+     * @return a structured TableColumn instance containing this type data
+     */
     default TableColumn withName(String name)
     {
         return new TableColumn(name, this);
     }
 
+    /**
+     * Internal implementation mapping straightforward primitive or structural types.
+     */
     class PrimitiveSqlDataType<T> implements SqlDataType<T>
     {
         protected final Class<T> dataType;
@@ -312,6 +344,11 @@ public interface SqlDataType<T>
             }
         }
 
+        /**
+         * Returns the internal Java type class bound to this SQL structure.
+         *
+         * @return the java type representation class
+         */
         public Class<T> getDataType()
         {
             return dataType;
@@ -338,6 +375,9 @@ public interface SqlDataType<T>
         }
     }
 
+    /**
+     * Structural extension tracking sizing or length variables (e.g. VARCHAR(length)).
+     */
     class VariableSqlDataType<T> extends PrimitiveSqlDataType<T>
     {
         private final int length;
@@ -355,7 +395,9 @@ public interface SqlDataType<T>
         }
     }
 
-    // New specific inner class for (precision, scale) definitions like NUMERIC(10,2)
+    /**
+     * Specific structural type for handling custom high-precision numerical scales (e.g. NUMERIC(10,2)).
+     */
     class NumericSqlDataType<T> extends PrimitiveSqlDataType<T>
     {
         private final int precision;
@@ -376,6 +418,9 @@ public interface SqlDataType<T>
         }
     }
 
+    /**
+     * Type definition formatting a predefined bounded value restriction list (e.g. ENUM or SET).
+     */
     class ValuedSqlDataType<T> extends PrimitiveSqlDataType<T>
     {
         private final Object[] objects;
@@ -394,6 +439,9 @@ public interface SqlDataType<T>
         }
     }
 
+    /**
+     * Custom container mapping an underlying data type as a database array representation.
+     */
     class ArraySqlDataType<T> implements SqlDataType<T>
     {
         private final SqlDataType<?> inner;

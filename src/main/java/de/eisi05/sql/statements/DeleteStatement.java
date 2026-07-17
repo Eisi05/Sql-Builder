@@ -9,27 +9,56 @@ import de.eisi05.sql.utils.OrmUtils;
 
 import java.util.Arrays;
 
+/**
+ * Represents a SQL DELETE statement. Supports deleting from a table with optional WHERE conditions. Can also delete objects by their ID using ORM annotations.
+ */
 public class DeleteStatement extends FinalStatement implements WhereStatement.WhereStatementContainer,
                                                                ExecuteUpdateStatement
 {
+    /**
+     * Constructs a new DeleteStatement for the specified table.
+     *
+     * @param table the table to delete from
+     */
     private DeleteStatement(String table)
     {
         super(table);
     }
 
+    /**
+     * Gets the SQL keyword for this statement.
+     *
+     * @return "DELETE FROM"
+     */
     @Override
     protected String getKey()
     {
         return "DELETE FROM";
     }
 
+    /**
+     * Interface for containers that can create DELETE statements.
+     */
     public interface DeleteStatementContainer extends StatementContainer
     {
+        /**
+         * Creates a DELETE statement for the specified table.
+         *
+         * @param table the table to delete from
+         * @return a new DeleteStatement
+         */
         default DeleteStatement delete(String table)
         {
             return create(new DeleteStatement(table));
         }
 
+        /**
+         * Creates a DELETE statement for an object by its ID. Uses ORM annotations to determine the table and ID column.
+         *
+         * @param object the object to delete
+         * @param <T>    the type of the object
+         * @return a WhereEqualStatement with the DELETE and WHERE conditions
+         */
         default <T> WhereEqualStatement delete(T object)
         {
             Class<?> clazz = object.getClass();

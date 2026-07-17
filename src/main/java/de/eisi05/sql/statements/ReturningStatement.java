@@ -4,31 +4,65 @@ import de.eisi05.sql.interfaces.ExecuteQueryStatement;
 
 import java.util.Collection;
 
+/**
+ * Represents a SQL RETURNING clause. Returns data from modified rows after INSERT, UPDATE, or DELETE operations. PostgreSQL-specific syntax.
+ */
 public class ReturningStatement extends FinalStatement implements ExecuteQueryStatement
 {
+    /**
+     * Constructs a new ReturningStatement for the specified columns.
+     *
+     * @param key the column(s) to return
+     */
     protected ReturningStatement(String key)
     {
         super(key);
     }
 
+    /**
+     * Gets the SQL keyword for this statement.
+     *
+     * @return "RETURNING"
+     */
     @Override
     protected String getKey()
     {
         return "RETURNING";
     }
 
+    /**
+     * Interface for containers that can create RETURNING statements.
+     */
     public interface ReturningStatementContainer extends StatementContainer
     {
+        /**
+         * Creates a RETURNING statement for a single column.
+         *
+         * @param key the column to return
+         * @return a new ReturningStatement
+         */
         default ReturningStatement returning(String key)
         {
             return create(new ReturningStatement(key));
         }
 
+        /**
+         * Creates a RETURNING statement for multiple columns.
+         *
+         * @param keys the collection of columns to return
+         * @return a new ReturningStatement
+         */
         default ReturningStatement returning(Collection<String> keys)
         {
             return create(new ReturningStatement(String.join(", ", keys)));
         }
 
+        /**
+         * Creates a RETURNING statement for multiple columns.
+         *
+         * @param keys the array of columns to return
+         * @return a new ReturningStatement
+         */
         default ReturningStatement returning(String[] keys)
         {
             return create(new ReturningStatement(String.join(", ", keys)));
