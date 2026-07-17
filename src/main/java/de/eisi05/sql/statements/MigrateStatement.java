@@ -14,8 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Represents a database migration statement. Automatically generates ALTER TABLE statements to synchronize the database schema with the entity class definition
- * using ORM annotations.
+ * Represents a database migration statement. Automatically generates {@code ALTER TABLE} or {@code CREATE TABLE} statements to synchronize the live database
+ * schema with the entity class definitions using ORM annotations.
  */
 public class MigrateStatement extends FinalStatement implements ExecuteUpdateStatement
 {
@@ -28,7 +28,8 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
     }
 
     /**
-     * Gets the SQL keyword for this statement. Returns empty string since migration statements don't have a keyword.
+     * Gets the SQL keyword for this statement. Returns an empty string since migration statements act as a wrapper chain container and don't have a standalone
+     * root keyword.
      *
      * @return empty string
      */
@@ -44,10 +45,11 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
     public interface MigrateStatementContainer extends AbstractStatement.StatementContainer
     {
         /**
-         * Creates a migration statement for the specified entity class. Generates ALTER TABLE statements to add missing columns and remove obsolete ones.
+         * Creates a migration statement chain for the specified entity class. Automatically determines whether to bootstrap a brand-new table or structurally
+         * modify an existing one by appending rename, drop, or add operations.
          *
          * @param clazz the entity class to migrate
-         * @return a new MigrateStatement with the migration chain
+         * @return a FinalStatement containing the generated schema synchronization operations
          */
         default FinalStatement migrate(Class<?> clazz)
         {
@@ -63,11 +65,14 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
         }
 
         /**
-         * Builds the migration chain by comparing entity and database schemas.
+         * Builds the migration chain by comparing the entity class schema definition against the live database metadata.
+         * <p>
+         * If the target table does not exist in the database (or contains no columns), this method routes directly to creating the table. Otherwise, it
+         * iteratively builds a structural alteration chain by matching, renaming, or deleting target database columns.
          *
          * @param clazz the entity class
-         * @return a MigrateStatement with the migration chain
-         * @throws SQLException if database metadata access fails
+         * @return a FinalStatement containing either a table creation statement or a series of structural table alterations
+         * @throws SQLException if database metadata access or connection retrieval fails
          */
         private FinalStatement buildMigrationChain(Class<?> clazz) throws SQLException
         {
@@ -114,10 +119,10 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
         }
 
         /**
-         * Extracts column metadata from the entity class fields.
+         * Extracts column metadata from the entity class fields by reading local structural definitions and {@link Column} annotations.
          *
          * @param clazz the entity class
-         * @return a map of column names to their metadata
+         * @return a map tracking target column names mapped to their expected object field metadata configuration
          */
         private Map<String, FieldColumnMeta> getEntityColumns(Class<?> clazz)
         {
@@ -139,12 +144,12 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
         }
 
         /**
-         * Retrieves existing column names from the database.
+         * Retrieves existing column structures from the target database table using JDBC metadata mappings.
          *
-         * @param conn      the database connection
-         * @param tableName the table name
-         * @return a map of column names to their metadata
-         * @throws SQLException if database metadata access fails
+         * @param conn      the active database connection instance
+         * @param tableName the database table name to inspect
+         * @return a map tracking active column names mapped to their live structural footprint profiles
+         * @throws SQLException if structural information retrieval or database metadata reading fails
          */
         private Map<String, DbColumnMeta> getDatabaseColumns(Connection conn, String tableName) throws SQLException
         {
@@ -163,18 +168,18 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
     }
 
     /**
-     * Record representing column metadata from an entity field.
+     * Record representing column metadata mapped out of an explicit entity field configuration.
      *
-     * @param sqlType      the SQL data type
-     * @param isNotNull    whether the column is NOT NULL
-     * @param isUnique     whether the column is UNIQUE
-     * @param defaultValue the default value for the column
-     * @param oldName      the previous name of the column, used to trace schema rename operations
+     * @param sqlType      the physical SQL data type translation rule
+     * @param isNotNull    whether the target column specifies a NOT NULL constraint
+     * @param isUnique     whether the target column specifies a UNIQUE constraint
+     * @param defaultValue the fallback literal default string evaluation expression
+     * @param oldName      the historical name configuration tracking prior renames
      */
     private record FieldColumnMeta(SqlDataType<?> sqlType, boolean isNotNull, boolean isUnique, String defaultValue, String oldName) {}
 
     /**
-     * Record representing column metadata from the database.
+     * Record representing existence metadata for a column found directly inside the live database.
      */
     private record DbColumnMeta() {}
 }
