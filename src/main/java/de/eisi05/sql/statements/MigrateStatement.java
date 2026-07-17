@@ -3,7 +3,6 @@ package de.eisi05.sql.statements;
 import de.eisi05.sql.annotations.Column;
 import de.eisi05.sql.interfaces.ExecuteUpdateStatement;
 import de.eisi05.sql.interfaces.SqlDataType;
-import de.eisi05.sql.statements.table.TableColumn;
 import de.eisi05.sql.utils.OrmUtils;
 
 import java.lang.reflect.Field;
@@ -88,20 +87,20 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
 
             for(Map.Entry<String, FieldColumnMeta> entry : entityColumns.entrySet())
             {
-                String colName = entry.getKey();
+                String currentName = entry.getKey();
                 FieldColumnMeta expected = entry.getValue();
 
-                if(!databaseColumns.containsKey(colName))
+                if(expected.oldName != null && !expected.oldName.isEmpty())
                 {
-                    TableColumn tableColumn = TableColumn.of(colName, expected.sqlType);
-                    if(expected.isNotNull)
-                        tableColumn.notNull();
-                    if(expected.isUnique)
-                        tableColumn.unique();
-                    if(expected.defaultValue != null && !expected.defaultValue.isEmpty())
-                        tableColumn.defaultValue(expected.defaultValue);
+                    String oldName = expected.oldName;
 
-                    migrateStatement.appendStatement(statement.alterTable(tableName).add(tableColumn));
+                    if(databaseColumns.containsKey(oldName) && !databaseColumns.containsKey(currentName))
+                    {
+                        migrateStatement.appendStatement(statement.alterTable(tableName).renameColumn(oldName, currentName));
+
+                        DbColumnMeta meta = databaseColumns.remove(oldName);
+                        databaseColumns.put(currentName, meta);
+                    }
                 }
             }
 
@@ -127,13 +126,14 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
             {
                 Column column = field.getAnnotation(Column.class);
                 String name = (column != null && !column.name().isEmpty()) ? column.name() : field.getName();
+                String oldName = column != null ? column.oldName() : "";
 
                 boolean isNotNull = column != null && column.notNull();
                 boolean isUnique = column != null && column.unique();
                 String defaultValue = column != null ? column.defaultValue() : null;
                 SqlDataType<?> sqlType = SqlDataType.fromField(field);
 
-                columns.put(name, new FieldColumnMeta(sqlType, isNotNull, isUnique, defaultValue));
+                columns.put(name, new FieldColumnMeta(sqlType, isNotNull, isUnique, defaultValue, oldName));
             }
             return columns;
         }
@@ -169,8 +169,9 @@ public class MigrateStatement extends FinalStatement implements ExecuteUpdateSta
      * @param isNotNull    whether the column is NOT NULL
      * @param isUnique     whether the column is UNIQUE
      * @param defaultValue the default value for the column
+     * @param oldName      the previous name of the column, used to trace schema rename operations
      */
-    private record FieldColumnMeta(SqlDataType<?> sqlType, boolean isNotNull, boolean isUnique, String defaultValue) {}
+    private record FieldColumnMeta(SqlDataType<?> sqlType, boolean isNotNull, boolean isUnique, String defaultValue, String oldName) {}
 
     /**
      * Record representing column metadata from the database.

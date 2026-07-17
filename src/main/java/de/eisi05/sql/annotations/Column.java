@@ -20,6 +20,14 @@ public @interface Column
     String name() default "";
 
     /**
+     * The immediate previous name of this column in the database. Used by the migration engine to execute safe structural {@code ALTER TABLE ... RENAME COLUMN}
+     * commands rather than fallback drop-and-add sequences.
+     *
+     * @return the previous name of the column, or an empty string if it has not been renamed
+     */
+    String oldName() default "";
+
+    /**
      * Specifies whether the database column can be null.
      *
      * @return true if the column cannot be null, false otherwise
