@@ -7,6 +7,7 @@ import de.eisi05.sql.interfaces.SqlDataType;
 import de.eisi05.sql.result.ExecutionResult;
 import de.eisi05.sql.result.QueryResult;
 import de.eisi05.sql.statements.select.SelectStatement;
+import de.eisi05.sql.utils.OrmUtils;
 import org.postgresql.util.PGobject;
 
 import java.sql.*;
@@ -363,7 +364,7 @@ public abstract class FinalStatement extends AbstractStatement
                 {
                     for(int i = 0; i < rowParams.size(); i++)
                     {
-                        Object param = rowParams.get(i);
+                        Object param = OrmUtils.cleanParameter(rowParams.get(i));
                         if(param instanceof PGobject)
                             preparedStatement.setObject(i + 1, param, Types.OTHER);
                         else

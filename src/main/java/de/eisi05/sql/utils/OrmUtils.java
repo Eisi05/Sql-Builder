@@ -76,6 +76,8 @@ public class OrmUtils
                         throw new RuntimeException("Failed to serialize field to JSONB: " + config.field().getName(), e);
                     }
                 }
+                else
+                    value = cleanParameter(value);
 
                 map.put(config.columnName(), value);
             }
