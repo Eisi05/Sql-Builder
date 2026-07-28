@@ -176,7 +176,25 @@ public abstract class FinalStatement extends AbstractStatement
         {
             try
             {
-                return ExecutionResult.of(statement.executeUpdate());
+                int affectedRows = statement.executeUpdate();
+
+                for(AbstractStatement abstractStatement : getAllStatements())
+                {
+                    if(abstractStatement instanceof InsertIntoStatement insertStmt && insertStmt.getTargetObjects() != null)
+                    {
+                        try(ResultSet rs = statement.getGeneratedKeys())
+                        {
+                            if(rs != null)
+                                OrmUtils.populateGeneratedKeys(insertStmt.getTargetObjects(), rs);
+                        }
+                        catch(SQLException e)
+                        {
+                        }
+                        break;
+                    }
+                }
+
+                return ExecutionResult.of(affectedRows);
             }
             catch(SQLException e)
             {
@@ -356,7 +374,7 @@ public abstract class FinalStatement extends AbstractStatement
     {
         try
         {
-            PreparedStatement preparedStatement = getDatabaseStatement().getConnection().prepareStatement(getQuery());
+            PreparedStatement preparedStatement = getDatabaseStatement().getConnection().prepareStatement(getQuery(), Statement.RETURN_GENERATED_KEYS);
 
             if(isBatch())
             {

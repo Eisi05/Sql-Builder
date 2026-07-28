@@ -8,10 +8,13 @@ import org.postgresql.util.PGobject;
 import tools.jackson.databind.ObjectMapper;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 /**
  * Utility class providing Object-Relational Mapping (ORM) helper methods. Handles database table name resolution, ID extraction, object-to-column mappings, and
@@ -174,6 +177,82 @@ public class OrmUtils
                 }
             }
         };
+    }
+
+    /**
+     * Populates fields annotated with @GeneratedValue on target objects using the values returned in a generated keys ResultSet.
+     */
+    public static void populateGeneratedKeys(Object[] objects, ResultSet generatedKeys)
+    {
+        if(objects == null || objects.length == 0 || generatedKeys == null)
+            return;
+
+        try
+        {
+            int objectIndex = 0;
+            while(generatedKeys.next() && objectIndex < objects.length)
+            {
+                Object obj = objects[objectIndex++];
+                if(obj == null)
+                    continue;
+
+                List<Field> generatedFields = Arrays.stream(obj.getClass().getDeclaredFields())
+                        .filter(f -> f.isAnnotationPresent(GeneratedValue.class))
+                        .toList();
+
+                for(int i = 0; i < generatedFields.size(); i++)
+                {
+                    Field field = generatedFields.get(i);
+
+                    if(Modifier.isFinal(field.getModifiers()))
+                    {
+                        Logger.getLogger("de.eisi05.sql")
+                                .warning("Cannot populate @GeneratedValue on final field '" + field.getName() + "' in class " + obj.getClass().getName());
+                        continue;
+                    }
+
+                    field.setAccessible(true);
+
+                    Column column = field.getAnnotation(Column.class);
+                    String columnName = (column != null && !column.name().isEmpty()) ? column.name() : field.getName();
+
+                    Object val;
+                    try
+                    {
+                        val = generatedKeys.getObject(columnName);
+                    }
+                    catch(java.sql.SQLException ex)
+                    {
+                        val = generatedKeys.getObject(i + 1);
+                    }
+
+                    if(val != null)
+                    {
+                        if(val instanceof Number num)
+                        {
+                            if(field.getType() == Long.class || field.getType() == long.class)
+                                val = num.longValue();
+                            else if(field.getType() == Integer.class || field.getType() == int.class)
+                                val = num.intValue();
+                        }
+
+                        try
+                        {
+                            field.set(obj, val);
+                        }
+                        catch(IllegalAccessException e)
+                        {
+                            Logger.getLogger("de.eisi05.sql")
+                                    .warning("Failed to set generated value for field '" + field.getName() + "' on " + obj.getClass().getName());
+                        }
+                    }
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException("Failed to populate generated keys into objects", e);
+        }
     }
 
     /**

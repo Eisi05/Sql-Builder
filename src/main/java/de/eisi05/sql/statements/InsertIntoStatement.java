@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
  */
 public class InsertIntoStatement extends FinalStatement implements ExecuteUpdateStatement, ReturningStatement.ReturningStatementContainer
 {
+    private Object[] targetObjects;
+
     /**
      * Constructs a new InsertIntoStatement with the given query.
      *
@@ -33,6 +35,28 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
     protected String getKey()
     {
         return "INSERT INTO";
+    }
+
+    /**
+     * Sets the target objects for this statement.
+     *
+     * @param objects the objects to insert
+     * @return this statement
+     */
+    public InsertIntoStatement withTargetObjects(Object[] objects)
+    {
+        this.targetObjects = objects;
+        return this;
+    }
+
+    /**
+     * Gets the target objects for this statement.
+     *
+     * @return the target objects
+     */
+    public Object[] getTargetObjects()
+    {
+        return targetObjects;
     }
 
     /**
@@ -91,8 +115,9 @@ public class InsertIntoStatement extends FinalStatement implements ExecuteUpdate
                     .map(row -> "(" + String.join(", ", Collections.nCopies(row.size(), "?")) + ")")
                     .collect(Collectors.joining(", "));
 
-            return create(new InsertIntoStatement(table + " (" + columns + ") VALUES " + valuesPlaceholders),
+            InsertIntoStatement statement = create(new InsertIntoStatement(table + " (" + columns + ") VALUES " + valuesPlaceholders),
                     rows.stream().flatMap(stringObjectMap -> stringObjectMap.values().stream()).toList());
+            return statement.withTargetObjects(objects);
         }
 
         /**
